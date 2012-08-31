@@ -1,0 +1,25 @@
+body {
+	background: #303030;
+	margin: 0;
+	padding: 0;
+}
+
+.wrapper {
+	max-width: 1280px;
+	margin: 0 auto;
+}
+
+canvas {
+	display: block;
+	height: auto;
+	margin: 0;
+	width: 100%;
+}
+
+.pre-render-canvas {
+	display: none;
+	overflow: hidden;
+	height: 1px;
+	width: 1px;
+	position: absolute;
+}
