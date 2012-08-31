@@ -5,135 +5,116 @@ var SAY = SAY || {};
 	var _game = SAY.viget = {
 
 		init: function() {
-				_game.drawCanvas();
-				_game.initVars();
-				_game.createObjects();
-				_game.drawGameWindow();
-				_game.start.levelV();
-				//_game.createGameObjects();
-				//_game.bindEvents();
-				//_game.updateScale();
-				//_game.scene = _game.scenes['start'];
-				//_game.scene.init();
-				_game.gameLoop();
+			_game.drawCanvas();
 		},
 
-		initVars: function(){
-			_game.then = Date.now();
+		Layers: {
 
-			_game.level = {};
-			_game.level.v = {};
-			_game.level.i = {};
-			_game.level.g = {};
-			_game.level.e = {};
-			_game.level.t = {};
+			add: function(){
 
-			_game.level.v.cheese = [];
+			}
 		},
 
 		drawCanvas: function(){
-			_game.prerenderCanvas = document.createElement( 'canvas' );
-			_game.prerenderCtx    = _game.prerenderCanvas.getContext( '2d' );
-			_game.prerenderCanvas.width  = 1280;
-			_game.prerenderCanvas.height = 1024;
-
 			_game.canvas = document.createElement( 'canvas' );
-			_game.ctx    = _game.canvas.getContext( '2d' );
-			_game.canvas.width  = 1280;
+			_game.ctx		= _game.canvas.getContext( '2d' );
+			_game.canvas.width	= 1280;
 			_game.canvas.height = 1024;
 
 			$( '.canvas' ).html(_game.canvas);
-			$( '.pre-render-canvas' ).html(_game.prerenderCanvas);
-		},
 
-		createObjects: function() {
-			_game.createObject('cheese');
-			_game.createObject('cheese');
-			_game.createObject('cheese');
-			_game.createObject('cheese');
-		},
-
-		createObject: function(object) {
-			var shape = function(x, y, w, h, fill){
-				this.x = x;
-				this.y = y;
-				this.w = w;
-				this.h = h;
-				this.fill = fill;
-
-				return this;
-			};
-			var to;
-
-			if (object == 'cheese') {
-				to = shape(300, 400, 150, 60, '#ff9900');
-				_game.level.v.cheese.push(to);
+			function render() {
+				_game.Particles.run();
+				window.requestAnimFrame(render);
 			}
 
-		},
+			// shim layer with setTimeout fallback
+			window.requestAnimFrame = (function(){
+				return	window.requestAnimationFrame	||
+				window.webkitRequestAnimationFrame ||
+				window.mozRequestAnimationFrame		||
+				window.oRequestAnimationFrame			||
+				window.msRequestAnimationFrame		||
+				function( callback ){
+					window.setTimeout(callback, 1000 / 60);
+				};
+			})();
 
-		drawGameWindow: function() {
-			_game.ctx.fillStyle = "#abe9ff";
-			_game.ctx.fillRect(0,0,1280,1024);
-			
-			var img = new Image();
-			
-			img.onload = function(){
-				_game.ctx.drawImage(img,0,0);
-			};
+			render();
 
-			img.src = _game.Images.header;
-		},
-
-		start: {
-			
-			levelV: function(){
-				var l = _game.level.v.cheese.length;
-				
-				for (var j = 0; j < l; j++) {
-					_game.Draw(_game.level.v.cheese[j]);
-				}
-			},
-
-			levelI: function(){
-				for(var i = 1; i < 6; i++) {
-					new _game.createObject.cheese();
-				}
-			},
-			levelG: function(){
-				for(var i = 1; i < 6; i++) {
-					new _game.createObject.cheese();
-				}
-			},
-			levelE: function(){
-				for(var i = 1; i < 6; i++) {
-					new _game.createObject.cheese();
-				}
-			},
-			levelT: function(){
-				for(var i = 1; i < 6; i++) {
-					new _game.createObject.cheese();
-				}
-			}
-		},
-
-		utilities: {
-			getRand: function() {
-				return Math.floor(Math.random()*y)+x;
-			}
-		},
-
-		gameLoop: function() {
-			_game.requestAnimationFrame = window.requestAnimationFrame(function(){
-				_game.now = Date.now();
-				_game.delta = _game.now - _game.then;
-				_game.then = _game.now;
-
-				//Loop it
-				_game.gameLoop();
+			$('button').toggle(function(){
+				_game.Particles.play = false;
+			},function(){
+				_game.Particles.play = true;
 			});
-		}
+		},
 
+		Particles: {
+			part: [],
+			tick: 0,
+			play: true,
+
+			run: function(){
+				var _this = _game.Particles;
+				if (_this.play === true) {
+					_game.Particles.create();
+					_game.Particles.update();
+					_game.Particles.kill();
+					_game.Particles.draw();
+				}
+			},
+			create: function(){
+				var _this = _game.Particles;
+
+				//check on every 10th tick check
+				if(_this.tick % 20 === 0) {
+						//add particle if fewer than 100
+						if(_this.part.length < 100) {
+								_this.part.push({
+									x: Math.random() * _game.canvas.width, //between 0 and canvas width
+									y: 0,
+									speed: 2+Math.random() * 3, //between 2 and 5
+									radius: 5+Math.random() * 5, //between 5 and 10
+									color: "white"
+								});
+						}
+				}
+			},
+			update: function(){
+				var _this = _game.Particles;
+
+				for(var i in _this.part) {
+						var part = _this.part[i];
+						part.y += part.speed;
+				}
+
+				_game.Particles.tick++;
+			},
+			kill: function(){
+				var _this = _game.Particles;
+
+				for(var i in _this.part) {
+					var part = _this.part[i];
+					if(part.y > _game.canvas.height) {
+						part.y = 0;
+					}
+				}
+			},
+			draw: function(){
+				var _this = _game.Particles;
+
+				_game.ctx.fillStyle = "black";
+				_game.ctx.fillRect(0,0,_game.canvas.width,_game.canvas.height);
+				for(var i in _this.part) {
+					var part = _this.part[i];
+					_game.ctx.beginPath();
+					_game.ctx.arc(part.x,part.y, part.radius, 0, Math.PI*2);
+					_game.ctx.closePath();
+					_game.ctx.fillStyle = part.color;
+					_game.ctx.fill();
+				}
+			}
+		}
 	};
 
 	$(document).ready(_game.init);
