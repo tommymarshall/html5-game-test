@@ -8,14 +8,16 @@
 <body>
 	
 	<div class="wrapper">
-		<div class="canvas"></div>
-		<div class="pre-render-canvas"></div>
+		<canvas id="stage" width="960" height="640"></canvas>
 	</div>
 
-	<button>Do Something</button>
-
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+	<script>
+		var createjs = window;
+	</script>
+	<script src="http://code.createjs.com/easeljs-0.5.0.min.js"></script>
+	<script type="text/javascript" src="javascript/helpers.js"></script>
 	<script type="text/javascript" src="javascript/game.js"></script>
+	<script type="text/javascript" src="javascript/game.Hero.js"></script>
 
 </body>
 </html>

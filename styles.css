@@ -1,19 +1,19 @@
 body {
-	background: #303030;
+	background: #222;
 	margin: 0;
 	padding: 0;
 }
 
 .wrapper {
-	max-width: 1280px;
+	max-width: 960px;
 	margin: 0 auto;
 }
 
 canvas {
+	background: #192b2e;
 	display: block;
 	height: auto;
-	margin: 0;
-	width: 100%;
+	margin: 0 auto;
 }
 
 .pre-render-canvas {
