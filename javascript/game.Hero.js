@@ -21,48 +21,53 @@ var SAY = SAY || {};
 			this.snapToPixel = true;
 		};
 
-		_game.Hero.prototype.move = function(e) {
-			console.log(e);
+		_game.Hero.prototype.perform = function(e) {
+			switch (e) {
+				case 'moveLeft':
+					collision = _game.util.calculateCollision(this, 'x', _game.getPlatforms(), this.x-3);
+					if (!collision) {
+						this.x -= 3;
+					}
+				break;
+
+				case 'moveRight':
+					collision = _game.util.calculateCollision(this, 'x', _game.getPlatforms(), this.x+3);
+					if (!collision) {
+						this.x += 3;
+					}
+				break;
+
+				case 'jump':
+					this.jump();
+				break;
+			}
 		};
 
 		_game.Hero.prototype.tick = function () {
 			this.velocity.y += 1;
-			var c = 0;
-			var cc = 0;
-			var addY = this.velocity.y;
-			var bounds = _game.util.getBounds(this);
-			var cbounds;
+
+			// preparing the variables
+			var moveBy = {x:0, y:this.velocity.y};
 			var collision = null;
-			var platforms = _game.getPlatforms();
+			var collideables = _game.getPlatforms();
 
-			while ( !collision && cc < platforms.length ) {
-				cbounds = _game.util.getBounds(platforms[cc]);
-				if ( platforms[cc].isVisible ) {
-					collision = _game.util.calculateIntersection(bounds, cbounds, 0, addY);
-				}
-
-				// Make sure the objects are not ontop of eachother. If so, move the Hero up
-				if ( !collision && platforms[cc].isVisible ) {
-					if ( ( bounds.y < cbounds.y && bounds.y + addY > cbounds.y ) ||
-						( bounds.y > cbounds.y && bounds.y + addY < cbounds.y ) ) {
-						addY = cbounds.y - bounds.y;
-					} else {
-						cc++;
-					}
-				}
-			}
+			collision = _game.util.calculateCollision(this, 'y', collideables, moveBy);
+			// moveBy is now handled by 'calculateCollision'
+			// and can also be 0 - therefore we won't have to worry
+			this.y += moveBy.y;
 
 			if ( !collision ) {
-				this.y += addY;
 				if ( this.onGround ) {
 					this.onGround = false;
 				}
 			} else {
-				this.y += addY - collision.height;
-				if ( addY > 0 ) {
+				// the hero can only be 'onGround'
+				// when he's hitting floor and not
+				// some ceiling
+				if ( moveBy.y >= 0 ) {
 					this.onGround = true;
 				}
-				this.velocity.y = 0;
+			this.velocity.y = 0;
 			}
 		};
 

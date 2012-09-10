@@ -12,7 +12,7 @@ var SAY = SAY || {};
 			_game.setImages();
 
 			_game.bindEvents();
-			
+
 			_game.start();
 			_game.render();
 		},
@@ -23,6 +23,8 @@ var SAY = SAY || {};
 			_game.PLATFORM = 'images/platform.png';
 			_game.currentLevel = 1;
 			_game.Platforms = [];
+			_game.mouseTarget = 0;
+			_game.clicked = false;
 			_game.requestedAssets = 0;
 			_game.assets = [];
 			_game.paths = [
@@ -44,13 +46,13 @@ var SAY = SAY || {};
 		},
 
 		loadImage: function(e){
-        var img = new Image();
-        img.onload = _game.onLoadedAsset;
-        img.src = e;
+				var img = new Image();
+				img.onload = _game.onLoadedAsset;
+				img.src = e;
 
-        _game.assets[e] = img;
+				_game.assets[e] = img;
 
-        ++_game.requestedAssets;
+				++_game.requestedAssets;
 		},
 
 		start: function() {
@@ -60,10 +62,9 @@ var SAY = SAY || {};
 					// Do level 1
 					_game.createPlatform(0,300,true);
 					_game.createPlatform(70,300,true);
-					_game.createPlatform(140,300,true);
-					_game.createPlatform(210,300,true);
-					_game.createPlatform(280,300,true);
-					_game.createPlatform(350,300,true);
+					_game.createPlatform(140,460,true);
+					_game.createPlatform(210,460,true);
+					_game.createPlatform(280,420,true);
 
 					_game.createRunner();
 				break;
@@ -93,21 +94,28 @@ var SAY = SAY || {};
 				images: [_game.assets[_game.WALKER]],
 				frames: {width: 64, height: 64, regX: 32, regY: 32},
 				animations: {
-						walk: [0, 9, 'walk']
+						walk: [0, 9, 'walk', 4]
 				}
 			});
+			
+			// Create flipped sprite
+			createjs.SpriteSheetUtils.addFlippedFrames(sprite, true, false, false);
 
-			bmpAnimation = new BitmapAnimation(sprite);
-			bmpAnimation.gotoAndPlay('walk');
-			bmpAnimation.name = 'monster1';
-			bmpAnimation.direction = 90;
-			bmpAnimation.vX = 4;
-			bmpAnimation.x = 16;
-			bmpAnimation.y = 32;
+			_game.walker = new BitmapAnimation(sprite);
+			_game.walker.gotoAndPlay('walk_h');
+			_game.walker.name = 'monster1';
+			_game.walker.direction = 90;
+			_game.walker.vX = 1;
+			_game.walker.x = 26;
+			_game.walker.y = 32;
+
+			_game.walker.regX = _game.walker.spriteSheet.frameWidth/2 | 0;
+			_game.walker.regY = _game.walker.spriteSheet.frameHeight/2 | 0;
+
 
 			// have each monster start at a specific frame
-			bmpAnimation.currentFrame = 0;
-			_game.stage.addChild(bmpAnimation);
+			_game.walker.currentFrame = 0;
+			_game.stage.addChild(_game.walker);
 		},
 
 		createPlatform: function(x,y,enabled) {
@@ -115,6 +123,7 @@ var SAY = SAY || {};
 				y = Math.round(y);
 
 				var platform = new Bitmap(_game.PLATFORM);
+				platform.name = 'Platform' + (_game.Platforms.length+1);
 				platform.x = x;
 				platform.y = y;
 				platform.snapToPixel = true;
@@ -137,6 +146,36 @@ var SAY = SAY || {};
 		},
 
 		bindEvents: function() {
+			var handleKeyDown = function(e)
+			{
+				if (_game.controls.right.contains(e.which)) {
+					_game.hero.perform('moveRight');
+				} else if (_game.controls.left.contains(e.which)) {
+					_game.hero.perform('moveLeft');
+				} else if (_game.controls.jump.contains(e.which)) {
+					_game.hero.perform('jump');
+				}
+			};
+			var handleMouseDown = function(e)
+			{
+				_game.clicked = true;
+
+				if (_game.stage.mouseX && _game.stage.mouseY){
+					mouseTarget = _game.stage.getObjectUnderPoint(_game.stage.mouseX, _game.stage.mouseY);
+				}
+				if (mouseTarget.name) {
+					for (var i = 0; i < _game.Platforms.length; i++) {
+						if (_game.Platforms[i].name == mouseTarget.name){
+							console.log(_game.Platforms[i].name);
+						}
+					}
+				}
+			};
+			var handleMouseUp = function(e)
+			{
+				_game.clicked = false;
+			};
+
 			if ('ontouchstart' in document.documentElement) {
 				_game.canvas.addEventListener('touchstart', function(e) {
 					handleKeyDown();
@@ -147,28 +186,10 @@ var SAY = SAY || {};
 				}, false);
 			} else {
 				document.onkeydown = handleKeyDown;
-				document.onkeyup = handleKeyUp;
-				document.onmousedown = handleKeyDown;
-				document.onmouseup = handleKeyUp;
+				document.onmousedown = handleMouseDown;
+				document.onmouseup = handleMouseUp;
 			}
 
-			function handleKeyDown(e)
-			{
-				if (_game.controls.right.contains(e.which)) {
-					_game.hero.x += 3;
-					_game.hero.move('left');
-				} else if (_game.controls.left.contains(e.which)) {
-					_game.hero.x -= 3;
-					_game.hero.move('right');
-				} else if (_game.controls.jump.contains(e.which)) {
-					_game.hero.jump();
-				}
-			}
-
-			function handleKeyUp(e)
-			{
-				//console.log(e);
-			}
 		},
 
 		util: {
@@ -190,6 +211,56 @@ var SAY = SAY || {};
 				} else {
 					return null;
 				}
+			},
+
+			calculateCollision: function(obj, direction, collideables, moveBy){
+						moveBy = moveBy || {x:0,y:0};
+						if ( direction != 'x' && direction != 'y' ) {
+							direction = 'x';
+						}
+						var measure = direction == 'x' ? 'width' : 'height',
+							oppositeDirection = direction == 'x' ? 'y' : 'x',
+							oppositeMeasure = direction == 'x' ? 'height' : 'width',
+
+							bounds = _game.util.getBounds(obj),
+							cbounds,
+							collision = null,
+							cc = 0;
+
+					// for each collideable object we will calculate the
+					// bounding-rectangle and then check for an intersection
+					// of the hero's future position's bounding-rectangle
+					while ( !collision && cc < collideables.length ) {
+						cbounds = _game.util.getBounds(collideables[cc]);
+						if ( collideables[cc].isVisible ) {
+							collision = _game.util.calculateIntersection(bounds, cbounds, moveBy.x, moveBy.y);
+						}
+
+						if ( !collision && collideables[cc].isVisible ) {
+							// if there was NO collision detected, but somehow
+							// the hero got onto the "other side" of an object (high velocity e.g.),
+							// then we will detect this here, and adjust the velocity according to
+							// it to prevent the Hero from "ghosting" through objects
+							// try messing with the 'this.velocity = {x:0,y:125};'
+							// -> it should still collide even with very high values
+							var wentThroughForwards	= ( bounds[direction] < cbounds[direction] && bounds[direction] + moveBy[direction] > cbounds[direction] );
+							var wentThroughBackwards = ( bounds[direction] > cbounds[direction] && bounds[direction] + moveBy[direction] < cbounds[direction] );
+							var withinOppositeBounds = !(bounds[oppositeDirection]+bounds[oppositeMeasure] < cbounds[oppositeDirection]) && !(bounds[oppositeDirection] > cbounds[oppositeDirection]+cbounds[oppositeMeasure]);
+
+							if ( (wentThroughForwards || wentThroughBackwards) && withinOppositeBounds ) {
+								moveBy[direction] = cbounds[direction] - bounds[direction];
+							} else {
+								cc++;
+							}
+						}
+					}
+
+					if ( collision ) {
+						var sign = Math.abs(moveBy[direction]) / moveBy[direction];
+						moveBy[direction] -= collision[measure] * sign;
+					}
+
+					return collision;
 			},
 
 			getBounds: function(obj) {
@@ -256,9 +327,9 @@ var SAY = SAY || {};
 		},
 
 		render: function() {
-			Ticker.addListener(tick);
-			Ticker.useRAF = true;
 			Ticker.setFPS(60);
+			Ticker.useRAF = true;
+			Ticker.addListener(tick);
 
 			function tick(e){
 				_game.hero.tick();
