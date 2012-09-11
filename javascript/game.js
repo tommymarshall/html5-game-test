@@ -156,6 +156,16 @@ var SAY = SAY || {};
 					_game.hero.perform('jump');
 				}
 			};
+			var handleKeyUp = function(e)
+			{
+				if (_game.controls.right.contains(e.which)) {
+					_game.hero.perform('uPmoveRight');
+				} else if (_game.controls.left.contains(e.which)) {
+					_game.hero.perform('uPmoveLeft');
+				} else if (_game.controls.jump.contains(e.which)) {
+					_game.hero.perform('uPjump');
+				}
+			};
 			var handleMouseDown = function(e)
 			{
 				_game.clicked = true;
@@ -186,6 +196,7 @@ var SAY = SAY || {};
 				}, false);
 			} else {
 				document.onkeydown = handleKeyDown;
+				document.onkeyup = handleKeyUp;
 				document.onmousedown = handleMouseDown;
 				document.onmouseup = handleMouseUp;
 			}

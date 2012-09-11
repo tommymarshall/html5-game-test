@@ -13,31 +13,32 @@ var SAY = SAY || {};
 	_game.Hero.prototype.Bitmap_initialize = _game.Hero.prototype.initialize;
 
 	_game.Hero.prototype.initialize = function(image) {
-		this.velocity = {x:0,y:25};
+		this.velocity = {x:0,y:15};
 		this.onGround = false;
-
 		this.Bitmap_initialize(image);
 		this.name = 'Hero';
 		this.snapToPixel = true;
 	};
 
 	_game.Hero.prototype.perform = function(e) {
+		var moveBy;
+
 		switch (e) {
 			case 'moveLeft':
-				collision = _game.util.calculateCollision(this, 'x', _game.getPlatforms(), this.x-4);
+				moveBy = {x:-3, y:0};
+		
+				collision = _game.util.calculateCollision(this, 'x', _game.getPlatforms(), moveBy);
 				if (!collision) {
 					this.x -= 3;
-				} else {
-					this.x += 1;
 				}
 			break;
 
 			case 'moveRight':
-				collision = _game.util.calculateCollision(this, 'x', _game.getPlatforms(), this.x+4);
+				moveBy = {x:3, y:0};
+
+				collision = _game.util.calculateCollision(this, 'x', _game.getPlatforms(), moveBy);
 				if (!collision) {
 					this.x += 3;
-				} else {
-					this.x -= 1;
 				}
 			break;
 
@@ -65,13 +66,10 @@ var SAY = SAY || {};
 				this.onGround = false;
 			}
 		} else {
-			// the hero can only be 'onGround'
-			// when he's hitting floor and not
-			// some ceiling
 			if ( moveBy.y >= 0 ) {
 				this.onGround = true;
 			}
-		this.velocity.y = 0;
+			this.velocity.y = 0;
 		}
 	};
 
