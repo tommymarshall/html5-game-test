@@ -62,9 +62,24 @@ var SAY = SAY || {};
 					// Do level 1
 					_game.createPlatform(0,300,true);
 					_game.createPlatform(70,300,true);
-					_game.createPlatform(140,460,true);
-					_game.createPlatform(210,460,true);
+
+					_game.createPlatform(140,420,true);
+					_game.createPlatform(210,420,true);
 					_game.createPlatform(280,420,true);
+
+					_game.createPlatform(360,260,true);
+					_game.createPlatform(430,260,true);
+					_game.createPlatform(500,260,true);
+
+					_game.createPlatform(590,160,true);
+					_game.createPlatform(660,390,true);
+
+					_game.createPlatform(660,390,true);
+					_game.createPlatform(740,290,true);
+
+					for (var i = 0; i < 14; i++) {
+					_game.createPlatform(70 * i,570,true);
+					}
 
 					_game.createRunner();
 				break;
@@ -149,21 +164,21 @@ var SAY = SAY || {};
 			var handleKeyDown = function(e)
 			{
 				if (_game.controls.right.contains(e.which)) {
-					_game.hero.perform('moveRight');
+					_game.hero.moveRight = true;
 				} else if (_game.controls.left.contains(e.which)) {
-					_game.hero.perform('moveLeft');
+					_game.hero.moveLeft = true;
 				} else if (_game.controls.jump.contains(e.which)) {
-					_game.hero.perform('jump');
+					_game.hero.jump();
 				}
 			};
 			var handleKeyUp = function(e)
 			{
 				if (_game.controls.right.contains(e.which)) {
-					_game.hero.perform('uPmoveRight');
+					_game.hero.moveRight = false;
+					_game.hero.prevDirection = 'right';
 				} else if (_game.controls.left.contains(e.which)) {
-					_game.hero.perform('uPmoveLeft');
-				} else if (_game.controls.jump.contains(e.which)) {
-					_game.hero.perform('uPjump');
+					_game.hero.moveLeft = false;
+					_game.hero.prevDirection = 'left';
 				}
 			};
 			var handleMouseDown = function(e)
