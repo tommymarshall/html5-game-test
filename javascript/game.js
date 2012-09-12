@@ -78,7 +78,8 @@ var SAY = SAY || {};
 					_game.createPlatform(740,290,true);
 
 					for (var i = 0; i < 14; i++) {
-					_game.createPlatform(70 * i,570,true);
+						_game.createPlatform(70 * i,570,true);
+						_game.createPlatform(70 * i,0,true);
 					}
 
 					_game.createRunner();

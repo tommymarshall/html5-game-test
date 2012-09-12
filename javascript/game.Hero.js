@@ -13,7 +13,7 @@ var SAY = SAY || {};
 	_game.Hero.prototype.Bitmap_initialize = _game.Hero.prototype.initialize;
 
 	_game.Hero.prototype.initialize = function(image) {
-		this.velocity = {x:0,y:15};
+		this.velocity = {x:30,y:170};
 		this.onGround = false;
 		this.Bitmap_initialize(image);
 		this.name = 'Hero';
@@ -21,10 +21,15 @@ var SAY = SAY || {};
 		this.moveLeft = false;
 		this.moveRight = false;
 		this.momentum = 0;
+		this.reverseGravity = false;
 	};
 
 	_game.Hero.prototype.tick = function () {
-		this.velocity.y += 1;
+		if (this.reverseGravity) {
+			this.velocity.y -= 1;
+		} else {
+			this.velocity.y += 1;
+		}
 
 		// preparing the variables
 		var moveBy = {x:this.momentum, y:this.velocity.y};
@@ -104,7 +109,11 @@ var SAY = SAY || {};
 
 	_game.Hero.prototype.jump = function() {
 		if ( this.onGround ) {
-			this.velocity.y = -20;
+			if (this.reverseGravity){
+				this.velocity.y = 19;
+			} else {
+				this.velocity.y = -19;
+			}
 			this.onGround = false;
 		}
 	};
