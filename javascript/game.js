@@ -77,20 +77,20 @@ var SAY = SAY || {};
 					_game.createPlatform(660,390,true);
 					_game.createPlatform(740,290,true);
 
-					for (var i = 0; i < 20; i++) {
+					for (var i = 0; i < 19; i++) {
 						_game.createPlatform(70 * i,570,true);
 						_game.createPlatform(70 * i,0,true);
 					}
-					for (var z = 20; z < 22; z++) {
-						_game.createPlatform(70 * z,440,true);
+					for (var z = 19; z < 21; z++) {
+						_game.createPlatform(70 * z,460,true);
 					}
-					for (var n = 23; n < 25; n++) {
-						_game.createPlatform(70 * n,320,true);
+					for (var n = 22; n < 24; n++) {
+						_game.createPlatform(70 * n,370,true);
 					}
-					for (var m = 24; m < 26; m++) {
-						_game.createPlatform(70 * m,320,true);
+					for (var m = 25; m < 27; m++) {
+						_game.createPlatform(70 * m,290,true);
 					}
-					for (var j = 25; j < 33; j++) {
+					for (var j = 26; j < 34; j++) {
 						_game.createPlatform(70 * j,0,true);
 					}
 					for (var q = 33; q < 44; q++) {
@@ -142,7 +142,7 @@ var SAY = SAY || {};
 			_game.backgroundClose = new Shape();
 			_game.backgroundClose.graphics.beginFill('rgba(255,255,255,.5)')
 				.drawRect(0,0, 4, 670, 10)
-				.drawRect(140,0, 4, 670, 10)
+				.drawRect(90,0, 4, 670, 10)
 				.drawRect(150,0, 4, 670, 10)
 				.drawRect(240,0, 4, 670, 10)
 				.drawRect(320,0, 4, 670, 10)
@@ -407,9 +407,9 @@ var SAY = SAY || {};
 					_game.stage.x = -_game.hero.x + _game.canvas.width*0.3;
 				}
 
-				_game.background.x = -_game.stage.x*0.75;
-				_game.backgroundClose.x = -_game.stage.x*0.55;
-				_game.backgroundClosest.x = -_game.stage.x*0.25;
+				_game.background.x = -_game.stage.x*0.75 + 30;
+				_game.backgroundClose.x = -_game.stage.x*0.55 + 30;
+				_game.backgroundClosest.x = -_game.stage.x*0.25 + 30;
 			}
 		}
 	};
