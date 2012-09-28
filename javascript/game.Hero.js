@@ -25,10 +25,19 @@ var SAY = SAY || {};
 	};
 
 	_game.Hero.prototype.tick = function () {
-		if (this.reverseGravity) {
-			this.velocity.y -= 1;
-		} else {
-			this.velocity.y += 1;
+		if (this.reverseGravity)
+		{
+			if (this.velocity.y > -60)
+			{
+				this.velocity.y -= 1;
+			}
+		}
+		else
+		{
+			if (this.velocity.y < 60)
+			{
+				this.velocity.y += 1;
+			}
 		}
 
 		// preparing the variables

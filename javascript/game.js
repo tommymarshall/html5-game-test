@@ -67,22 +67,35 @@ var SAY = SAY || {};
 					_game.createPlatform(210,420,true);
 					_game.createPlatform(280,420,true);
 
-					_game.createPlatform(360,260,true);
-					_game.createPlatform(430,260,true);
-					_game.createPlatform(500,260,true);
+					_game.createPlatform(360,270,true);
+					_game.createPlatform(430,270,true);
+					_game.createPlatform(500,270,true);
 
-					_game.createPlatform(590,160,true);
+					_game.createPlatform(590,200,true);
 					_game.createPlatform(660,390,true);
 
 					_game.createPlatform(660,390,true);
 					_game.createPlatform(740,290,true);
 
-					for (var i = 0; i < 14; i++) {
+					for (var i = 0; i < 20; i++) {
 						_game.createPlatform(70 * i,570,true);
 						_game.createPlatform(70 * i,0,true);
 					}
-
-					_game.createRunner();
+					for (var z = 20; z < 22; z++) {
+						_game.createPlatform(70 * z,440,true);
+					}
+					for (var n = 23; n < 25; n++) {
+						_game.createPlatform(70 * n,320,true);
+					}
+					for (var m = 24; m < 26; m++) {
+						_game.createPlatform(70 * m,320,true);
+					}
+					for (var j = 25; j < 33; j++) {
+						_game.createPlatform(70 * j,0,true);
+					}
+					for (var q = 33; q < 44; q++) {
+						_game.createPlatform(70 * q,570,true);
+					}
 				break;
 				case 2:
 					// Do level 2
@@ -98,6 +111,7 @@ var SAY = SAY || {};
 			var img = new Image();
 			img.onload = _game.createHero;
 			img.src = _game.HERO;
+			_game.createOtherBG();
 		},
 
 		createHero: function(e) {
@@ -105,33 +119,60 @@ var SAY = SAY || {};
 			_game.stage.addChild(_game.hero);
 		},
 
-		createRunner: function() {
-			var sprite = new SpriteSheet({
-				images: [_game.assets[_game.WALKER]],
-				frames: {width: 64, height: 64, regX: 32, regY: 32},
-				animations: {
-						walk: [0, 9, 'walk', 4]
-				}
-			});
-			
-			// Create flipped sprite
-			createjs.SpriteSheetUtils.addFlippedFrames(sprite, true, false, false);
-
-			_game.walker = new BitmapAnimation(sprite);
-			_game.walker.gotoAndPlay('walk_h');
-			_game.walker.name = 'monster1';
-			_game.walker.direction = 90;
-			_game.walker.vX = 1;
-			_game.walker.x = 26;
-			_game.walker.y = 32;
-
-			_game.walker.regX = _game.walker.spriteSheet.frameWidth/2 | 0;
-			_game.walker.regY = _game.walker.spriteSheet.frameHeight/2 | 0;
-
-
-			// have each monster start at a specific frame
-			_game.walker.currentFrame = 0;
-			_game.stage.addChild(_game.walker);
+		createOtherBG: function(e) {
+			_game.background = new Shape();
+			_game.background.graphics.beginFill('rgba(255,255,255,.25)')
+				.drawRect(0,0, 2, 670, 10)
+				.drawRect(100,0, 2, 670, 10)
+				.drawRect(150,0, 2, 670, 10)
+				.drawRect(200,0, 2, 670, 10)
+				.drawRect(300,0, 2, 670, 10)
+				.drawRect(420,0, 2, 670, 10)
+				.drawRect(500,0, 2, 670, 10)
+				.drawRect(650,0, 2, 670, 10)
+				.drawRect(700,0, 2, 670, 10)
+				.drawRect(830,0, 2, 670, 10)
+				.drawRect(910,0, 2, 670, 10)
+				.drawRect(1000,0, 2, 670, 10)
+				.drawRect(1140,0, 2, 670, 10)
+				.drawRect(1250,0, 2, 670, 10)
+				.drawRect(1300,0, 2, 670, 10)
+				.drawRect(1350,0, 2, 670, 10);
+			_game.stage.addChildAt(_game.background, 0);
+			_game.backgroundClose = new Shape();
+			_game.backgroundClose.graphics.beginFill('rgba(255,255,255,.5)')
+				.drawRect(0,0, 4, 670, 10)
+				.drawRect(140,0, 4, 670, 10)
+				.drawRect(150,0, 4, 670, 10)
+				.drawRect(240,0, 4, 670, 10)
+				.drawRect(320,0, 4, 670, 10)
+				.drawRect(460,0, 4, 670, 10)
+				.drawRect(540,0, 4, 670, 10)
+				.drawRect(620,0, 4, 670, 10)
+				.drawRect(750,0, 4, 670, 10)
+				.drawRect(820,0, 4, 670, 10)
+				.drawRect(930,0, 4, 670, 10)
+				.drawRect(990,0, 4, 670, 10)
+				.drawRect(1090,0, 4, 670, 10)
+				.drawRect(1170,0, 4, 670, 10);
+			_game.stage.addChildAt(_game.backgroundClose, 0);
+			_game.backgroundClosest = new Shape();
+			_game.backgroundClosest.graphics.beginFill('rgba(255,255,255,.75)')
+				.drawRect(0,0, 4, 670, 10)
+				.drawRect(180,0, 4, 670, 10)
+				.drawRect(210,0, 4, 670, 10)
+				.drawRect(350,0, 4, 670, 10)
+				.drawRect(440,0, 4, 670, 10)
+				.drawRect(550,0, 4, 670, 10)
+				.drawRect(600,0, 4, 670, 10)
+				.drawRect(760,0, 4, 670, 10)
+				.drawRect(810,0, 4, 670, 10)
+				.drawRect(970,0, 4, 670, 10)
+				.drawRect(1030,0, 4, 670, 10)
+				.drawRect(1110,0, 4, 670, 10)
+				.drawRect(1230,0, 4, 670, 10)
+				.drawRect(1350,0, 4, 670, 10);
+			_game.stage.addChildAt(_game.backgroundClosest, 0);
 		},
 
 		createPlatform: function(x,y,enabled) {
@@ -145,7 +186,7 @@ var SAY = SAY || {};
 				platform.snapToPixel = true;
 				platform.mouseEnabled = enabled || false;
 
-				_game.stage.addChild(platform);
+				_game.world.addChild(platform);
 				_game.Platforms.push(platform);
 		},
 
@@ -361,6 +402,14 @@ var SAY = SAY || {};
 			function tick(e){
 				_game.hero.tick();
 				_game.stage.update();
+
+				if (_game.hero.x > _game.canvas.width*0.3) {
+					_game.stage.x = -_game.hero.x + _game.canvas.width*0.3;
+				}
+
+				_game.background.x = -_game.stage.x*0.75;
+				_game.backgroundClose.x = -_game.stage.x*0.55;
+				_game.backgroundClosest.x = -_game.stage.x*0.25;
 			}
 		}
 	};
