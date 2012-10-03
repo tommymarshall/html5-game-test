@@ -22,11 +22,13 @@ var SAY = SAY || {};
 		createRect: function() {
 			game.rect = game.stage.addChild(new Shape());
 			game.rect.graphics.beginFill("red").drawRect(0,0,300,60);
-			game.rect.x = Math.floor((Math.random()*200)+100);
-			game.rect.y = Math.floor((Math.random()*200)+100);
+			game.rect.x = Math.floor((Math.random()*300)+100);
+			game.rect.y = Math.floor((Math.random()*300)+100);
 			game.rect.width = 300;
 			game.rect.height = 60;
 			game.rect.type = 'rect';
+
+			game.rect.shadow = new Shadow("rgba(0,0,0,0.3)",0,10,15);
 		},
 
 		createCircle: function() {
@@ -48,6 +50,7 @@ var SAY = SAY || {};
 					ev.target.x = ev.stageX+offset.x;
 					ev.target.y = ev.stageY+offset.y;
 				};
+
 			};
 		},
 
@@ -57,19 +60,16 @@ var SAY = SAY || {};
 
 			// Not in the same overlapping width
 			if (
-					(c.x + c.radius) < (r.x) ||
-					(c.x - c.radius) > (r.x + r.width)
+					(c.x + c.radius) <= (r.x) ||
+					(c.x - c.radius) >= (r.x + r.width)
 				) {
 				return false;
 			}
 
 			// Not in the same overlapping height
 			if (
-					(
-						(c.y + c.radius) < (r.y)
-					) || (
-						(c.y - c.radius) > (r.y + r.height)
-					)
+					(c.y + c.radius) <= (r.y) ||
+					(c.y - c.radius) >= (r.y + r.height)
 				) {
 				return false;
 			}
@@ -134,6 +134,8 @@ var SAY = SAY || {};
 				game.stage.update();
 				if (game.isColliding()) {
 					console.log('collide!');
+				} else {
+					game.circle.y += 2;
 				}
 			}
 		}
