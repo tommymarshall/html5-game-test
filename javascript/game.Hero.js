@@ -2,17 +2,17 @@ var SAY = SAY || {};
 
 (function(){
 
-	var _game = SAY.viget;
+	var game = SAY.game;
 
-	_game.Hero = function(image) {
-			this.initialize(image);
+	game.Hero = function(image) {
+		this.initialize(image);
 	};
 
-	_game.Hero.prototype = new Bitmap();
+	game.Hero.prototype = new Bitmap();
 
-	_game.Hero.prototype.Bitmap_initialize = _game.Hero.prototype.initialize;
+	game.Hero.prototype.Bitmap_initialize = game.Hero.prototype.initialize;
 
-	_game.Hero.prototype.initialize = function(image) {
+	game.Hero.prototype.initialize = function(image) {
 		this.velocity = {x:30,y:170};
 		this.onGround = false;
 		this.Bitmap_initialize(image);
@@ -24,7 +24,7 @@ var SAY = SAY || {};
 		this.reverseGravity = false;
 	};
 
-	_game.Hero.prototype.tick = function () {
+	game.Hero.prototype.tick = function () {
 		if (this.reverseGravity)
 		{
 			if (this.velocity.y > -60)
@@ -43,12 +43,12 @@ var SAY = SAY || {};
 		// preparing the variables
 		var moveBy = {x:this.momentum, y:this.velocity.y};
 		var collision = null;
-		var collideables = _game.getPlatforms();
+		var collideables = game.getPlatforms();
 		var shiftLeftMax = false;
 		var shiftRightMax = false;
 		var prevDirection = false;
 
-		collision = _game.util.calculateCollision(this, 'y', collideables, moveBy);
+		collision = game.util.calculateCollision(this, 'y', collideables, moveBy);
 		// moveBy is now handled by 'calculateCollision'
 		// and can also be 0 - therefore we won't have to worry
 		this.y += moveBy.y;
@@ -72,7 +72,7 @@ var SAY = SAY || {};
 				moveBy = {x:this.momentum-0.1, y:0};
 			}
 			
-			collision = _game.util.calculateCollision(this, 'x', _game.getPlatforms(), moveBy);
+			collision = game.util.calculateCollision(this, 'x', game.getPlatforms(), moveBy);
 			if (!collision) {
 				if (this.momentum < 5) {
 					this.momentum += 0.1;
@@ -91,7 +91,7 @@ var SAY = SAY || {};
 				moveBy = {x:this.momentum+0.1, y:0};
 			}
 
-			collision = _game.util.calculateCollision(this, 'x', _game.getPlatforms(), moveBy);
+			collision = game.util.calculateCollision(this, 'x', game.getPlatforms(), moveBy);
 			if (!collision) {
 				if (this.momentum < 5) {
 					this.momentum += 0.1;
@@ -116,7 +116,7 @@ var SAY = SAY || {};
 
 	};
 
-	_game.Hero.prototype.jump = function() {
+	game.Hero.prototype.jump = function() {
 		if ( this.onGround ) {
 			if (this.reverseGravity){
 				this.velocity.y = 19;

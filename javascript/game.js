@@ -2,37 +2,37 @@ var SAY = SAY || {};
 
 (function(){
 
-	var _game = SAY.viget = {
+	var game = SAY.game = {
 
 		init: function() {
-			_game.setStage();
-			_game.setVars();
+			game.setStage();
+			game.setVars();
 
-			_game.preloadResources();
-			_game.setImages();
+			game.preloadResources();
+			game.setImages();
 
-			_game.bindEvents();
+			game.bindEvents();
 
-			_game.start();
-			_game.render();
+			game.start();
+			game.render();
 		},
 
 		setVars: function() {
-			_game.HERO = 'images/mouse.png';
-			_game.WALKER = 'images/runner.png';
-			_game.PLATFORM = 'images/platform.png';
-			_game.currentLevel = 1;
-			_game.Platforms = [];
-			_game.mouseTarget = 0;
-			_game.clicked = false;
-			_game.requestedAssets = 0;
-			_game.assets = [];
-			_game.paths = [
-				_game.HERO,
-				_game.WALKER,
-				_game.PLATFORM
+			game.HERO = 'images/mouse.png';
+			game.WALKER = 'images/runner.png';
+			game.PLATFORM = 'images/platform.png';
+			game.currentLevel = 1;
+			game.Platforms = [];
+			game.mouseTarget = 0;
+			game.clicked = false;
+			game.requestedAssets = 0;
+			game.assets = [];
+			game.paths = [
+				game.HERO,
+				game.WALKER,
+				game.PLATFORM
 			];
-			_game.controls = {
+			game.controls = {
 				left: [ 37, 65 ],
 				right: [ 39, 68 ],
 				jump: [ 32, 38, 40, 83, 87 ]
@@ -40,61 +40,61 @@ var SAY = SAY || {};
 		},
 
 		preloadResources: function() {
-			for (var i = _game.paths.length - 1; i >= 0; i--) {
-				_game.loadImage(_game.paths[i]);
+			for (var i = game.paths.length - 1; i >= 0; i--) {
+				game.loadImage(game.paths[i]);
 			}
 		},
 
 		loadImage: function(e){
 				var img = new Image();
-				img.onload = _game.onLoadedAsset;
+				img.onload = game.onLoadedAsset;
 				img.src = e;
 
-				_game.assets[e] = img;
+				game.assets[e] = img;
 
-				++_game.requestedAssets;
+				++game.requestedAssets;
 		},
 
 		start: function() {
 
-			switch (_game.currentLevel) {
+			switch (game.currentLevel) {
 				case 1:
 					// Do level 1
-					_game.createPlatform(0,300,true);
-					_game.createPlatform(70,300,true);
+					game.createPlatform(0,300,true);
+					game.createPlatform(70,300,true);
 
-					_game.createPlatform(140,420,true);
-					_game.createPlatform(210,420,true);
-					_game.createPlatform(280,420,true);
+					game.createPlatform(140,420,true);
+					game.createPlatform(210,420,true);
+					game.createPlatform(280,420,true);
 
-					_game.createPlatform(360,270,true);
-					_game.createPlatform(430,270,true);
-					_game.createPlatform(500,270,true);
+					game.createPlatform(360,270,true);
+					game.createPlatform(430,270,true);
+					game.createPlatform(500,270,true);
 
-					_game.createPlatform(590,200,true);
-					_game.createPlatform(660,390,true);
+					game.createPlatform(590,200,true);
+					game.createPlatform(660,390,true);
 
-					_game.createPlatform(660,390,true);
-					_game.createPlatform(740,290,true);
+					game.createPlatform(660,390,true);
+					game.createPlatform(740,290,true);
 
 					for (var i = 0; i < 19; i++) {
-						_game.createPlatform(70 * i,570,true);
-						_game.createPlatform(70 * i,0,true);
+						game.createPlatform(70 * i,570,true);
+						game.createPlatform(70 * i,0,true);
 					}
 					for (var z = 19; z < 21; z++) {
-						_game.createPlatform(70 * z,460,true);
+						game.createPlatform(70 * z,460,true);
 					}
 					for (var n = 22; n < 24; n++) {
-						_game.createPlatform(70 * n,370,true);
+						game.createPlatform(70 * n,370,true);
 					}
 					for (var m = 25; m < 27; m++) {
-						_game.createPlatform(70 * m,290,true);
+						game.createPlatform(70 * m,290,true);
 					}
 					for (var j = 26; j < 34; j++) {
-						_game.createPlatform(70 * j,0,true);
+						game.createPlatform(70 * j,0,true);
 					}
 					for (var q = 33; q < 44; q++) {
-						_game.createPlatform(70 * q,570,true);
+						game.createPlatform(70 * q,570,true);
 					}
 				break;
 				case 2:
@@ -109,19 +109,19 @@ var SAY = SAY || {};
 
 		setImages: function() {
 			var img = new Image();
-			img.onload = _game.createHero;
-			img.src = _game.HERO;
-			_game.createOtherBG();
+			img.onload = game.createHero;
+			img.src = game.HERO;
+			game.createOtherBG();
 		},
 
 		createHero: function(e) {
-			_game.hero = new _game.Hero(e.target);
-			_game.stage.addChild(_game.hero);
+			game.hero = new game.Hero(e.target);
+			game.stage.addChild(game.hero);
 		},
 
 		createOtherBG: function(e) {
-			_game.background = new Shape();
-			_game.background.graphics.beginFill('rgba(255,255,255,.25)')
+			game.background = new Shape();
+			game.background.graphics.beginFill('rgba(255,255,255,.25)')
 				.drawRect(0,0, 2, 670, 10)
 				.drawRect(100,0, 2, 670, 10)
 				.drawRect(150,0, 2, 670, 10)
@@ -138,9 +138,9 @@ var SAY = SAY || {};
 				.drawRect(1250,0, 2, 670, 10)
 				.drawRect(1300,0, 2, 670, 10)
 				.drawRect(1350,0, 2, 670, 10);
-			_game.stage.addChildAt(_game.background, 0);
-			_game.backgroundClose = new Shape();
-			_game.backgroundClose.graphics.beginFill('rgba(255,255,255,.5)')
+			game.stage.addChildAt(game.background, 0);
+			game.backgroundClose = new Shape();
+			game.backgroundClose.graphics.beginFill('rgba(255,255,255,.5)')
 				.drawRect(0,0, 4, 670, 10)
 				.drawRect(90,0, 4, 670, 10)
 				.drawRect(150,0, 4, 670, 10)
@@ -155,9 +155,9 @@ var SAY = SAY || {};
 				.drawRect(990,0, 4, 670, 10)
 				.drawRect(1090,0, 4, 670, 10)
 				.drawRect(1170,0, 4, 670, 10);
-			_game.stage.addChildAt(_game.backgroundClose, 0);
-			_game.backgroundClosest = new Shape();
-			_game.backgroundClosest.graphics.beginFill('rgba(255,255,255,.75)')
+			game.stage.addChildAt(game.backgroundClose, 0);
+			game.backgroundClosest = new Shape();
+			game.backgroundClosest.graphics.beginFill('rgba(255,255,255,.75)')
 				.drawRect(0,0, 4, 670, 10)
 				.drawRect(180,0, 4, 670, 10)
 				.drawRect(210,0, 4, 670, 10)
@@ -172,83 +172,82 @@ var SAY = SAY || {};
 				.drawRect(1110,0, 4, 670, 10)
 				.drawRect(1230,0, 4, 670, 10)
 				.drawRect(1350,0, 4, 670, 10);
-			_game.stage.addChildAt(_game.backgroundClosest, 0);
+			game.stage.addChildAt(game.backgroundClosest, 0);
 		},
 
 		createPlatform: function(x,y,enabled) {
 				x = Math.round(x);
 				y = Math.round(y);
 
-				var platform = new Bitmap(_game.PLATFORM);
-				platform.name = 'Platform' + (_game.Platforms.length+1);
+				var platform = new Bitmap(game.PLATFORM);
+				platform.name = 'Platform ' + (game.Platforms.length+1);
 				platform.x = x;
 				platform.y = y;
 				platform.snapToPixel = true;
 				platform.mouseEnabled = enabled || false;
 
-				_game.world.addChild(platform);
-				_game.Platforms.push(platform);
+				game.stage.addChild(platform);
+				game.Platforms.push(platform);
 		},
 
 		setStage: function() {
-			_game.canvas = document.getElementById('stage');
-			_game.stage = new Stage(_game.canvas);
-			_game.world = new Container();
+			game.canvas = document.getElementById('stage');
+			game.stage = new Stage(game.canvas);
 
-			_game.stage.addChild(_game.world);
+			game.stage.addChild();
 		},
 
 		getPlatforms: function() {
-			return _game.Platforms;
+			return game.Platforms;
 		},
 
 		bindEvents: function() {
 			var handleKeyDown = function(e)
 			{
-				if (_game.controls.right.contains(e.which)) {
-					_game.hero.moveRight = true;
-				} else if (_game.controls.left.contains(e.which)) {
-					_game.hero.moveLeft = true;
-				} else if (_game.controls.jump.contains(e.which)) {
-					_game.hero.jump();
+				if (game.controls.right.contains(e.which)) {
+					game.hero.moveRight = true;
+				} else if (game.controls.left.contains(e.which)) {
+					game.hero.moveLeft = true;
+				} else if (game.controls.jump.contains(e.which)) {
+					game.hero.jump();
 				}
 			};
 			var handleKeyUp = function(e)
 			{
-				if (_game.controls.right.contains(e.which)) {
-					_game.hero.moveRight = false;
-					_game.hero.prevDirection = 'right';
-				} else if (_game.controls.left.contains(e.which)) {
-					_game.hero.moveLeft = false;
-					_game.hero.prevDirection = 'left';
+				if (game.controls.right.contains(e.which)) {
+					game.hero.moveRight = false;
+					game.hero.prevDirection = 'right';
+				} else if (game.controls.left.contains(e.which)) {
+					game.hero.moveLeft = false;
+					game.hero.prevDirection = 'left';
 				}
 			};
 			var handleMouseDown = function(e)
 			{
-				_game.clicked = true;
+				game.clicked = true;
 
-				if (_game.stage.mouseX && _game.stage.mouseY){
-					mouseTarget = _game.stage.getObjectUnderPoint(_game.stage.mouseX, _game.stage.mouseY);
+				if (game.stage.mouseX && game.stage.mouseY){
+					mouseTarget = game.stage.getObjectUnderPoint(game.stage.mouseX, game.stage.mouseY);
 				}
 				if (mouseTarget.name) {
-					for (var i = 0; i < _game.Platforms.length; i++) {
-						if (_game.Platforms[i].name == mouseTarget.name){
-							console.log(_game.Platforms[i].name);
+					for (var i = 0; i < game.Platforms.length; i++) {
+						if (game.Platforms[i].name == mouseTarget.name){
+							console.log(game.Platforms[i].name);
 						}
 					}
 				}
 			};
 			var handleMouseUp = function(e)
 			{
-				_game.clicked = false;
+				game.clicked = false;
 			};
 
 			if ('ontouchstart' in document.documentElement) {
-				_game.canvas.addEventListener('touchstart', function(e) {
+				game.canvas.addEventListener('touchstart', function(e) {
 					handleKeyDown();
 				}, false);
 
-				_game.canvas.addEventListener('touchend', function(e) {
+				game.canvas.addEventListener('touchend', function(e) {
 					handleKeyUp();
 				}, false);
 			} else {
@@ -290,7 +289,7 @@ var SAY = SAY || {};
 							oppositeDirection = direction == 'x' ? 'y' : 'x',
 							oppositeMeasure = direction == 'x' ? 'height' : 'width',
 
-							bounds = _game.util.getBounds(obj),
+							bounds = game.util.getBounds(obj),
 							cbounds,
 							collision = null,
 							cc = 0;
@@ -299,9 +298,9 @@ var SAY = SAY || {};
 					// bounding-rectangle and then check for an intersection
 					// of the hero's future position's bounding-rectangle
 					while ( !collision && cc < collideables.length ) {
-						cbounds = _game.util.getBounds(collideables[cc]);
+						cbounds = game.util.getBounds(collideables[cc]);
 						if ( collideables[cc].isVisible ) {
-							collision = _game.util.calculateIntersection(bounds, cbounds, moveBy.x, moveBy.y);
+							collision = game.util.calculateIntersection(bounds, cbounds, moveBy.x, moveBy.y);
 						}
 
 						if ( !collision && collideables[cc].isVisible ) {
@@ -400,22 +399,22 @@ var SAY = SAY || {};
 			Ticker.addListener(tick);
 
 			function tick(e){
-				_game.hero.tick();
-				_game.stage.update();
+				game.hero.tick();
+				game.stage.update();
 
-				if (_game.hero.x > _game.canvas.width*0.3) {
-					_game.stage.x = -_game.hero.x + _game.canvas.width*0.3;
+				if (game.hero.x > game.canvas.width*0.3) {
+					game.stage.x = -game.hero.x + game.canvas.width*0.3;
 				}
 
-				_game.background.x = -_game.stage.x*0.75 + 30;
-				_game.backgroundClose.x = -_game.stage.x*0.55 + 30;
-				_game.backgroundClosest.x = -_game.stage.x*0.25 + 30;
+				game.background.x = -game.stage.x*0.75 + 30;
+				game.backgroundClose.x = -game.stage.x*0.55 + 30;
+				game.backgroundClosest.x = -game.stage.x*0.25 + 30;
 			}
 		}
 	};
 
 	window.onload = function(){
-		_game.init();
+		game.init();
 	};
 
 })();

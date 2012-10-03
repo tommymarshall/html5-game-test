@@ -6,4 +6,4 @@ Array.prototype.contains = function(obj) {
 		}
 	}
 	return false;
-}
+};
