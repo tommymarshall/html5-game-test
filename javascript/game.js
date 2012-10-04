@@ -38,6 +38,7 @@ var SAY = SAY || {};
 			game.circle.y = Math.floor((Math.random()*400)+50);
 			game.circle.radius = 100;
 			game.circle.type = 'circle';
+			
 			game.circle.shadow = new Shadow("rgba(0,0,0,0.3)",0,10,15);
 		},
 
@@ -45,13 +46,10 @@ var SAY = SAY || {};
 			game.circle.onPress = function(evt) {
 				var offset = {x:evt.target.x-evt.stageX, y:evt.target.y-evt.stageY};
 
-				// add a handler to the event object's onMouseMove callback
-				// this will be active until the user releases the mouse button:
 				evt.onMouseMove = function(ev) {
 					ev.target.x = ev.stageX+offset.x;
 					ev.target.y = ev.stageY+offset.y;
 				};
-
 			};
 		},
 
