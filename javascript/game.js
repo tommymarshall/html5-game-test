@@ -22,8 +22,8 @@ var SAY = SAY || {};
 		createRect: function() {
 			game.rect = game.stage.addChild(new Shape());
 			game.rect.graphics.beginFill("red").drawRect(0,0,300,60);
-			game.rect.x = Math.floor((Math.random()*300)+100);
-			game.rect.y = Math.floor((Math.random()*300)+100);
+			game.rect.x = Math.floor((Math.random()*500)+100);
+			game.rect.y = Math.floor((Math.random()*500)+100);
 			game.rect.width = 300;
 			game.rect.height = 60;
 			game.rect.type = 'rect';
@@ -38,7 +38,6 @@ var SAY = SAY || {};
 			game.circle.y = Math.floor((Math.random()*400)+50);
 			game.circle.radius = 100;
 			game.circle.type = 'circle';
-
 			game.circle.shadow = new Shadow("rgba(0,0,0,0.3)",0,10,15);
 		},
 
@@ -82,32 +81,34 @@ var SAY = SAY || {};
 			box.y = c.y - c.radius;
 			box.width = box.height = c.radius*2;
 
+			// Location relative to colliding platform
 			var topLeft =     (box.x + box.width > r.x) && (box.y + box.height > r.y) && (box.x + box.width - r.x < c.radius) && (box.y + box.height - r.y < c.radius);
 			var topRight =    (box.x < r.x + r.width)   && (box.y + box.height > r.y) && (r.x + r.width - box.x < c.radius)   && (box.y + box.height - r.y < c.radius);
 			var bottomLeft =  (box.x + box.width > r.x) && (box.y < r.y + r.height)   && (box.x + box.width - r.x < c.radius) && (r.y + r.height - box.y < c.radius);
 			var bottomRight = (box.x < r.x + r.width)   && (box.y < r.y + r.height)   && (r.x + r.width - box.x < c.radius)   && (r.y + r.height - box.y < c.radius);
 			game.values = [topLeft, topRight, bottomLeft, bottomRight];
 
+			// Differences
+			var a = 0;
+			var b = 0;
+			var t2 = 0;
+			var t;
+
 			if ( topLeft || topRight || bottomLeft || bottomRight) {
-				var a = 0;
-				var b = 0;
-				var t2 = 0;
-				var t;
-				
 				// Is in the same corner area
-				if (topLeft){
+				if (topLeft) {
 					a = (r.x - c.x);
 					b = (r.y - c.y);
 				}
-				if (topRight){
+				if (topRight) {
 					a = (r.x + r.width - c.x);
 					b = (r.y - c.y);
 				}
-				if (bottomLeft){
+				if (bottomLeft) {
 					a = (r.x - c.x);
 					b = (r.y + r.height - c.y);
 				}
-				if (bottomRight){
+				if (bottomRight) {
 					a = (r.x + r.width - c.x);
 					b = (r.y + r.height - c.y);
 				}
@@ -120,7 +121,10 @@ var SAY = SAY || {};
 				}
 			}
 
-			return true;
+			return {
+				x: (c.x + a),
+				y: (c.y + b)
+			};
 		},
 
 		debug: function() {
@@ -134,8 +138,9 @@ var SAY = SAY || {};
 
 			function tick(e){
 				game.stage.update();
-				if (game.isColliding()) {
-					console.log('collide!');
+				var point = game.isColliding();
+				if (point) {
+					console.log(point);
 				} else {
 					game.circle.y += 2;
 				}
