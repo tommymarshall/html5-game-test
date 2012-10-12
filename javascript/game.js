@@ -75,6 +75,14 @@ var SAY = SAY || {};
 					game.createPlatform(430,270,true);
 					game.createPlatform(500,270,true);
 
+					game.createPlatform(760,900,true);
+					game.createPlatform(830,900,true);
+					game.createPlatform(900,900,true);
+
+					game.createPlatform(980,600,true);
+					game.createPlatform(1050,600,true);
+					game.createPlatform(1160,600,true);
+
 					game.createPlatform(590,200,true);
 					game.createPlatform(660,390,true);
 
