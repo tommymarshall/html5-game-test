@@ -5,8 +5,8 @@ var SAY = SAY || {};
 	var game = SAY.game = {
 
 		init: function() {
-			game.setStage();
 			game.setVars();
+			game.setStage();
 
 			game.preloadResources();
 			game.setImages();
@@ -32,6 +32,10 @@ var SAY = SAY || {};
 				game.WALKER,
 				game.PLATFORM
 			];
+			game.window = {
+				width: $(window).width(),
+				height: $(window).height()
+			};
 			game.controls = {
 				left: [ 37, 65 ],
 				right: [ 39, 68 ],
@@ -78,7 +82,7 @@ var SAY = SAY || {};
 					game.createPlatform(740,290,true);
 
 					for (var i = 0; i < 19; i++) {
-						game.createPlatform(70 * i,570,true);
+						game.createPlatform(70 * i,game.window.height-70,true);
 						game.createPlatform(70 * i,0,true);
 					}
 					for (var z = 19; z < 21; z++) {
@@ -94,7 +98,7 @@ var SAY = SAY || {};
 						game.createPlatform(70 * j,0,true);
 					}
 					for (var q = 33; q < 44; q++) {
-						game.createPlatform(70 * q,570,true);
+						game.createPlatform(70 * q,game.window.height-70,true);
 					}
 				break;
 				case 2:
@@ -111,68 +115,11 @@ var SAY = SAY || {};
 			var img = new Image();
 			img.onload = game.createHero;
 			img.src = game.HERO;
-			game.createOtherBG();
 		},
 
 		createHero: function(e) {
 			game.hero = new game.Hero(e.target);
 			game.stage.addChild(game.hero);
-		},
-
-		createOtherBG: function(e) {
-			game.background = new Shape();
-			game.background.graphics.beginFill('rgba(255,255,255,.25)')
-				.drawRect(0,0, 2, 670, 10)
-				.drawRect(100,0, 2, 670, 10)
-				.drawRect(150,0, 2, 670, 10)
-				.drawRect(200,0, 2, 670, 10)
-				.drawRect(300,0, 2, 670, 10)
-				.drawRect(420,0, 2, 670, 10)
-				.drawRect(500,0, 2, 670, 10)
-				.drawRect(650,0, 2, 670, 10)
-				.drawRect(700,0, 2, 670, 10)
-				.drawRect(830,0, 2, 670, 10)
-				.drawRect(910,0, 2, 670, 10)
-				.drawRect(1000,0, 2, 670, 10)
-				.drawRect(1140,0, 2, 670, 10)
-				.drawRect(1250,0, 2, 670, 10)
-				.drawRect(1300,0, 2, 670, 10)
-				.drawRect(1350,0, 2, 670, 10);
-			game.stage.addChildAt(game.background, 0);
-			game.backgroundClose = new Shape();
-			game.backgroundClose.graphics.beginFill('rgba(255,255,255,.5)')
-				.drawRect(0,0, 4, 670, 10)
-				.drawRect(90,0, 4, 670, 10)
-				.drawRect(150,0, 4, 670, 10)
-				.drawRect(240,0, 4, 670, 10)
-				.drawRect(320,0, 4, 670, 10)
-				.drawRect(460,0, 4, 670, 10)
-				.drawRect(540,0, 4, 670, 10)
-				.drawRect(620,0, 4, 670, 10)
-				.drawRect(750,0, 4, 670, 10)
-				.drawRect(820,0, 4, 670, 10)
-				.drawRect(930,0, 4, 670, 10)
-				.drawRect(990,0, 4, 670, 10)
-				.drawRect(1090,0, 4, 670, 10)
-				.drawRect(1170,0, 4, 670, 10);
-			game.stage.addChildAt(game.backgroundClose, 0);
-			game.backgroundClosest = new Shape();
-			game.backgroundClosest.graphics.beginFill('rgba(255,255,255,.75)')
-				.drawRect(0,0, 4, 670, 10)
-				.drawRect(180,0, 4, 670, 10)
-				.drawRect(210,0, 4, 670, 10)
-				.drawRect(350,0, 4, 670, 10)
-				.drawRect(440,0, 4, 670, 10)
-				.drawRect(550,0, 4, 670, 10)
-				.drawRect(600,0, 4, 670, 10)
-				.drawRect(760,0, 4, 670, 10)
-				.drawRect(810,0, 4, 670, 10)
-				.drawRect(970,0, 4, 670, 10)
-				.drawRect(1030,0, 4, 670, 10)
-				.drawRect(1110,0, 4, 670, 10)
-				.drawRect(1230,0, 4, 670, 10)
-				.drawRect(1350,0, 4, 670, 10);
-			game.stage.addChildAt(game.backgroundClosest, 0);
 		},
 
 		createPlatform: function(x,y,enabled) {
@@ -192,6 +139,8 @@ var SAY = SAY || {};
 
 		setStage: function() {
 			game.canvas = document.getElementById('stage');
+			game.canvas.width = game.window.width;
+			game.canvas.height = game.window.height;
 			game.stage = new Stage(game.canvas);
 
 			game.stage.addChild();

@@ -27,16 +27,16 @@ var SAY = SAY || {};
 	game.Hero.prototype.tick = function () {
 		if (this.reverseGravity)
 		{
-			if (this.velocity.y > -60)
+			if (this.velocity.y > -100)
 			{
-				this.velocity.y -= 1;
+				this.velocity.y -= 1.1;
 			}
 		}
 		else
 		{
-			if (this.velocity.y < 60)
+			if (this.velocity.y < 100)
 			{
-				this.velocity.y += 1;
+				this.velocity.y += 1.1;
 			}
 		}
 
@@ -67,14 +67,14 @@ var SAY = SAY || {};
 		if (this.moveLeft) {
 			shiftRightMax = false;
 			if (shiftLeftMax === true) {
-				moveBy = {x:-5, y:0};
+				moveBy = {x:-10, y:0};
 			} else {
 				moveBy = {x:this.momentum-0.1, y:0};
 			}
-			
+
 			collision = game.util.calculateCollision(this, 'x', game.getPlatforms(), moveBy);
 			if (!collision) {
-				if (this.momentum < 5) {
+				if (this.momentum < 10) {
 					this.momentum += 0.1;
 				} else {
 					shiftLeftMax = true;
@@ -86,14 +86,14 @@ var SAY = SAY || {};
 		if (this.moveRight) {
 			shiftLeftMax = false;
 			if (shiftRightMax === true) {
-				moveBy = {x:5, y:0};
+				moveBy = {x:10, y:0};
 			} else {
 				moveBy = {x:this.momentum+0.1, y:0};
 			}
 
 			collision = game.util.calculateCollision(this, 'x', game.getPlatforms(), moveBy);
 			if (!collision) {
-				if (this.momentum < 5) {
+				if (this.momentum < 10) {
 					this.momentum += 0.1;
 				} else {
 					shiftRightMax = true;
@@ -119,9 +119,9 @@ var SAY = SAY || {};
 	game.Hero.prototype.jump = function() {
 		if ( this.onGround ) {
 			if (this.reverseGravity){
-				this.velocity.y = 19;
+				this.velocity.y = 31;
 			} else {
-				this.velocity.y = -19;
+				this.velocity.y = -31;
 			}
 			this.onGround = false;
 		}
