@@ -6,21 +6,21 @@ var SAY = SAY || {};
 
 		init: function(){
 			game.world.create();
-			game.level.begin();
+			game.run.begin();
 		},
 
 		get: {
-			currentLevel: function(){ return game.currentLevel; },
-			levels:       function(){ return game.levels; },
+			allLevels:    function(){ return game.levels; },
+			currentLevel: function(){ return game.current; },
 			level:        function(){ return game.level; },
 			platforms:    function(){ return game.platforms; }
 		},
 
 		set: {
-			currentLevel: function( value ){ game.currentLevel = value; },
-			levels:       function( value ){ game.levels       = value; },
-			level:        function( value ){ game.level        = value; },
-			platforms:    function( value ){ game.platforms    = value; }
+			allLevels:    function( val ){ game.levels    = val; },
+			currentLevel: function( val ){ game.current   = val; },
+			level:        function( val ){ game.level     = val; },
+			platforms:    function( val ){ game.platforms = val; }
 		},
 
 		world: {
@@ -36,11 +36,11 @@ var SAY = SAY || {};
 			},
 
 			stage: function(){
-				
+				// Create stage
 			}
 		},
 
-		level: {
+		run: {
 			begin: function(){
 				// Get Current Level
 				// Preload Assets
@@ -54,7 +54,7 @@ var SAY = SAY || {};
 
 			start: function(){
 				// Start
-				
+				game.current.start();
 			}
 		},
 
