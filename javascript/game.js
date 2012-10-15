@@ -27,8 +27,6 @@ var SAY = SAY || {};
 			game.rect.width = 300;
 			game.rect.height = 60;
 			game.rect.type = 'rect';
-
-			game.rect.shadow = new Shadow("rgba(0,0,0,0.3)",0,10,15);
 		},
 
 		createCircle: function() {
@@ -38,8 +36,6 @@ var SAY = SAY || {};
 			game.circle.y = Math.floor((Math.random()*400)+50);
 			game.circle.radius = 100;
 			game.circle.type = 'circle';
-			
-			game.circle.shadow = new Shadow("rgba(0,0,0,0.3)",0,10,15);
 		},
 
 		dragging: function() {
@@ -74,9 +70,11 @@ var SAY = SAY || {};
 			}
 
 			// Within circle R distance
-			var box = {};
-			box.x = c.x - c.radius;
-			box.y = c.y - c.radius;
+			var box = {
+				x: c.x - c.radius,
+				y: c.y - c.radius
+			};
+
 			box.width = box.height = c.radius*2;
 
 			// Location relative to colliding platform
@@ -114,14 +112,17 @@ var SAY = SAY || {};
 				t2 = (a*a) + (b*b);
 				t = Math.sqrt(t2);
 
-				if (t > c.radius) {
+				if (t >= c.radius) {
 					return false;
 				}
 			}
 
 			return {
 				x: (c.x + a),
-				y: (c.y + b)
+				y: (c.y + b),
+				a: Math.abs(a),
+				b: Math.abs(b),
+				t: t
 			};
 		},
 
@@ -130,7 +131,7 @@ var SAY = SAY || {};
 		},
 
 		render: function() {
-			Ticker.setFPS(50);
+			Ticker.setFPS(60);
 			Ticker.useRAF = true;
 			Ticker.addListener(tick);
 
@@ -140,7 +141,7 @@ var SAY = SAY || {};
 				if (point) {
 					console.log(point);
 				} else {
-					game.circle.y += 2;
+					game.circle.y += 3;
 				}
 			}
 		}

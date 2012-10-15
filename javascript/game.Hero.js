@@ -71,7 +71,7 @@ var SAY = SAY || {};
 			} else {
 				moveBy = {x:this.momentum-0.1, y:0};
 			}
-			
+
 			collision = game.util.calculateCollision(this, 'x', game.getPlatforms(), moveBy);
 			if (!collision) {
 				if (this.momentum < 5) {
