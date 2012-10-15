@@ -5,17 +5,17 @@ var SAY = SAY || {};
 	var game = SAY.game;
 
 	game.Hero = function(image) {
-		this.initialize(image);
+		this.init(image);
 	};
 
 	game.Hero.prototype = new Bitmap();
 
-	game.Hero.prototype.Bitmap_initialize = game.Hero.prototype.initialize;
+	game.Hero.prototype.Bitmap_init = game.Hero.prototype.init;
 
-	game.Hero.prototype.initialize = function(image) {
+	game.Hero.prototype.init = function(image) {
 		this.velocity = {x:30,y:170};
 		this.onGround = false;
-		this.Bitmap_initialize(image);
+		this.Bitmap_init(image);
 		this.name = 'Hero';
 		this.snapToPixel = true;
 		this.moveLeft = false;

@@ -9,6 +9,40 @@ var SAY = SAY || {};
 			game.run.begin();
 		},
 
+		vars: function(){
+			// Array of Objects
+			game.Assets = [];
+			
+			// Array of Objects
+			game.Coins = [];
+			
+			// Array of Objects
+			game.Doodads = [];
+			
+			// Single Object
+			game.Hero = Object;
+			
+			// Single Object
+			game.Level = Object;
+
+			// Array of Objects
+			game.Platforms = [];
+
+			// Integer of Level
+			game.Current = 0;
+
+			// Integer of Score
+			game.Score = 0;
+
+			// State of Play
+			//	0:  start
+			//	1:  play
+			//	2:  pause
+			//	3:  end
+			game.State = 0;
+
+		},
+
 		get: {
 			allLevels:    function(){ return game.levels; },
 			currentLevel: function(){ return game.current; },
@@ -32,11 +66,17 @@ var SAY = SAY || {};
 			},
 
 			canvas: function(){
-				// Create canvas
+				var self = game.world;
+
+				self.canvas = document.getElementById('stage');
+				self.canvas.width = self.window.width;
+				self.canvas.height = self.window.height;
 			},
 
 			stage: function(){
-				// Create stage
+				var self = game.world;
+
+				self.stage = new Stage(self.canvas);
 			}
 		},
 
