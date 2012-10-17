@@ -6,55 +6,45 @@ var SAY = SAY || {};
 
 		init: function(){
 			game.world.create();
+			game.vars();
 			game.run.begin();
 		},
 
 		vars: function(){
 			// Array of Objects
-			game.Assets = [];
-			
-			// Array of Objects
-			game.Coins = [];
-			
-			// Array of Objects
-			game.Doodads = [];
-			
-			// Single Object
-			game.Hero = Object;
-			
-			// Single Object
-			game.Level = Object;
+			game.assets = [];
 
 			// Array of Objects
-			game.Platforms = [];
+			game.backgrounds = [];
+			
+			// Array of Objects
+			game.coins = [];
+			
+			// Array of Objects
+			game.doodads = [];
+			
+			// Single Object
+			game.hero = new SAY.Hero();
+			
+			// Single Object
+			game.level = Object;
+
+			// Array of Objects
+			game.platforms = [];
 
 			// Integer of Level
-			game.Current = 0;
+			game.current = 0;
 
 			// Integer of Score
-			game.Score = 0;
+			game.score = 0;
 
 			// State of Play
 			//	0:  start
 			//	1:  play
 			//	2:  pause
 			//	3:  end
-			game.State = 0;
+			game.state = 0;
 
-		},
-
-		get: {
-			allLevels:    function(){ return game.levels; },
-			currentLevel: function(){ return game.current; },
-			level:        function(){ return game.level; },
-			platforms:    function(){ return game.platforms; }
-		},
-
-		set: {
-			allLevels:    function( val ){ game.levels    = val; },
-			currentLevel: function( val ){ game.current   = val; },
-			level:        function( val ){ game.level     = val; },
-			platforms:    function( val ){ game.platforms = val; }
 		},
 
 		world: {
@@ -69,8 +59,8 @@ var SAY = SAY || {};
 				var self = game.world;
 
 				self.canvas = document.getElementById('stage');
-				self.canvas.width = self.window.width;
-				self.canvas.height = self.window.height;
+				self.canvas.width = window.innerWidth;
+				self.canvas.height = window.innerHeight;
 			},
 
 			stage: function(){
@@ -82,29 +72,59 @@ var SAY = SAY || {};
 
 		run: {
 			begin: function(){
+
 				// Get Current Level
-				// Preload Assets
-				// Set Background
-				// Set Platforms
-				// Set Coins
-				// Set Doodads
-				// Set Hero
-				// Set Controls
+				switch (game.current){
+
+					// Start
+					case 0:
+						game.level = new game.Level({
+							assets: ['imgpath', 'imgpath2'],
+							backgrounds: ['background_1'],
+							platforms: []
+						});
+					break;
+
+					// Level 1
+					case 1:
+						game.level = new game.Level({
+							assets: ['imgpath', 'imgpath2'],
+							backgrounds: [background_1],
+							platforms: []
+						});
+					break;
+					
+					// Level 2
+					case 2:
+						game.level = new game.Level({
+							assets: ['imgpath', 'imgpath2'],
+							backgrounds: [background_1],
+							platforms: []
+						});
+					break;
+
+					default:
+
+					break;
+
+				}
+
+
 			},
 
 			start: function(){
 				// Start
-				game.current.start();
+				game.Level.start();
 			}
 		},
 
 		render: function(){
 			var tick = function(e){
-				game.level.tick();
+				game.level.render();
 				game.stage.update();
 			};
 
-			Ticker.setFPS(60);
+			Ticker.setFPS(1);
 			Ticker.useRAF = true;
 			Ticker.addListener(tick);
 		}
