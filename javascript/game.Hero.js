@@ -9,7 +9,7 @@ var SAY = SAY || {};
 		{
 			"idle": [0, 27, "idle", 3],
 			"run": [29, 47, "run", 2],
-			"stop": [59, 87, "idle", 2],
+			"stop": [59, 86, "idle", 2],
 			"jump": [87, 116, "idle", 3]
 		},
 			"images": ["./images/rat_sprite_full.png"],
@@ -56,6 +56,11 @@ var SAY = SAY || {};
 		// Direction
 		this.direction = {
 			prev: false
+		};
+
+		this.move = {
+			right: false,
+			left: false
 		};
 
 		// Keydown
@@ -127,11 +132,10 @@ var SAY = SAY || {};
 		{
 			if ( !self.keydown ){
 				if (self.controls.right.contains(e.which)){
-					self.move("right");
+					self.move.right = true;
 				} else if (self.controls.left.contains(e.which)){
-					self.move("left");
+					self.move.left = true;
 				}
-				self.keydown = true;
 			}
 		};
 		var handleKeyUp = function(e)
@@ -142,7 +146,6 @@ var SAY = SAY || {};
 			} else if (self.controls.left.contains(e.which)){
 				self.direction.prev = 'left';
 			}
-
 
 			switch (self.direction.prev){
 				case "left":
@@ -156,10 +159,10 @@ var SAY = SAY || {};
 				default:
 					// Nothing'
 				break;
-
-
 			}
+
 		};
+
 		if ('ontouchstart' in document.documentElement){
 			game.canvas.addEventListener('touchstart', function(e){
 				handleKeyDown();
@@ -177,9 +180,9 @@ var SAY = SAY || {};
 
 	game.Hero.prototype.tick = function(){
 
-		for (var i = 0; i < 20; i++){
-			if (game.util.isColliding(this, game.collideables[i])){
-
+		for (var i = 0; i < game.platforms.length; i++){
+			if (game.util.isColliding(this, game.platforms[i])){
+				console.log(game.platforms[i]);
 			}
 		}
 

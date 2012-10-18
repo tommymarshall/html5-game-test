@@ -10,9 +10,9 @@ var SAY = SAY || {};
 			// 1. Check if object is circle or square
 			// 2. Assign as circle
 
-			isColliding: function( object1 , object2 ) {
-				var c = object1;
-				var r = object2;
+			isColliding: function( hero , platform ) {
+				var c = hero;
+				var r = platform;
 
 				// Not in the same overlapping width
 				if (
