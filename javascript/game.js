@@ -5,9 +5,10 @@ var SAY = SAY || {};
 	var game = SAY.game = {
 
 		init: function(){
-			game.world.create();
 			game.vars();
+			game.world.create();
 			game.run.begin();
+			game.render();
 		},
 
 		vars: function(){
@@ -24,7 +25,7 @@ var SAY = SAY || {};
 			game.doodads = [];
 			
 			// Single Object
-			game.hero = new SAY.Hero();
+			game.hero = Object;
 			
 			// Single Object
 			game.level = Object;
@@ -56,17 +57,13 @@ var SAY = SAY || {};
 			},
 
 			canvas: function(){
-				var self = game.world;
-
-				self.canvas = document.getElementById('stage');
-				self.canvas.width = window.innerWidth;
-				self.canvas.height = window.innerHeight;
+				game.canvas = document.getElementById('stage');
+				game.canvas.width = window.innerWidth;
+				game.canvas.height = window.innerHeight;
 			},
 
 			stage: function(){
-				var self = game.world;
-
-				self.stage = new Stage(self.canvas);
+				game.stage = new Stage(game.canvas);
 			}
 		},
 
@@ -78,11 +75,10 @@ var SAY = SAY || {};
 
 					// Start
 					case 0:
-						game.level = new game.Level({
-							assets: ['imgpath', 'imgpath2'],
-							backgrounds: ['background_1'],
-							platforms: []
-						});
+						// Create Hero
+						game.hero = new game.Hero();
+
+						game.hero.gotoAndPlay("idle");
 					break;
 
 					// Level 1
@@ -120,11 +116,10 @@ var SAY = SAY || {};
 
 		render: function(){
 			var tick = function(e){
-				game.level.render();
 				game.stage.update();
 			};
 
-			Ticker.setFPS(1);
+			Ticker.setFPS(60);
 			Ticker.useRAF = true;
 			Ticker.addListener(tick);
 		}
