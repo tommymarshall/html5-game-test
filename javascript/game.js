@@ -76,9 +76,24 @@ var SAY = SAY || {};
 					// Start
 					case 0:
 						// Create Hero
-						game.hero = new game.Hero();
 
-						game.hero.gotoAndPlay("idle");
+						var heroData = {
+							x: 500,
+							y: 200
+						};
+
+						game.hero = new game.Hero(heroData);
+
+						// Create Platform
+						var platformData = {
+							x: 300,
+							y: 500,
+							width: 600,
+							height: 100
+						};
+						var platform = new game.Platform(platformData);
+
+						game.platforms.push(platform);
 					break;
 
 					// Level 1

@@ -11,8 +11,8 @@ var SAY = SAY || {};
 			// 2. Assign as circle
 
 			isColliding: function( object1 , object2 ) {
-				var c = game.circle;
-				var r = game.rect;
+				var c = object1;
+				var r = object2;
 
 				// Not in the same overlapping width
 				if (
