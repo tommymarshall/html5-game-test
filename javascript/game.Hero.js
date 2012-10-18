@@ -8,23 +8,24 @@ var SAY = SAY || {};
 		"animations":
 		{
 			"idle": [0, 27, "idle", 3],
-			"run": [28, 47, "run", 2],
-			"jump": [34, 38, "jump_freeze", 3],
-			"jump_freeze": [38]
+			"run": [29, 47, "run", 2],
+			"stop": [59, 87, "idle", 2],
+			"jump": [87, 116, "idle", 3]
 		},
-			"images": ["./images/rat_sprite.png"],
+			"images": ["./images/rat_sprite_full.png"],
 			"frames":
 				{
 					"height": 284,
 					"width": 285,
 					"regX": 142.5,
 					"regY": 0,
-					"count": 48
+					"count": 116
 				}
 		});
 
-	game.Hero = function( data ) {
+	game.Hero = function( data ){
 		this.init( data );
+		this.binds();
 	};
 
 	game.Hero.prototype = new BitmapAnimation( ss );
@@ -39,11 +40,32 @@ var SAY = SAY || {};
 		this.x = data.x || 0;
 		this.y = data.y || 0;
 
+		// Scaling
+		this.scaleX = this.scaleY = game.scale;
+
 		// Size
 		this.radius = data.radius || 0;
 
-		// Speed moving
-		this.speed = 360;
+		// Controls
+		this.controls = {
+			right: data.controls.right,
+			left: data.controls.left,
+			jump: data.controls.jump
+		};
+
+		// Direction
+		this.direction = {
+			prev: false
+		};
+
+		// Keydown
+		this.keydown = false;
+
+		// Moveing by
+		this.moveby = {
+			x: 20,
+			y: 50
+		};
 
 		// Build the bubble
 		this.bubble();
@@ -66,9 +88,14 @@ var SAY = SAY || {};
 			.arc(0, 0, 142.5, 180, Math.PI)
 			.beginFill('rgba(255,255,255,255,0.65)')
 			.arc(0, 0, 142.5, 0, Math.PI)
-      .endStroke();
+			.endStroke();
+
+		// Starting location
 		this.bubble.x = this.x;
-		this.bubble.y = this.y+142.5;
+		this.bubble.y = this.y + (142.5 * game.scale);
+
+		// Scaling
+		this.bubble.scaleX = this.bubble.scaleY = game.scale;
 
 		game.stage.addChild(this.bubble);
 
@@ -78,11 +105,12 @@ var SAY = SAY || {};
 
 		switch(direction || "left"){
 			case "left":
+				this.bubble.rotation = -45;
 				this.gotoAndPlay("run_h");
 			break;
 
 			case "right":
-
+				this.bubble.rotation = 45;
 				this.gotoAndPlay("run");
 			break;
 
@@ -93,18 +121,59 @@ var SAY = SAY || {};
 
 	};
 
-	game.Hero.prototype.jump = function(){
+	game.Hero.prototype.binds = function(){
+		var self = this;
+		var handleKeyDown = function(e)
+		{
+			if ( !self.keydown ){
+				if (self.controls.right.contains(e.which)){
+					self.move("right");
+				} else if (self.controls.left.contains(e.which)){
+					self.move("left");
+				}
+				self.keydown = true;
+			}
+		};
+		var handleKeyUp = function(e)
+		{
+			self.keydown = false;
+			if (self.controls.right.contains(e.which)){
+				self.direction.prev = 'right';
+			} else if (self.controls.left.contains(e.which)){
+				self.direction.prev = 'left';
+			}
 
-		this.gotoAndPlay("jump");
 
+			switch (self.direction.prev){
+				case "left":
+					self.gotoAndPlay("stop_h");
+				break;
+
+				case "right":
+					self.gotoAndPlay("stop");
+				break;
+				
+				default:
+					// Nothing'
+				break;
+
+
+			}
+		};
+		if ('ontouchstart' in document.documentElement){
+			game.canvas.addEventListener('touchstart', function(e){
+				handleKeyDown();
+			}, false);
+
+			game.canvas.addEventListener('touchend', function(e){
+				handleKeyUp();
+			}, false);
+		} else {
+			document.onkeydown = handleKeyDown;
+			document.onkeyup = handleKeyUp;
+		}
+		
 	};
-
-	game.Hero.prototype.clean = function(){
-
-		Tween.removeTweens(this.bubble);
-
-	};
-
 
 	game.Hero.prototype.tick = function(){
 

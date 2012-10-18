@@ -36,6 +36,9 @@ var SAY = SAY || {};
 			// Integer of Level
 			game.current = 0;
 
+			// Scale
+			game.scale = 0.5;
+
 			// Integer of Score
 			game.score = 0;
 
@@ -79,7 +82,12 @@ var SAY = SAY || {};
 
 						var heroData = {
 							x: 500,
-							y: 200
+							y: 200,
+							controls: {
+								left: [ 37, 65 ],
+								right: [ 39, 68 ],
+								jump: [ 32, 38, 40, 83, 87 ]
+							}
 						};
 
 						game.hero = new game.Hero(heroData);
