@@ -78,28 +78,10 @@ var SAY = SAY || {};
 
 		switch(direction || "left"){
 			case "left":
-				Tween.get(this.bubble,
-					{
-						loop: true
-					}, false)
-					.to({
-						x: this.bubble.x,
-						y: this.bubble.y,
-						rotation: -this.speed
-					}, 1000);
 				this.gotoAndPlay("run_h");
 			break;
 
 			case "right":
-				Tween.get(this.bubble,
-					{
-						loop: true
-					}, false)
-					.to({
-						x: this.bubble.x,
-						y: this.bubble.y,
-						rotation: this.speed
-					}, 1000);
 
 				this.gotoAndPlay("run");
 			break;
