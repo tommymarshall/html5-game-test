@@ -37,7 +37,7 @@ var SAY = SAY || {};
 			game.current = 0;
 
 			// Scale
-			game.scale = 0.5;
+			game.scale = 1;
 
 			// Integer of Score
 			game.score = 0;
@@ -140,6 +140,7 @@ var SAY = SAY || {};
 		render: function(){
 			var tick = function(e){
 				game.stage.update();
+				game.hero.tick();
 			};
 
 			Ticker.setFPS(60);
