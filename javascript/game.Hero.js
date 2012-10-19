@@ -103,9 +103,9 @@ var SAY = SAY || {};
 			.beginStroke("#fff")
 			.setStrokeStyle(8)
 			.beginFill('rgba(255,255,255,0.75)')
-			.arc(0, 0, 142.5 * game.scale, 180, Math.PI)
+			.arc(0, 0, 142.5, 180, Math.PI)
 			.beginFill('rgba(255,255,255,255,0.65)')
-			.arc(0, 0, 142.5 * game.scale, 0, Math.PI)
+			.arc(0, 0, 142.5, 0, Math.PI)
 			.endStroke();
 
 		// Radius
@@ -136,6 +136,21 @@ var SAY = SAY || {};
 
 	game.Hero.prototype.binds = function(){
 		var self = this;
+		var stoppingAnimation = function(e){
+			switch (self.direction.prev){
+				case "right":
+					self.gotoAndPlay("stop");
+				break;
+
+				case "left":
+					self.gotoAndPlay("stop_h");
+				break;
+				
+				default:
+					// Nothing'
+				break;
+			}
+		};
 		var handleKeyDown = function(e)
 		{
 			if ( !self.keydown ){
@@ -156,20 +171,7 @@ var SAY = SAY || {};
 				self.direction.prev = "left";
 			}
 
-			switch (self.direction.prev){
-				case "right":
-					self.gotoAndPlay("stop");
-				break;
-
-				case "left":
-					self.gotoAndPlay("stop_h");
-				break;
-				
-				default:
-					// Nothing'
-				break;
-			}
-
+			stoppingAnimation();
 		};
 
 		if ('ontouchstart' in document.documentElement){
@@ -305,27 +307,27 @@ var SAY = SAY || {};
 			}
 		}
 
-		// // Check if colliding
-		// for (var i = 0; i < game.platforms.length; i++){
+		// Check if colliding
+		for (var i = 0; i < game.platforms.length; i++){
 
-		//	// Create "copy" of relative values to send to collision engine
-		//	var ball = {
-		//		x: this.ball.x + (142.5 * game.scale) + this.move.velocity.x,
-		//		y: this.ball.y + (142.5 * game.scale) + this.move.velocity.y,
-		//		radius: this.ball.radius
-		//	};
-
-		//	// Returns object of details of collision point if true
-		//	if ( game.util.isColliding( ball, game.platforms[i])){
-		//		console.log(game.platforms[i]);
-		//	} else {
-		//		// Move to new location since we didn't collide
-		//		this.y += this.move.velocity.y;
-		//		this.ball.y += this.move.velocity.y;
-		//		this.x += this.move.velocity.x;
-		//		this.ball.x += this.move.velocity.x;
-		//	}
-		// }
+			// Create "copy" of relative values to send to collision engine
+			var ball = {
+				x: this.ball.x + (142.5 * game.scale) + this.move.velocity.x,
+				y: this.ball.y + (142.5 * game.scale) + this.move.velocity.y,
+				radius: this.ball.radius
+			};
+			
+			// Returns object of details of collision point if true
+			if ( game.util.isColliding( ball, game.platforms[i])){
+				console.log(game.platforms[i]);
+			} else {
+				// Move to new location since we didn't collide
+				this.y += this.move.velocity.y;
+				this.ball.y += this.move.velocity.y;
+				this.x += this.move.velocity.x;
+				this.ball.x += this.move.velocity.x;
+			}
+		}
 
 	};
 

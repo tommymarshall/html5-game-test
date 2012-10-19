@@ -9,10 +9,11 @@ var SAY = SAY || {};
 			// Check if object is colliding with other object.
 			// 1. Check if object is circle or square
 			// 2. Assign as circle
+			values: false,
 
-			isColliding: function( hero , platform ) {
-				var c = hero;
-				var r = platform;
+			isColliding: function( ball , platform ) {
+				var c = ball || {};
+				var r = platform || {};
 
 				// Not in the same overlapping width
 				if (
@@ -43,7 +44,7 @@ var SAY = SAY || {};
 				var topRight =    (box.x < r.x + r.width)   && (box.y + box.height > r.y) && (r.x + r.width - box.x < c.radius)   && (box.y + box.height - r.y < c.radius);
 				var bottomLeft =  (box.x + box.width > r.x) && (box.y < r.y + r.height)   && (box.x + box.width - r.x < c.radius) && (r.y + r.height - box.y < c.radius);
 				var bottomRight = (box.x < r.x + r.width)   && (box.y < r.y + r.height)   && (r.x + r.width - box.x < c.radius)   && (r.y + r.height - box.y < c.radius);
-				game.values = [topLeft, topRight, bottomLeft, bottomRight];
+				game.util.values = [topLeft, topRight, bottomLeft, bottomRight];
 
 				// Differences
 				var a = 0;

@@ -95,12 +95,11 @@ var SAY = SAY || {};
 						// Create Platform
 						var platformData = {
 							x: 300,
-							y: 500,
-							width: 600,
+							y: 550,
+							width: 800,
 							height: 100
 						};
 						var platform = new game.Platform(platformData);
-
 						game.platforms.push(platform);
 					break;
 
