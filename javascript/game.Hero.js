@@ -67,20 +67,16 @@ var SAY = SAY || {};
 
 		// Moveing by
 		this.move = {
-			x: 20,
-			y: 50,
-			by: {}
-		};
-
-		this.move = {
 			by: {
 				x: 0,
 				y: 0
-			},
-			velocity: {
-				x: 0,
-				y: 0
 			}
+		};
+
+		// Velocity
+		this.velocity = {
+			x: 0,
+			y: 1
 		};
 
 		// Build the ball
@@ -100,13 +96,10 @@ var SAY = SAY || {};
 
 		// Build the ball
 		this.ball.graphics
-			.beginStroke("#fff")
-			.setStrokeStyle(8)
 			.beginFill('rgba(255,255,255,0.75)')
 			.arc(0, 0, 142.5, 180, Math.PI)
 			.beginFill('rgba(255,255,255,255,0.65)')
-			.arc(0, 0, 142.5, 0, Math.PI)
-			.endStroke();
+			.arc(0, 0, 142.5, 0, Math.PI);
 
 		// Radius
 		this.ball.radius = 142.5 * game.scale;
@@ -306,26 +299,33 @@ var SAY = SAY || {};
 				this.move.by.x -= 0.1;
 			}
 		}
+		var ball;
+		var spot;
+		var collision = true;
 
 		// Check if colliding
 		for (var i = 0; i < game.platforms.length; i++){
 
 			// Create "copy" of relative values to send to collision engine
-			var ball = {
-				x: this.ball.x + (142.5 * game.scale) + this.move.velocity.x,
-				y: this.ball.y + (142.5 * game.scale) + this.move.velocity.y,
+			ball = {
+				x: this.ball.x + this.velocity.x,
+				y: this.ball.y + this.velocity.y,
 				radius: this.ball.radius
 			};
-			
+
 			// Returns object of details of collision point if true
-			if ( game.util.isColliding( ball, game.platforms[i])){
-				console.log(game.platforms[i]);
+			spot = SAY.game.util.isColliding( ball, game.platforms[i] );
+			collision = ( spot === false ? false : spot);
+
+			if ( collision ){
+				console.log(collision);
 			} else {
 				// Move to new location since we didn't collide
-				this.y += this.move.velocity.y;
-				this.ball.y += this.move.velocity.y;
-				this.x += this.move.velocity.x;
-				this.ball.x += this.move.velocity.x;
+				this.y += this.velocity.y;
+				this.ball.y += this.velocity.y;
+
+				this.x += this.velocity.x;
+				this.ball.x += this.velocity.x;
 			}
 		}
 

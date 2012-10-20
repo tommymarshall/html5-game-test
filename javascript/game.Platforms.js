@@ -13,17 +13,17 @@ var SAY = SAY || {};
 	game.Platform.prototype.init = function( data ){
 
 		// Location
-		this.x = data.x || 0;
-		this.y = data.y || 0;
-		this.width = data.width || 100;
-		this.height = data.height || 100;
+		this.x = data.x;
+		this.y = data.y;
+		this.width = data.width;
+		this.height = data.height;
 
 		// Build rectangle
 		this.graphics
 			.beginFill('rgba(255,0,0,1)')
 			.drawRect(0, 0, this.width, this.height);
 
-		return this;
+		game.stage.addChild(this);
 	};
 
 })();

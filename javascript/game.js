@@ -37,7 +37,7 @@ var SAY = SAY || {};
 			game.current = 0;
 
 			// Scale
-			game.scale = 1;
+			game.scale = 0.4;
 
 			// Integer of Score
 			game.score = 0;
@@ -78,8 +78,8 @@ var SAY = SAY || {};
 
 					// Start
 					case 0:
-						// Create Hero
 
+						// Create Hero
 						var heroData = {
 							x: 500,
 							y: 200,
@@ -97,9 +97,25 @@ var SAY = SAY || {};
 							x: 300,
 							y: 550,
 							width: 800,
-							height: 100
+							height: 50
 						};
 						var platform = new game.Platform(platformData);
+						game.platforms.push(platform);
+						platformData = {
+							x: 200,
+							y: 450,
+							width: 400,
+							height: 30
+						};
+						platform = new game.Platform(platformData);
+						game.platforms.push(platform);
+						platformData = {
+							x: 100,
+							y: 250,
+							width: 400,
+							height: 10
+						};
+						platform = new game.Platform(platformData);
 						game.platforms.push(platform);
 					break;
 
