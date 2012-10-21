@@ -300,8 +300,7 @@ var SAY = SAY || {};
 			}
 		}
 		var ball;
-		var spot;
-		var collision = true;
+		var collision = false;
 
 		// Check if colliding
 		for (var i = 0; i < game.platforms.length; i++){
@@ -314,19 +313,24 @@ var SAY = SAY || {};
 			};
 
 			// Returns object of details of collision point if true
-			spot = SAY.game.util.isColliding( ball, game.platforms[i] );
-			collision = ( spot === false ? false : spot);
-
-			if ( collision ){
-				console.log(collision);
+			collision = SAY.game.util.isColliding( ball, game.platforms[i] );
+			
+			// Returns false on first collision, but need to
+			// take into account 2 collisions, X and Y of all
+			// collidable objects.
+			if ( collision !== false ){
+				break;
 			} else {
 				// Move to new location since we didn't collide
-				this.y += this.velocity.y;
-				this.ball.y += this.velocity.y;
-
-				this.x += this.velocity.x;
-				this.ball.x += this.velocity.x;
 			}
+		}
+
+		if ( collision === false ){
+			this.y += this.velocity.y;
+			this.ball.y += this.velocity.y;
+
+			this.x += this.velocity.x;
+			this.ball.x += this.velocity.x;
 		}
 
 	};

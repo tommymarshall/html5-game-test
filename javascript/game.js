@@ -82,7 +82,7 @@ var SAY = SAY || {};
 						// Create Hero
 						var heroData = {
 							x: 500,
-							y: 200,
+							y: 50,
 							controls: {
 								left: [ 37, 65 ],
 								right: [ 39, 68 ],
@@ -93,29 +93,39 @@ var SAY = SAY || {};
 						game.hero = new game.Hero(heroData);
 
 						// Create Platform
-						var platformData = {
+						var platformData;
+						var platform;
+						platformData = {
+							name: 'platform 1',
 							x: 300,
 							y: 550,
-							width: 800,
+							width: 50,
 							height: 50
 						};
-						var platform = new game.Platform(platformData);
+						platform = new game.Platform(platformData);
+						console.log(platform.width);
 						game.platforms.push(platform);
+
 						platformData = {
+							name: 'platform 2',
 							x: 200,
 							y: 450,
-							width: 400,
-							height: 30
+							width: 150,
+							height: 50
 						};
 						platform = new game.Platform(platformData);
+						console.log(platform.width);
 						game.platforms.push(platform);
+
 						platformData = {
+							name: 'platform 3',
 							x: 100,
 							y: 250,
-							width: 400,
-							height: 10
+							width: 300,
+							height: 50
 						};
 						platform = new game.Platform(platformData);
+						console.log(platform.width);
 						game.platforms.push(platform);
 					break;
 

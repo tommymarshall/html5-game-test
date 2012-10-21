@@ -11,7 +11,6 @@ var SAY = SAY || {};
 	game.Platform.prototype = new Shape();
 
 	game.Platform.prototype.init = function( data ){
-
 		// Location
 		this.x = data.x;
 		this.y = data.y;
@@ -21,7 +20,7 @@ var SAY = SAY || {};
 		// Build rectangle
 		this.graphics
 			.beginFill('rgba(255,0,0,1)')
-			.drawRect(0, 0, this.width, this.height);
+			.drawRect(0, 0, data.width, data.height);
 
 		game.stage.addChild(this);
 	};
