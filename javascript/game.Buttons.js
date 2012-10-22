@@ -8,25 +8,21 @@ var SAY = SAY || {};
 		this.init( data );
 	};
 
-	game.Button.prototype = new Shape();
+	game.Button.prototype = new Text();
 
 	game.Button.prototype.init = function( data ){
+		this.setData(data);
+		this.output();
+	};
 
-		var a = new Text(data.text, data.font, data.color);
-		a.x = data.x;
-		a.y = data.y;
-		a.width = data.width;
-		a.height = data.height;
-		a.textAlign = 'center';
+	game.Button.prototype.output = function(){
+		game.stage.addChild(this);
+	};
 
-		var mouseUp = function(){
-			console.log(data.action);
-		};
-
-		a.onClick = mouseUp;
-
-		game.stage.addChild(a);
-
+	game.Button.prototype.setData = function( data ){
+		for(var key in data){
+			this[key] = data[key];
+		}
 	};
 
 })();

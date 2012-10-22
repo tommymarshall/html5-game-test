@@ -12,9 +12,8 @@ var SAY = SAY || {};
 
 	game.Platform.prototype.init = function( data ){
 		this.setData(data);
-		this.tick();
+		this.draw();
 		this.stage.addChild(this);
-		console.log(this.stage);
 	};
 
 	game.Platform.prototype.setData = function( data ){
@@ -23,12 +22,11 @@ var SAY = SAY || {};
 		}
 	};
 
-	game.Platform.prototype.tick = function() {
+	game.Platform.prototype.draw = function() {
 		// Build rectangle
-
-		this.graphics.beginFill(this.color);
-		this.graphics.drawRect(0, 0, this.width, this.height);
-		this.graphics.endFill();
+		this.graphics
+			.beginFill(this.color)
+			.drawRect(0, 0, this.width, this.height);
 	};
 
 })();

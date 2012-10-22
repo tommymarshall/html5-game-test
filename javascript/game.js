@@ -83,11 +83,10 @@ var SAY = SAY || {};
 				};
 
 				game.hero = new game.Hero(heroData);
+				game.stage.addChild(game.hero);
 			},
 
 			begin: function(){
-
-				this.createHero();
 
 				// Get Current Level
 				switch (game.current){
@@ -109,100 +108,100 @@ var SAY = SAY || {};
 						game.stage.addChild(bg2);
 
 						// Say Viget
-						var a = new Text('S  A  Y    V  I  G  E  T', '6em Futura-Book', '#fff');
+						var a = new Text('S  A  Y    V  I  G  E  T', '5em Futura-Book', '#fff');
 						a.x = game.canvas.width/2 - 50;
 						a.y = game.canvas.height/3;
 						a.textAlign = 'center';
 						game.stage.addChild(a);
 
-						var sayitData = {
-							bg: '#fab9fa',
+						var sayIt = new game.Button({
 							color: '#fff',
-							font: '2em Futura-Book',
+							textAlign: 'center',
+							font: '1em Futura-Book',
 							text: 'S  A  Y     I  T',
 							x: game.canvas.width/2,
 							y: game.canvas.height/3 + 130,
-							action: function(){
+							onClick: function(){
 								console.log('clicked SAY IT');
 							}
-						};
-						var sayit = new game.Button(sayitData);
+						});
 
-						var startGameData = {
-							bg: '#fab9fa',
+						var startGame = new game.Button({
 							color: '#fff',
-							font: '2em Futura-Book',
+							textAlign: 'center',
+							font: '1em Futura-Book',
 							text: 'S  T  A  R  T     G  A  M  E',
 							x: game.canvas.width/2,
-							y: game.canvas.height/3 + 230,
-							action: function(){
+							y: game.canvas.height/3 + 180,
+							onClick: function(){
 								console.log('clicked START GAME');
 							}
-						};
+						});
 
-						var startGame = new game.Button(startGameData);
 
 						// Start off hero
+						this.createHero();
 						game.hero.position({
 							x: game.canvas.width/2,
 							y: game.canvas.height/2+250
 						});
-
-						game.hero.gotoAndPlay('run');
 
 					break;
 
 					// Level 1
 					case 1:
 
+						// Background
+						var bg3 = new Shape();
+						bg3.graphics
+							.beginFill('#20abdc')
+							.drawRect(0, 0, game.canvas.width, game.canvas.height);
+						game.stage.addChild(bg3);
+
+						var bg4 = new Shape();
+						bg4.graphics
+							.beginFill('#38b2df')
+							.drawRect(0, game.canvas.height/2+100, game.canvas.width, game.canvas.height);
+						game.stage.addChild(bg4);
+
+
 						// Start off hero
+						this.createHero();
 						game.hero.position({
 							x: game.canvas.width/2,
 							y: 50
 						});
 
 						// Create Platform
-						var platformData;
-						var platform;
-						platformData = {
-							name: 'platform 1',
-							x: 800,
-							y: 550,
-							color: 'red',
-							stage: game.stage,
-							width: 50,
-							height: 50
-						};
-						platform = new game.Platform(platformData);
-						console.log(platform.width);
-						game.platforms.push(platform);
-
-						platformData = {
-							name: 'platform 2',
-							x: 200,
-							y: 450,
-							color: 'blue',
-							stage: game.stage,
-							width: 150,
-							height: 50
-						};
-						platform = new game.Platform(platformData);
-						console.log(platform.width);
-						game.platforms.push(platform);
-
-						platformData = {
-							name: 'platform 3',
-							x: 800,
-							y: 250,
-							color: 'green',
-							stage: game.stage,
-							width: 300,
-							height: 50
-						};
-						platform = new game.Platform(platformData);
-						console.log(platform.width);
-						game.platforms.push(platform);
-
+						game.platforms = [
+							new game.Platform({
+								name: 'platform 1',
+								x: 400,
+								y: 550,
+								color: 'red',
+								stage: game.stage,
+								width: 50,
+								height: 50
+							}),
+							new game.Platform({
+								name: 'platform 2',
+								x: 200,
+								y: 450,
+								color: 'blue',
+								stage: game.stage,
+								width: 150,
+								height: 50
+							}),
+							new game.Platform({
+								name: 'platform 3',
+								x: 300,
+								y: 250,
+								color: 'green',
+								stage: game.stage,
+								width: 300,
+								height: 50
+							})
+						];
 					break;
 					
 					// Level 2
@@ -232,7 +231,10 @@ var SAY = SAY || {};
 		render: function(){
 			var tick = function(e){
 				game.stage.update();
-				game.hero.tick();
+
+				if (game.current === 0){
+					game.hero.startRunning();
+				}
 			};
 
 			Ticker.setFPS(60);

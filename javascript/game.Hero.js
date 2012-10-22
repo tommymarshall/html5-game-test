@@ -190,6 +190,20 @@ var SAY = SAY || {};
 		this.ball.y = data.y + (142.5 * game.scale);
 	};
 
+	game.Hero.prototype.startRunning = function( data ){
+		// Rotate ball clockwise
+		if (this.currentAnimation !== "run"){
+			this.gotoAndPlay('run');
+		}
+
+		if (this.ball.rotating.speed < 8){
+			this.ball.rotating.speed += 0.08;
+		}
+
+		this.ball.rotating.deg += this.ball.rotating.speed;
+		this.ball.rotation = this.ball.rotating.deg;
+	};
+
 	game.Hero.prototype.tick = function(){
 		// If the user is currently pressing left or right
 		if (this.keydown){
