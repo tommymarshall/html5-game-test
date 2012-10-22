@@ -11,18 +11,24 @@ var SAY = SAY || {};
 	game.Platform.prototype = new Shape();
 
 	game.Platform.prototype.init = function( data ){
-		// Location
-		this.x = data.x;
-		this.y = data.y;
-		this.width = data.width;
-		this.height = data.height;
+		this.setData(data);
+		this.tick();
+		this.stage.addChild(this);
+		console.log(this.stage);
+	};
 
+	game.Platform.prototype.setData = function( data ){
+		for(var key in data){
+			this[key] = data[key];
+		}
+	};
+
+	game.Platform.prototype.tick = function() {
 		// Build rectangle
-		this.graphics
-			.beginFill('rgba(255,0,0,1)')
-			.drawRect(0, 0, data.width, data.height);
 
-		game.stage.addChild(this);
+		this.graphics.beginFill(this.color);
+		this.graphics.drawRect(0, 0, this.width, this.height);
+		this.graphics.endFill();
 	};
 
 })();

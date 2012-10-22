@@ -182,6 +182,14 @@ var SAY = SAY || {};
 		
 	};
 
+	game.Hero.prototype.position = function( data ){
+		this.x = data.x;
+		this.ball.x = data.x;
+
+		this.y = data.y;
+		this.ball.y = data.y + (142.5 * game.scale);
+	};
+
 	game.Hero.prototype.tick = function(){
 		// If the user is currently pressing left or right
 		if (this.keydown){
