@@ -50,25 +50,29 @@ var SAY = SAY || {};
 				var a = 0;
 				var b = 0;
 				var t2 = 0;
-				var t;
+				var t = 0;
+				var spot = 0;
 
 				if ( topLeft || topRight || bottomLeft || bottomRight) {
-					// Is in the same corner area
 					if (topLeft) {
 						a = (r.x - c.x);
 						b = (r.y - c.y);
+						spot = 1;
 					}
 					if (topRight) {
 						a = (r.x + r.width - c.x);
 						b = (r.y - c.y);
+						spot = 2;
 					}
 					if (bottomLeft) {
 						a = (r.x - c.x);
 						b = (r.y + r.height - c.y);
+						spot = 3;
 					}
 					if (bottomRight) {
 						a = (r.x + r.width - c.x);
 						b = (r.y + r.height - c.y);
+						spot = 4;
 					}
 
 					t2 = (a*a) + (b*b);
@@ -84,7 +88,8 @@ var SAY = SAY || {};
 					y: (c.y + b),
 					a: Math.abs(a),
 					b: Math.abs(b),
-					t: t
+					t: t,
+					spot: spot
 				};
 			}
 

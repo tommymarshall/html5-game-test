@@ -12,10 +12,6 @@ var SAY = SAY || {};
 
 	game.Button.prototype.init = function( data ){
 		this.setData(data);
-		this.output();
-	};
-
-	game.Button.prototype.output = function(){
 		game.stage.addChild(this);
 	};
 

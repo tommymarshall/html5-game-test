@@ -12,7 +12,7 @@ var SAY = SAY || {};
 
 	game.Platform.prototype.init = function( data ){
 		this.setData(data);
-		this.draw();
+		this.output();
 		this.stage.addChild(this);
 	};
 
@@ -22,9 +22,13 @@ var SAY = SAY || {};
 		}
 	};
 
-	game.Platform.prototype.draw = function() {
+	game.Platform.prototype.output = function() {
 		// Build rectangle
 		this.graphics
+			.beginFill('rgba(28,142,206,0.8)')
+			.moveTo(-50, 50)
+			.lineTo(this.width, this.height)
+			.lineTo(0, 0)
 			.beginFill(this.color)
 			.drawRect(0, 0, this.width, this.height);
 	};

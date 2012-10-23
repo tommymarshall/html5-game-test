@@ -37,7 +37,7 @@ var SAY = SAY || {};
 			game.current = 1;
 
 			// Scale
-			game.scale = 0.6;
+			game.scale = 0.4;
 
 			// Integer of Score
 			game.score = 0;
@@ -61,8 +61,8 @@ var SAY = SAY || {};
 
 			canvas: function(){
 				game.canvas = document.getElementById('stage');
-				game.canvas.width = window.innerWidth;
-				game.canvas.height = window.innerHeight;
+				game.canvas.width = window.innerWidth - 30;
+				game.canvas.height = window.innerHeight - 30;
 			},
 
 			stage: function(){
@@ -138,7 +138,6 @@ var SAY = SAY || {};
 							}
 						});
 
-
 						// Start off hero
 						this.createHero();
 						game.hero.position({
@@ -152,23 +151,16 @@ var SAY = SAY || {};
 					case 1:
 
 						// Background
-						var bg3 = new Shape();
-						bg3.graphics
+						game.bg3 = new Shape();
+						game.bg3.graphics
 							.beginFill('#20abdc')
 							.drawRect(0, 0, game.canvas.width, game.canvas.height);
-						game.stage.addChild(bg3);
-
-						var bg4 = new Shape();
-						bg4.graphics
-							.beginFill('#38b2df')
-							.drawRect(0, game.canvas.height/2+100, game.canvas.width, game.canvas.height);
-						game.stage.addChild(bg4);
-
+						game.stage.addChild(game.bg3);
 
 						// Start off hero
 						this.createHero();
 						game.hero.position({
-							x: game.canvas.width/2,
+							x: game.canvas.width/4,
 							y: 50
 						});
 
@@ -176,32 +168,24 @@ var SAY = SAY || {};
 						game.platforms = [
 							new game.Platform({
 								name: 'platform 1',
-								x: 400,
-								y: 550,
-								color: 'red',
-								stage: game.stage,
-								width: 50,
-								height: 50
-							}),
-							new game.Platform({
-								name: 'platform 2',
 								x: 200,
-								y: 450,
-								color: 'blue',
+								y: 650,
+								color: '#fff',
 								stage: game.stage,
-								width: 150,
-								height: 50
+								width: 800,
+								height: 10
 							}),
 							new game.Platform({
-								name: 'platform 3',
-								x: 300,
-								y: 250,
-								color: 'green',
+								name: 'platform 1',
+								x: 600,
+								y: 450,
+								color: '#fff',
 								stage: game.stage,
 								width: 300,
-								height: 50
+								height: 10
 							})
 						];
+						
 					break;
 					
 					// Level 2
@@ -223,7 +207,6 @@ var SAY = SAY || {};
 			},
 
 			start: function(){
-				// Start
 				game.Level.start();
 			}
 		},
@@ -234,6 +217,14 @@ var SAY = SAY || {};
 
 				if (game.current === 0){
 					game.hero.startRunning();
+				} else if (game.current === 1){
+					game.hero.tick();
+					//game.platforms[0].x += 1;
+				}
+
+				if (game.hero.x > game.canvas.width*0.3){
+					game.stage.x = -game.hero.x + game.canvas.width*0.3;
+					game.bg3.x = game.hero.x - game.canvas.width*0.3;
 				}
 			};
 

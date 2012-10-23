@@ -10,7 +10,7 @@ var SAY = SAY || {};
 			"idle": [0, 27, "idle", 3],
 			"run": [29, 47, "run", 2],
 			"stop": [59, 86, "idle", 2],
-			"jump": [87, 116, "idle", 3]
+			"jump": [87, 116, false, 2]
 		},
 			"images": ["./images/rat_sprite_full.png"],
 			"frames":
@@ -49,13 +49,17 @@ var SAY = SAY || {};
 		// Controls
 		this.controls = {
 			right: data.controls.right,
-			left: data.controls.left
+			left: data.controls.left,
+			jump: data.controls.jump
 		};
 
 		// Direction
 		this.direction = {
 			prev: null
 		};
+
+		// Facing
+		this.facing = null;
 
 		this.move = {
 			right: null,
@@ -121,22 +125,24 @@ var SAY = SAY || {};
 
 	};
 
-	game.Hero.prototype.move = function( direction ){
-
-		// handle moving both rat and the ball
-
-	};
-
 	game.Hero.prototype.binds = function(){
 		var self = this;
 		var stoppingAnimation = function(e){
 			switch (self.direction.prev){
 				case "right":
-					self.gotoAndPlay("stop");
+					if (self.ball.rotating.speed > 3){
+						self.gotoAndPlay("stop");
+					} else {
+						self.gotoAndPlay("idle");
+					}
 				break;
 
 				case "left":
-					self.gotoAndPlay("stop_h");
+					if (self.ball.rotating.speed > 3){
+						self.gotoAndPlay("stop_h");
+					} else {
+						self.gotoAndPlay("idle_h");
+					}
 				break;
 				
 				default:
@@ -152,6 +158,8 @@ var SAY = SAY || {};
 					self.move.right = true;
 				} else if (self.controls.left.contains(e.which)){
 					self.move.left = true;
+				} else if (self.controls.jump.contains(e.which)) {
+					self.jump();
 				}
 			}
 		};
@@ -159,9 +167,9 @@ var SAY = SAY || {};
 		{
 			self.keydown = self.move.left = self.move.right = false;
 			if (self.controls.right.contains(e.which)){
-				self.direction.prev = "right";
+				self.direction.prev = self.facing = "right";
 			} else if (self.controls.left.contains(e.which)){
-				self.direction.prev = "left";
+				self.direction.prev = self.facing = "left";
 			}
 
 			stoppingAnimation();
@@ -204,6 +212,17 @@ var SAY = SAY || {};
 		this.ball.rotation = this.ball.rotating.deg;
 	};
 
+	game.Hero.prototype.jump = function() {
+		this.velocity.y = -31;
+		// Fix this.
+		if (this.facing === "right"){
+			this.gotoAndPlay("jump");
+		} else if (this.facing === "left"){
+			this.gotoAndPlay("jump_h");
+		}
+		
+	};
+
 	game.Hero.prototype.tick = function(){
 		// If the user is currently pressing left or right
 		if (this.keydown){
@@ -212,7 +231,6 @@ var SAY = SAY || {};
 			{
 				this.move.by.x += 0.1;
 			}
-
 
 			if (this.move.right){
 
@@ -341,13 +359,30 @@ var SAY = SAY || {};
 			// take into account 2 collisions, X and Y of all
 			// collidable objects.
 			if ( collision !== false ){
+
+				// Colliding on angle
+				if (collision.a !== 0){
+					this.position({
+						x: this.ball.x,
+						y: (game.platforms[i].y - ball.radius*2)
+					});
+				} else {
+					this.position({
+						x: this.ball.x,
+						y: (game.platforms[i].y - ball.radius*2)
+					});
+				}
+
 				break;
-			} else {
-				// Move to new location since we didn't collide
 			}
 		}
-
 		if ( collision === false ){
+
+			if (this.velocity.y < 100)
+			{
+				this.velocity.y += 1.1;
+			}
+
 			this.y += this.velocity.y;
 			this.ball.y += this.velocity.y;
 
