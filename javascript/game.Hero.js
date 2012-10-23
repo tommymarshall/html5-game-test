@@ -95,15 +95,18 @@ var SAY = SAY || {};
 
 		this.ball = new Shape();
 
-		// Build the ball
-		this.ball.graphics
-			.beginFill('rgba(255,255,255,0.75)')
-			.arc(0, 0, 47.5, 180, Math.PI)
-			.beginFill('rgba(255,255,255,255,0.65)')
-			.arc(0, 0, 47.5, 0, Math.PI);
-
 		// Radius
 		this.ball.radius = 47.5;
+
+		// Build the ball
+		this.ball.graphics
+			.beginStroke('#fff')
+			.setStrokeStyle(3)
+			.beginFill('rgba(255,255,255,0.75)')
+			.arc(0, 0, this.ball.radius, 180, Math.PI)
+			.beginFill('rgba(255,255,255,255,0.65)')
+			.arc(0, 0, this.ball.radius, 0, Math.PI)
+			.endStroke();
 
 		// Starting location
 		this.ball.x = this.x;
@@ -335,10 +338,13 @@ var SAY = SAY || {};
 			}
 
 			if (Math.abs(this.move.by.x) > 0){
+					
 				if (this.direction.prev === "left"){
-					this.move.by.x += 0.1;
+					// Gradually slow down movement
+					this.x = this.ball.x -= 1.1;
 				} else if (this.direction.prev === "right"){
-					this.move.by.x -= 0.1;
+					// Gradually slow down movement
+					this.x = this.ball.x -= 1.1;
 				}
 			}
 		}
@@ -380,11 +386,10 @@ var SAY = SAY || {};
 				break;
 			}
 		}
-		if ( collision === false ){
 
-			if (this.move.by.y < 100)
-			{
-				this.velocity.y += 1.1;
+		if ( collision === false ){
+			if (this.move.by.y < 100){
+				this.velocity.y += this.move.by.y = 1.1;
 			}
 
 			this.y += this.velocity.y;
