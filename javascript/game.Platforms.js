@@ -10,13 +10,21 @@ var SAY = SAY || {};
 
 	game.Platform.prototype = new Shape();
 
-	//unique to avoid overiding base class
+	// Unique to avoid overiding base class
 	game.Platform.prototype.Shape_initialize = game.Platform.prototype.initialize;
 
 	game.Platform.prototype.initialize = function( data ){
 		this.Shape_initialize();
 		this.setData(data);
 		this.output();
+
+		// Override because we're building!
+		this.moveable = true;
+
+		if (this.moveable){
+			SAY.game.util.movable(this);
+		}
+
 		this.stage.addChild(this);
 	};
 

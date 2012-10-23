@@ -36,9 +36,6 @@ var SAY = SAY || {};
 			// Integer of Level
 			game.current = 1;
 
-			// Scale
-			game.scale = 0.4;
-
 			// Integer of Score
 			game.score = 0;
 
@@ -176,12 +173,21 @@ var SAY = SAY || {};
 								height: 10
 							}),
 							new game.Platform({
-								name: 'platform 1',
+								name: 'platform 2',
 								x: 600,
 								y: 450,
 								color: '#fff',
 								stage: game.stage,
 								width: 300,
+								height: 10
+							}),
+							new game.Platform({
+								name: 'platform 3',
+								x: 1000,
+								y: 850,
+								color: '#fff',
+								stage: game.stage,
+								width: 200,
 								height: 10
 							})
 						];

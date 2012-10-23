@@ -12,12 +12,12 @@ var SAY = SAY || {};
 			"stop": [59, 86, "idle", 2],
 			"jump": [87, 116, false, 2]
 		},
-			"images": ["./images/rat_sprite_full.png"],
+			"images": ["./images/rat_sprite_full_small.png"],
 			"frames":
 				{
-					"height": 284,
-					"width": 285,
-					"regX": 142.5,
+					"height": 94.5,
+					"width": 95,
+					"regX": 47.5,
 					"regY": 0,
 					"count": 116
 				}
@@ -39,9 +39,6 @@ var SAY = SAY || {};
 		// Location
 		this.x = data.x || 0;
 		this.y = data.y || 0;
-
-		// Scaling
-		this.scaleX = this.scaleY = game.scale;
 
 		// Size
 		this.radius = data.radius || 0;
@@ -101,25 +98,22 @@ var SAY = SAY || {};
 		// Build the ball
 		this.ball.graphics
 			.beginFill('rgba(255,255,255,0.75)')
-			.arc(0, 0, 142.5, 180, Math.PI)
+			.arc(0, 0, 47.5, 180, Math.PI)
 			.beginFill('rgba(255,255,255,255,0.65)')
-			.arc(0, 0, 142.5, 0, Math.PI);
+			.arc(0, 0, 47.5, 0, Math.PI);
 
 		// Radius
-		this.ball.radius = 142.5 * game.scale;
+		this.ball.radius = 47.5;
 
 		// Starting location
 		this.ball.x = this.x;
-		this.ball.y = this.y + (142.5 * game.scale);
+		this.ball.y = this.y + 47.5;
 
 		// Rotation
 		this.ball.rotating = {
 			speed: 0,
 			deg: 0
 		};
-
-		// Scaling
-		this.ball.scaleX = this.ball.scaleY = game.scale;
 
 		game.stage.addChild(this.ball);
 
@@ -152,7 +146,6 @@ var SAY = SAY || {};
 		};
 		var handleKeyDown = function(e)
 		{
-			if ( !self.keydown ){
 				self.keydown = true;
 				if (self.controls.right.contains(e.which)){
 					self.move.right = true;
@@ -160,15 +153,16 @@ var SAY = SAY || {};
 					self.move.left = true;
 				} else if (self.controls.jump.contains(e.which)) {
 					self.jump();
+					console.log('jump!');
 				}
-			}
 		};
 		var handleKeyUp = function(e)
 		{
-			self.keydown = self.move.left = self.move.right = false;
 			if (self.controls.right.contains(e.which)){
+				self.move.right = false;
 				self.direction.prev = self.facing = "right";
 			} else if (self.controls.left.contains(e.which)){
+				self.move.left = false;
 				self.direction.prev = self.facing = "left";
 			}
 
@@ -195,7 +189,7 @@ var SAY = SAY || {};
 		this.ball.x = data.x;
 
 		this.y = data.y;
-		this.ball.y = data.y + (142.5 * game.scale);
+		this.ball.y = data.y + 47.5;
 	};
 
 	game.Hero.prototype.startRunning = function( data ){
@@ -225,14 +219,14 @@ var SAY = SAY || {};
 
 	game.Hero.prototype.tick = function(){
 		// If the user is currently pressing left or right
-		if (this.keydown){
-
-			if (this.move.by.x < 10)
-			{
-				this.move.by.x += 0.1;
-			}
+		if (this.move.right || this.move.left){
 
 			if (this.move.right){
+
+				if (Math.abs(this.move.by.x) < 10)
+				{
+					this.move.by.x += 0.1;
+				}
 
 				// Move both the rat and the ball
 				this.x += this.move.by.x;
@@ -259,9 +253,14 @@ var SAY = SAY || {};
 
 			} else if (this.move.left){
 
+				if (Math.abs(this.move.by.x) < 10)
+				{
+					this.move.by.x -= 0.1;
+				}
+
 				// Move both the rat and the ball
-				this.x -= this.move.by.x;
-				this.ball.x -= this.move.by.x;
+				this.x += this.move.by.x;
+				this.ball.x += this.move.by.x;
 
 				// Rotate ball counter-clockwise
 
@@ -335,10 +334,15 @@ var SAY = SAY || {};
 
 			}
 
-			if (this.move.by.x > 0){
-				this.move.by.x -= 0.1;
+			if (Math.abs(this.move.by.x) > 0){
+				if (this.direction.prev === "left"){
+					this.move.by.x += 0.1;
+				} else if (this.direction.prev === "right"){
+					this.move.by.x -= 0.1;
+				}
 			}
 		}
+
 		var ball;
 		var collision = false;
 
@@ -378,7 +382,7 @@ var SAY = SAY || {};
 		}
 		if ( collision === false ){
 
-			if (this.velocity.y < 100)
+			if (this.move.by.y < 100)
 			{
 				this.velocity.y += 1.1;
 			}
