@@ -5,12 +5,16 @@ var SAY = SAY || {};
 	var game = SAY.game;
 
 	game.Platform = function( data ) {
-		this.init( data );
+		this.initialize( data );
 	};
 
 	game.Platform.prototype = new Shape();
 
-	game.Platform.prototype.init = function( data ){
+	//unique to avoid overiding base class
+	game.Platform.prototype.Shape_initialize = game.Platform.prototype.initialize;
+
+	game.Platform.prototype.initialize = function( data ){
+		this.Shape_initialize();
 		this.setData(data);
 		this.output();
 		this.stage.addChild(this);
@@ -25,7 +29,7 @@ var SAY = SAY || {};
 	game.Platform.prototype.output = function() {
 		// Build rectangle
 		this.graphics
-			.beginFill('rgba(28,142,206,0.8)')
+			.beginFill('rgba(28,142,206,0.5)')
 			.moveTo(-50, 50)
 			.lineTo(this.width, this.height)
 			.lineTo(0, 0)
