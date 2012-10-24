@@ -87,6 +87,24 @@ var SAY = SAY || {};
 		},
 
 		swipeScreen: function(){
+
+			var onComplete = function(){
+				game.current = 1;
+				game.stage.clear();
+				game.begin();
+			};
+
+			var s5 = new Shape();
+			s5.graphics
+				.beginFill('#1a93bc')
+				.drawRect(
+					0,
+					0,
+					game.canvas.width,
+					game.canvas.height
+				);
+			game.stage.addChild(s5);
+
 			var s1 = new Shape();
 			s1.graphics
 				.beginFill('#43b8e0')
@@ -139,13 +157,6 @@ var SAY = SAY || {};
 
 			game.stage.addChild(s4);
 
-
-			var onComplete = function(){
-				game.current = 1;
-				game.stage.clear();
-				game.begin();
-			};
-
 			Tween.get(s1)
 				.to({
 					x: 0,
@@ -178,7 +189,7 @@ var SAY = SAY || {};
 					x: game.canvas.width/0.75,
 					skewX: 45
 				},400, Ease.cubicOut)
-				.wait(500)
+				.wait(400)
 				.to({alpha:0,visible:false},1000)
 				.call(onComplete);
 
@@ -318,6 +329,7 @@ var SAY = SAY || {};
 						y: game.canvas.height * 0.47 + 200
 					});
 
+
 				break;
 
 				// Level 1
@@ -338,7 +350,6 @@ var SAY = SAY || {};
 							x: 200,
 							y: 650,
 							color: '#fff',
-							stage: game.stage,
 							width: 800,
 							height: 10
 						}),
@@ -347,7 +358,6 @@ var SAY = SAY || {};
 							x: 600,
 							y: 450,
 							color: '#fff',
-							stage: game.stage,
 							width: 300,
 							height: 10
 						}),
@@ -356,7 +366,6 @@ var SAY = SAY || {};
 							x: 1000,
 							y: 850,
 							color: '#fff',
-							stage: game.stage,
 							width: 200,
 							height: 10
 						})
@@ -368,7 +377,23 @@ var SAY = SAY || {};
 						x: game.canvas.width/4,
 						y: 50
 					});
-					
+
+
+					var s5 = new Shape();
+					s5.graphics
+						.beginFill('#1a93bc')
+						.drawRect(
+							0,
+							0,
+							game.canvas.width,
+							game.canvas.height
+						);
+					game.stage.addChild(s5);
+
+					Tween.get(s5)
+						.wait(500)
+						.to({alpha:0,visible:false},1000);
+
 				break;
 				
 				// Level 2

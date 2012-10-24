@@ -32,8 +32,6 @@ var SAY = SAY || {};
 	game.Hero.prototype = new BitmapAnimation( ss );
 
 	game.Hero.prototype.init = function( data ){
-		data = data || {};
-
 		// Flip frames
 		SpriteSheetUtils.addFlippedFrames(ss, true, false, false);
 
@@ -88,17 +86,14 @@ var SAY = SAY || {};
 	game.Hero.prototype.ball = function(){
 		this.ball = new Shape();
 
-		// Radius
-		this.ball.radius = RADIUS;
-
 		// Build the ball
 		this.ball.graphics
 			.beginStroke('#fff')
 			.setStrokeStyle(3)
 			.beginFill('rgba(255,255,255,0.75)')
-			.arc(0, 0, this.ball.radius, 180, Math.PI)
+			.arc(0, 0, RADIUS, 180, Math.PI)
 			.beginFill('rgba(255,255,255,255,0.65)')
-			.arc(0, 0, this.ball.radius, 0, Math.PI)
+			.arc(0, 0, RADIUS, 0, Math.PI)
 			.endStroke();
 
 		// Starting location
@@ -316,7 +311,7 @@ var SAY = SAY || {};
 			ball = {
 				x: this.ball.x + this.velocity.x,
 				y: this.ball.y + this.velocity.y,
-				radius: this.ball.radius
+				radius: RADIUS
 			};
 
 			// Returns object of details of collision point if true
@@ -329,7 +324,7 @@ var SAY = SAY || {};
 
 				// Colliding on angle
 				// Fix this later
-				if (collision.a !== 0){
+				if (collision.b !== 0){
 					this.position({
 						x: this.ball.x,
 						y: (game.platforms[i].y - RADIUS*2)
