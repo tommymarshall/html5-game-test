@@ -11,7 +11,7 @@ var SAY = SAY || {};
 			"idle": [0, 27, "idle", 3],
 			"run": [29, 47, "run", 2],
 			"stop": [59, 86, "idle", 2],
-			"jump": [87, 116, false, 2]
+			"jump": [87, 116, "idle", 2]
 		},
 			"images": ["./images/rat_sprite_full_small.png"],
 			"frames":
@@ -124,38 +124,29 @@ var SAY = SAY || {};
 	game.Hero.prototype.binds = function(){
 		var self = this;
 		var stoppingAnimation = function(e){
-			switch (self.direction.prev){
-				case "right":
-					if (self.ball.rotating.speed > 3){
-						self.gotoAndPlay("stop");
-					} else {
-						self.gotoAndPlay("idle");
-					}
-				break;
-
-				case "left":
-					if (Math.abs(self.ball.rotating.speed) > 3){
-						self.gotoAndPlay("stop_h");
-					} else {
-						self.gotoAndPlay("idle_h");
-					}
-				break;
-				
-				default:
+			if (self.direction.prev === "right"){
+				if (self.ball.rotating.speed > 3){
+					self.gotoAndPlay("stop");
+				} else {
 					self.gotoAndPlay("idle");
-				break;
+				}
+			} else if (self.direction.prev === "left"){
+				if (Math.abs(self.ball.rotating.speed) > 3){
+					self.gotoAndPlay("stop_h");
+				} else {
+					self.gotoAndPlay("idle_h");
+				}
 			}
 		};
+
 		var handleKeyDown = function(e)
 		{
-				self.keydown = true;
 				if (self.controls.right.contains(e.which)){
 					self.move.right = true;
 				} else if (self.controls.left.contains(e.which)){
 					self.move.left = true;
 				} else if (self.controls.jump.contains(e.which)) {
 					self.jump();
-					console.log('jump!');
 				}
 		};
 		var handleKeyUp = function(e)
@@ -242,7 +233,7 @@ var SAY = SAY || {};
 				// If previous direction (or currently clicked)
 				// direction is not right, show the animate right
 				// OR if the user started, stopped, and started again
-				if (this.direction.prev !== "right" || this.currentAnimation === "stop"){
+				if (this.direction.prev !== "right" || this.currentAnimation === "stop" || this.currentAnimation === "idle"){
 					this.gotoAndPlay("run");
 				}
 
@@ -272,7 +263,7 @@ var SAY = SAY || {};
 				// If previous direction (or currently clicked)
 				// direction is not left, show the animate left
 				// OR if the user started, stopped, and started again
-				if (this.direction.prev !== "left" || this.currentAnimation === "stop_h"){
+				if (this.direction.prev !== "left" || this.currentAnimation === "stop_h" || this.currentAnimation === "idle_h"){
 					this.gotoAndPlay("run_h");
 				}
 
@@ -305,9 +296,6 @@ var SAY = SAY || {};
 					this.x += this.move.by.x;
 					this.ball.x += this.move.by.x;
 
-				} else {
-					// Set previous to null, since we aren't moving
-					this.direction.prev = null;
 				}
 
 			} else if (this.direction.prev === "left"){
@@ -330,9 +318,6 @@ var SAY = SAY || {};
 					this.x += this.move.by.x;
 					this.ball.x += this.move.by.x;
 
-				} else {
-					// Set previous to null, since we aren't moving
-					this.direction.prev = null;
 				}
 
 			}
