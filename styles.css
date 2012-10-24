@@ -14,7 +14,6 @@ canvas {
 	display: block;
 	height: auto;
 	margin: 0 auto;
-	border: 30px solid #289fd6;
 }
 
 .pre-render-canvas {

@@ -10,7 +10,6 @@ var SAY = SAY || {};
 
 	game.Platform.prototype = new Shape();
 
-	// Unique to avoid overiding base class
 	game.Platform.prototype.Shape_initialize = game.Platform.prototype.initialize;
 
 	game.Platform.prototype.initialize = function( data ){
@@ -25,7 +24,7 @@ var SAY = SAY || {};
 			SAY.game.util.movable(this);
 		}
 
-		this.stage.addChild(this);
+		game.stage.addChild(this);
 	};
 
 	game.Platform.prototype.setData = function( data ){

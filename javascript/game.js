@@ -7,7 +7,7 @@ var SAY = SAY || {};
 		init: function(){
 			game.vars();
 			game.world.create();
-			game.run.begin();
+			game.begin();
 			game.render();
 		},
 
@@ -58,163 +58,239 @@ var SAY = SAY || {};
 
 			canvas: function(){
 				game.canvas = document.getElementById('stage');
-				game.canvas.width = window.innerWidth - 30;
-				game.canvas.height = window.innerHeight - 30;
+				game.canvas.width = window.innerWidth;
+				game.canvas.height = window.innerHeight;
 			},
 
 			stage: function(){
 				game.stage = new Stage(game.canvas);
+				game.stage.enableMouseOver();
 			}
+			
 		},
 
-		run: {
+		createHero: function(){
+			// Create Hero
+			var heroData = {
+				controls: {
+					left: [ 37, 65 ],
+					right: [ 39, 68 ],
+					jump: [ 32, 38, 40, 83, 87 ]
+				}
+			};
 
-			createHero: function(){
-				// Create Hero
-				var heroData = {
-					controls: {
-						left: [ 37, 65 ],
-						right: [ 39, 68 ],
-						jump: [ 32, 38, 40, 83, 87 ]
-					}
-				};
+			game.hero = new game.Hero(heroData);
+			game.stage.addChild(game.hero);
+		},
 
-				game.hero = new game.Hero(heroData);
-				game.stage.addChild(game.hero);
-			},
+		swipeScreen: function(){
+			game.stage.addChild(game.hero);
+		},
 
-			begin: function(){
+		begin: function(){
 
-				// Get Current Level
-				switch (game.current){
+			// Get Current Level
+			switch (game.current){
 
-					// Start
-					case 0:
+				// Start
+				case 0:
 
-						// Background
-						var bg = new Shape();
-						bg.graphics
-							.beginFill('#20abdc')
-							.drawRect(0, 0, game.canvas.width, game.canvas.height);
-						game.stage.addChild(bg);
+					// Backgrounds
+					game.backgrounds = [
+						new game.Background({
+							color: '#20abdc',
+							offsetY: 0
+						}),
+						new game.Background({
+							color: '#38b2df',
+							offsetY: game.canvas.height * 0.47
+						})
+					];
 
-						var bg2 = new Shape();
-						bg2.graphics
-							.beginFill('#38b2df')
-							.drawRect(0, game.canvas.height/2+100, game.canvas.width, game.canvas.height);
-						game.stage.addChild(bg2);
+					game.doodads.push(
+						new game.Crater({
+							color: '#37a9d4',
+							x: game.canvas.width/2,
+							y: game.canvas.height/2 + 55,
+							width: 300,
+							height: 30,
+							regX: 150
+						}),
+						new game.Crater({
+							color: '#37a9d4',
+							x: game.canvas.width/2,
+							y: game.canvas.height/2 + 266,
+							width: 80,
+							height: 16,
+							regX: 40
+						}),
+						new game.Crater({
+							color: '#37a9d4',
+							x: game.canvas.width/8,
+							y: game.canvas.height/2 + 65,
+							width: 70,
+							height: 14,
+							regX: 55
+						}),
+						new game.Crater({
+							color: '#37a9d4',
+							x: game.canvas.width/4,
+							y: game.canvas.height/2 + 115,
+							width: 40,
+							height: 8,
+							regX: 20
+						}),
+						new game.Crater({
+							color: '#37a9d4',
+							x: game.canvas.width/1.2,
+							y: game.canvas.height/2 + 70,
+							width: 50,
+							height: 10,
+							regX: 25
+						})
+					);
 
-						// Say Viget
-						var a = new Text('S  A  Y    V  I  G  E  T', '5em Futura-Book', '#fff');
-						a.x = game.canvas.width/2 - 50;
-						a.y = game.canvas.height/3;
-						a.textAlign = 'center';
-						game.stage.addChild(a);
+					// Say Viget
+					var logo = new Text('S  A  Y    V  I  G  E  T', '3.5em Futura-Book', '#fff');
+					logo.x = game.canvas.width/2;
+					logo.y = game.canvas.height * 0.47 - 150;
+					logo.textAlign = 'center';
+					game.stage.addChild(logo);
 
-						var sayIt = new game.Button({
+					new game.Button({
+						Text: {
 							color: '#fff',
 							textAlign: 'center',
 							font: '1em Futura-Book',
 							text: 'S  A  Y     I  T',
 							x: game.canvas.width/2,
-							y: game.canvas.height/3 + 130,
-							onClick: function(){
-								console.log('clicked SAY IT');
-							}
-						});
-
-						var startGame = new game.Button({
-							color: '#fff',
-							textAlign: 'center',
-							font: '1em Futura-Book',
-							text: 'S  T  A  R  T     G  A  M  E',
+							y: game.canvas.height * 0.47 - 32
+						},
+						Shape: {
 							x: game.canvas.width/2,
-							y: game.canvas.height/3 + 180,
+							y: game.canvas.height * 0.47 - 32,
+							width: 200,
+							height: 28,
+							regX: 100,
 							onClick: function(){
-								console.log('clicked START GAME');
+								console.log('SAY IT HOMIES!');
+								game.swipeScreen();
+							},
+							onMouseOver: function(e) {
+								document.body.style.cursor = 'pointer';
+							},
+							onMouseOut: function(e) {
+								document.body.style.cursor = 'default';
 							}
-						});
+						}
+					});
 
-						// Start off hero
-						this.createHero();
-						game.hero.position({
-							x: game.canvas.width/2,
-							y: game.canvas.height/2+250
-						});
-
-					break;
-
-					// Level 1
-					case 1:
-
-						// Background
-						game.bg3 = new Shape();
-						game.bg3.graphics
-							.beginFill('#20abdc')
-							.drawRect(0, 0, game.canvas.width, game.canvas.height);
-						game.stage.addChild(game.bg3);
-
-						// Start off hero
-						this.createHero();
-						game.hero.position({
-							x: game.canvas.width/4,
-							y: 50
-						});
-
-						// Create Platform
-						game.platforms = [
-							new game.Platform({
-								name: 'platform 1',
-								x: 200,
-								y: 650,
+					new game.Button(
+						{
+							Text: {
 								color: '#fff',
-								stage: game.stage,
-								width: 800,
-								height: 10
-							}),
-							new game.Platform({
-								name: 'platform 2',
-								x: 600,
-								y: 450,
-								color: '#fff',
-								stage: game.stage,
-								width: 300,
-								height: 10
-							}),
-							new game.Platform({
-								name: 'platform 3',
-								x: 1000,
-								y: 850,
-								color: '#fff',
-								stage: game.stage,
+								textAlign: 'center',
+								font: '1em Futura-Book',
+								text: 'S  T  A  R  T     G  A  M  E',
+								x: game.canvas.width/2,
+								y: game.canvas.height * 0.47 + 20
+							},
+							Shape: {
+								x: game.canvas.width/2,
+								y: game.canvas.height * 0.47 + 20,
 								width: 200,
-								height: 10
-							})
-						];
-						
-					break;
+								height: 28,
+								regX: 100,
+								onClick: function(){
+									game.current = 1;
+									game.stage.clear();
+									game.begin();
+								},
+								onMouseOver: function(e) {
+									document.body.style.cursor = 'pointer';
+								},
+								onMouseOut: function(e) {
+									document.body.style.cursor = 'default';
+								}
+							}
+						}
+					);
+
+					// Start off hero
+					game.createHero();
+					game.hero.position({
+						x: game.canvas.width/2,
+						y: game.canvas.height * 0.47 + 200
+					});
+
+				break;
+
+				// Level 1
+				case 1:
+
+					// Background
+					game.bg3 = new Shape();
+					game.bg3.graphics
+						.beginFill('#20abdc')
+						.drawRect(0, 0, game.canvas.width, game.canvas.height);
+					game.stage.addChild(game.bg3);
+
+					// Create Platform
+					game.platforms = [
+						new game.Platform({
+							name: 'platform 1',
+							x: 200,
+							y: 650,
+							color: '#fff',
+							stage: game.stage,
+							width: 800,
+							height: 10
+						}),
+						new game.Platform({
+							name: 'platform 2',
+							x: 600,
+							y: 450,
+							color: '#fff',
+							stage: game.stage,
+							width: 300,
+							height: 10
+						}),
+						new game.Platform({
+							name: 'platform 3',
+							x: 1000,
+							y: 850,
+							color: '#fff',
+							stage: game.stage,
+							width: 200,
+							height: 10
+						})
+					];
+
+					// Start off hero
+					game.createHero();
+					game.hero.position({
+						x: game.canvas.width/4,
+						y: 50
+					});
 					
-					// Level 2
-					case 2:
-						game.level = new game.Level({
-							assets: ['imgpath', 'imgpath2'],
-							backgrounds: [background_1],
-							platforms: []
-						});
-					break;
+				break;
+				
+				// Level 2
+				case 2:
+					game.level = new game.Level({
+						assets: ['imgpath', 'imgpath2'],
+						backgrounds: [background_1],
+						platforms: []
+					});
+				break;
 
-					default:
+				default:
 
-					break;
+				break;
 
-				}
-
-
-			},
-
-			start: function(){
-				game.Level.start();
 			}
+
+
 		},
 
 		render: function(){
@@ -225,12 +301,11 @@ var SAY = SAY || {};
 					game.hero.startRunning();
 				} else if (game.current === 1){
 					game.hero.tick();
-					//game.platforms[0].x += 1;
-				}
 
-				if (game.hero.x > game.canvas.width*0.3){
-					game.stage.x = -game.hero.x + game.canvas.width*0.3;
-					game.bg3.x = game.hero.x - game.canvas.width*0.3;
+					if (game.hero.x > game.canvas.width*0.3){
+						game.stage.x = -game.hero.x + game.canvas.width*0.3;
+						game.bg3.x = game.hero.x - game.canvas.width*0.3;
+					}
 				}
 			};
 

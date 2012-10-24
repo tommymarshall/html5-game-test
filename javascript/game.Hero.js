@@ -3,6 +3,7 @@ var SAY = SAY || {};
 (function(){
 
 	var game = SAY.game;
+	RADIUS = 47.5;
 
 	var ss = new SpriteSheet({
 		"animations":
@@ -17,7 +18,7 @@ var SAY = SAY || {};
 				{
 					"height": 94.5,
 					"width": 95,
-					"regX": 47.5,
+					"regX": RADIUS,
 					"regY": 0,
 					"count": 116
 				}
@@ -56,11 +57,11 @@ var SAY = SAY || {};
 		};
 
 		// Facing
-		this.facing = null;
+		this.facing = "right";
 
 		this.move = {
-			right: null,
-			left: null
+			right: false,
+			left: false
 		};
 
 		// Keydown
@@ -82,7 +83,6 @@ var SAY = SAY || {};
 
 		// Build the ball
 		this.ball();
-		this.tween = Object;
 
 		// Set default
 		this.gotoAndPlay("idle");
@@ -92,11 +92,10 @@ var SAY = SAY || {};
 	};
 
 	game.Hero.prototype.ball = function(){
-
 		this.ball = new Shape();
 
 		// Radius
-		this.ball.radius = 47.5;
+		this.ball.radius = RADIUS;
 
 		// Build the ball
 		this.ball.graphics
@@ -110,7 +109,7 @@ var SAY = SAY || {};
 
 		// Starting location
 		this.ball.x = this.x;
-		this.ball.y = this.y + 47.5;
+		this.ball.y = this.y + RADIUS;
 
 		// Rotation
 		this.ball.rotating = {
@@ -135,7 +134,7 @@ var SAY = SAY || {};
 				break;
 
 				case "left":
-					if (self.ball.rotating.speed > 3){
+					if (Math.abs(self.ball.rotating.speed) > 3){
 						self.gotoAndPlay("stop_h");
 					} else {
 						self.gotoAndPlay("idle_h");
@@ -143,7 +142,7 @@ var SAY = SAY || {};
 				break;
 				
 				default:
-					// Nothing'
+					self.gotoAndPlay("idle");
 				break;
 			}
 		};
@@ -192,7 +191,7 @@ var SAY = SAY || {};
 		this.ball.x = data.x;
 
 		this.y = data.y;
-		this.ball.y = data.y + 47.5;
+		this.ball.y = data.y + RADIUS;
 	};
 
 	game.Hero.prototype.startRunning = function( data ){
@@ -205,8 +204,7 @@ var SAY = SAY || {};
 			this.ball.rotating.speed += 0.08;
 		}
 
-		this.ball.rotating.deg += this.ball.rotating.speed;
-		this.ball.rotation = this.ball.rotating.deg;
+		this.ball.rotation = this.ball.rotating.deg += this.ball.rotating.speed;
 	};
 
 	game.Hero.prototype.jump = function() {
@@ -226,22 +224,20 @@ var SAY = SAY || {};
 
 			if (this.move.right){
 
-				if (Math.abs(this.move.by.x) < 10)
+				if (this.move.by.x < 10)
 				{
 					this.move.by.x += 0.1;
 				}
 
 				// Move both the rat and the ball
-				this.x += this.move.by.x;
-				this.ball.x += this.move.by.x;
+				this.ball.x = this.x += this.move.by.x;
 
 				// Rotate ball clockwise
 				if (this.ball.rotating.speed < 8){
 					this.ball.rotating.speed += 0.08;
 				}
 
-				this.ball.rotating.deg += this.ball.rotating.speed;
-				this.ball.rotation = this.ball.rotating.deg;
+				this.ball.rotation = this.ball.rotating.deg += this.ball.rotating.speed;
 
 				// If previous direction (or currently clicked)
 				// direction is not right, show the animate right
@@ -256,24 +252,22 @@ var SAY = SAY || {};
 
 			} else if (this.move.left){
 
-				if (Math.abs(this.move.by.x) < 10)
+				if (this.move.by.x > -10)
 				{
 					this.move.by.x -= 0.1;
 				}
 
 				// Move both the rat and the ball
-				this.x += this.move.by.x;
-				this.ball.x += this.move.by.x;
+				this.ball.x = this.x += this.move.by.x;
 
 				// Rotate ball counter-clockwise
 
 				// Rotate ball clockwise
-				if (this.ball.rotating.speed < 8){
-					this.ball.rotating.speed += 0.08;
+				if (this.ball.rotating.speed > -8){
+					this.ball.rotating.speed -= 0.08;
 				}
 
-				this.ball.rotating.deg -= this.ball.rotating.speed;
-				this.ball.rotation = this.ball.rotating.deg;
+				this.ball.rotation = this.ball.rotating.deg += this.ball.rotating.speed;
 
 				// If previous direction (or currently clicked)
 				// direction is not left, show the animate left
@@ -294,19 +288,22 @@ var SAY = SAY || {};
 			if (this.direction.prev === "right"){
 
 				// If the rotating speed is more than 0
-				if (this.ball.rotating.speed > 0 || this.move.by.x > 0){
+				if (this.ball.rotating.speed > 0){
 
-					// Gradually slow down the ball
-					if (this.ball.rotating.speed > 0){
-						this.ball.rotating.speed -= 0.1;
-						this.ball.rotating.deg += this.ball.rotating.speed;
-					}
+					this.ball.rotating.deg += this.ball.rotating.speed -= 0.1;
 
 					// Rotate the ball accordingly
 					this.ball.rotation = this.ball.rotating.deg;
 
 					// Gradually slow down movement
-					this.x = this.ball.x += this.ball.rotating.speed;
+					if (this.move.by.x > 0)
+					{
+						this.move.by.x -= 0.1;
+					}
+
+					// Move both the rat and the ball
+					this.x += this.move.by.x;
+					this.ball.x += this.move.by.x;
 
 				} else {
 					// Set previous to null, since we aren't moving
@@ -316,36 +313,28 @@ var SAY = SAY || {};
 			} else if (this.direction.prev === "left"){
 
 				// If the rotating speed is more than 0
-				if (this.ball.rotating.speed > 0 || this.move.by.x > 0){
+				if (this.ball.rotating.speed < 0){
 
-					// Gradually slow down the ball
-					if (this.ball.rotating.speed > 0){
-						this.ball.rotating.speed -= 0.1;
-						this.ball.rotating.deg -= this.ball.rotating.speed;
-					}
+					this.ball.rotating.deg += this.ball.rotating.speed += 0.1;
 
 					// Rotate the ball accordingly
 					this.ball.rotation = this.ball.rotating.deg;
 
 					// Gradually slow down movement
-					this.x = this.ball.x -= this.ball.rotating.speed;
+					if (this.move.by.x < 0)
+					{
+						this.move.by.x += 0.1;
+					}
+
+					// Move both the rat and the ball
+					this.x += this.move.by.x;
+					this.ball.x += this.move.by.x;
 
 				} else {
 					// Set previous to null, since we aren't moving
 					this.direction.prev = null;
 				}
 
-			}
-
-			if (Math.abs(this.move.by.x) > 0){
-					
-				if (this.direction.prev === "left"){
-					// Gradually slow down movement
-					this.x = this.ball.x -= 1.1;
-				} else if (this.direction.prev === "right"){
-					// Gradually slow down movement
-					this.x = this.ball.x -= 1.1;
-				}
 			}
 		}
 
@@ -371,15 +360,16 @@ var SAY = SAY || {};
 			if ( collision !== false ){
 
 				// Colliding on angle
+				// Fix this later
 				if (collision.a !== 0){
 					this.position({
 						x: this.ball.x,
-						y: (game.platforms[i].y - ball.radius*2)
+						y: (game.platforms[i].y - RADIUS*2)
 					});
 				} else {
 					this.position({
 						x: this.ball.x,
-						y: (game.platforms[i].y - ball.radius*2)
+						y: (game.platforms[i].y - RADIUS*2)
 					});
 				}
 
@@ -395,8 +385,7 @@ var SAY = SAY || {};
 			this.y += this.velocity.y;
 			this.ball.y += this.velocity.y;
 
-			this.x += this.velocity.x;
-			this.ball.x += this.velocity.x;
+			this.x = this.ball.x += this.velocity.x;
 		}
 
 	};
