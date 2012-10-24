@@ -38,8 +38,8 @@ var SAY = SAY || {};
 		SpriteSheetUtils.addFlippedFrames(ss, true, false, false);
 
 		// Location
-		this.x = data.x || 0;
-		this.y = data.y || 0;
+		this.x = data.x;
+		this.y = data.y;
 
 		// Size
 		this.radius = data.radius || 0;
@@ -59,16 +59,10 @@ var SAY = SAY || {};
 		// Facing
 		this.facing = "right";
 
-		this.move = {
-			right: false,
-			left: false
-		};
-
-		// Keydown
-		this.keydown = false;
-
 		// Moveing by
 		this.move = {
+			right: false,
+			left: false,
 			by: {
 				x: 0,
 				y: 0
@@ -199,7 +193,7 @@ var SAY = SAY || {};
 	};
 
 	game.Hero.prototype.jump = function() {
-		this.velocity.y = -31;
+		this.velocity.y = -26;
 		// Fix this.
 		if (this.facing === "right"){
 			this.gotoAndPlay("jump");
@@ -275,50 +269,39 @@ var SAY = SAY || {};
 
 		} else {
 
-			// If the ball is still rotating right/left
-			if (this.direction.prev === "right"){
+			if (this.ball.rotating.speed > 0){
 
-				// If the rotating speed is more than 0
-				if (this.ball.rotating.speed > 0){
+				this.ball.rotating.deg += this.ball.rotating.speed -= 0.08;
 
-					this.ball.rotating.deg += this.ball.rotating.speed -= 0.1;
+				// Rotate the ball accordingly
+				this.ball.rotation = this.ball.rotating.deg;
 
-					// Rotate the ball accordingly
-					this.ball.rotation = this.ball.rotating.deg;
-
-					// Gradually slow down movement
-					if (this.move.by.x > 0)
-					{
-						this.move.by.x -= 0.1;
-					}
-
-					// Move both the rat and the ball
-					this.x += this.move.by.x;
-					this.ball.x += this.move.by.x;
-
+				// Gradually slow down movement
+				if (this.move.by.x > 0)
+				{
+					this.move.by.x -= 0.1;
 				}
 
-			} else if (this.direction.prev === "left"){
+				// Move both the rat and the ball
+				this.x += this.move.by.x;
+				this.ball.x += this.move.by.x;
 
-				// If the rotating speed is more than 0
-				if (this.ball.rotating.speed < 0){
+			} else if (this.ball.rotating.speed < 0){
 
-					this.ball.rotating.deg += this.ball.rotating.speed += 0.1;
+				this.ball.rotating.deg += this.ball.rotating.speed += 0.08;
 
-					// Rotate the ball accordingly
-					this.ball.rotation = this.ball.rotating.deg;
+				// Rotate the ball accordingly
+				this.ball.rotation = this.ball.rotating.deg;
 
-					// Gradually slow down movement
-					if (this.move.by.x < 0)
-					{
-						this.move.by.x += 0.1;
-					}
-
-					// Move both the rat and the ball
-					this.x += this.move.by.x;
-					this.ball.x += this.move.by.x;
-
+				// Gradually slow down movement
+				if (this.move.by.x < 0)
+				{
+					this.move.by.x += 0.1;
 				}
+
+				// Move both the rat and the ball
+				this.x += this.move.by.x;
+				this.ball.x += this.move.by.x;
 
 			}
 		}
