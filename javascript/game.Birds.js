@@ -4,15 +4,15 @@ var SAY = SAY || {};
 
 	var game = SAY.game;
 
-	game.Crater = function( data ) {
+	game.Bird = function( data ) {
 		this.initialize( data );
 	};
 
-	game.Crater.prototype = new Shape();
+	game.Bird.prototype = new Shape();
 
-	game.Crater.prototype.Shape_initialize = game.Crater.prototype.initialize;
+	game.Bird.prototype.Shape_initialize = game.Bird.prototype.initialize;
 
-	game.Crater.prototype.initialize = function( data ){
+	game.Bird.prototype.initialize = function( data ){
 		this.Shape_initialize();
 
 		this.graphics
@@ -23,9 +23,14 @@ var SAY = SAY || {};
 				data.width,
 				data.height
 			);
+
 		this.regX = data.regX;
 
 		game.stage.addChild(this);
+	};
+
+	game.Bird.prototype.tick = function(){
+		// Moving
 	};
 
 })();

@@ -132,8 +132,10 @@ var SAY = SAY || {};
 		{
 				if (self.controls.right.contains(e.which)){
 					self.move.right = true;
+					self.facing = "right";
 				} else if (self.controls.left.contains(e.which)){
 					self.move.left = true;
+					self.facing = "left";
 				} else if (self.controls.jump.contains(e.which)) {
 					self.jump();
 				}

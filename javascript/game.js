@@ -37,7 +37,7 @@ var SAY = SAY || {};
 			game.platforms = [];
 
 			// Integer of Level
-			game.current = 0;
+			game.current = 1;
 
 			// Integer of Score
 			game.score = 0;
@@ -61,8 +61,8 @@ var SAY = SAY || {};
 
 			canvas: function(){
 				game.canvas = document.getElementById('stage');
-				game.canvas.width = window.innerWidth;
-				game.canvas.height = window.innerHeight;
+				game.canvas.width = 1200;
+				game.canvas.height = 800;
 			},
 
 			stage: function(){
@@ -162,7 +162,7 @@ var SAY = SAY || {};
 					x: 0,
 					skewX: 45
 				},400, Ease.cubicOut)
-				.wait(1000)
+				.wait(700)
 				.to({alpha:0,visible:false},1000);
 
 			Tween.get(s2)
@@ -171,7 +171,7 @@ var SAY = SAY || {};
 					x: game.canvas.width/3,
 					skewX: 45
 				},400, Ease.cubicOut)
-				.wait(750)
+				.wait(600)
 				.to({alpha:0,visible:false},1000);
 
 			Tween.get(s3)
@@ -215,8 +215,25 @@ var SAY = SAY || {};
 						})
 					];
 
+
+					// Build rectangle
+					var thing = new Shape();
+					thing.graphics
+						.beginFill('#21a3d1')
+						.moveTo(0, game.canvas.height)
+						.lineTo(0, game.canvas.height*0.95)
+						.lineTo(game.canvas.width*0.2, game.canvas.height*0.9)
+						.lineTo(game.canvas.width*0.35, game.canvas.height)
+						.lineTo(game.canvas.width*0.6, game.canvas.height)
+						.lineTo(game.canvas.width*0.7, game.canvas.height*0.93)
+						.lineTo(game.canvas.width*0.8, game.canvas.height*0.94)
+						.lineTo(game.canvas.width*0.92, game.canvas.height*0.83)
+						.lineTo(game.canvas.width, game.canvas.height*0.87)
+						.lineTo(game.canvas.width, game.canvas.height);
+					game.stage.addChild(thing);
+
 					game.doodads.push(
-						new game.Crater({
+						new game.Bird({
 							color: '#37a9d4',
 							x: game.canvas.width/2,
 							y: game.canvas.height/2 + 55,
@@ -224,15 +241,15 @@ var SAY = SAY || {};
 							height: 30,
 							regX: 150
 						}),
-						new game.Crater({
+						new game.Bird({
 							color: '#37a9d4',
 							x: game.canvas.width/2,
-							y: game.canvas.height/2 + 266,
+							y: game.canvas.height/2 + 264,
 							width: 80,
 							height: 16,
 							regX: 40
 						}),
-						new game.Crater({
+						new game.Bird({
 							color: '#37a9d4',
 							x: game.canvas.width/8,
 							y: game.canvas.height/2 + 65,
@@ -240,7 +257,7 @@ var SAY = SAY || {};
 							height: 14,
 							regX: 55
 						}),
-						new game.Crater({
+						new game.Bird({
 							color: '#37a9d4',
 							x: game.canvas.width/4,
 							y: game.canvas.height/2 + 115,
@@ -248,7 +265,7 @@ var SAY = SAY || {};
 							height: 8,
 							regX: 20
 						}),
-						new game.Crater({
+						new game.Bird({
 							color: '#37a9d4',
 							x: game.canvas.width/1.2,
 							y: game.canvas.height/2 + 70,
@@ -292,35 +309,62 @@ var SAY = SAY || {};
 								}
 							}
 						}),
-						new game.Button(
-							{
-								Text: {
-									color: '#fff',
-									textAlign: 'center',
-									font: '1em Futura-Book',
-									text: 'S  T  A  R  T     G  A  M  E',
-									x: game.canvas.width/2,
-									y: game.canvas.height * 0.47 + 20
+						new game.Button({
+							Text: {
+								color: '#fff',
+								textAlign: 'center',
+								font: '1em Futura-Book',
+								text: 'S  T  A  R  T     G  A  M  E',
+								x: game.canvas.width/2,
+								y: game.canvas.height * 0.47 + 20
+							},
+							Shape: {
+								x: game.canvas.width/2,
+								y: game.canvas.height * 0.47 + 20,
+								width: 200,
+								height: 28,
+								regX: 100,
+								onClick: function(){
+									game.swipeScreen();
 								},
-								Shape: {
-									x: game.canvas.width/2,
-									y: game.canvas.height * 0.47 + 20,
-									width: 200,
-									height: 28,
-									regX: 100,
-									onClick: function(){
-										game.swipeScreen();
-									},
-									onMouseOver: function(e) {
-										document.body.style.cursor = 'pointer';
-									},
-									onMouseOut: function(e) {
-										document.body.style.cursor = 'default';
-									}
+								onMouseOver: function(e) {
+									document.body.style.cursor = 'pointer';
+								},
+								onMouseOut: function(e) {
+									document.body.style.cursor = 'default';
 								}
 							}
-						)
+						})
 					];
+
+					icon        = new Image();
+					icon.src    = './images/orange-sayit-icon2.gif';
+					icon.onload = onIconLoaded;
+
+					function onIconLoaded()
+					{
+						console.log(icon);
+						player      = new Bitmap(icon);
+						player.x    = game.texts[0].Text.x - 90;
+						player.y    = game.texts[0].Text.y;
+
+						game.stage.addChild(player);
+					}
+
+					icon2        = new Image();
+					icon2.src    = './images/orange-game-icon2.gif';
+					icon2.onload = onIconLoaded2;
+
+					function onIconLoaded2()
+					{
+						console.log(icon2);
+						player      = new Bitmap(icon2);
+						player.x    = game.texts[1].Text.x - 150;
+						player.y    = game.texts[1].Text.y;
+
+						game.stage.addChild(player);
+					}
+
 
 					// Start off hero
 					game.createHero();
@@ -367,6 +411,78 @@ var SAY = SAY || {};
 							y: 850,
 							color: '#fff',
 							width: 200,
+							height: 10
+						}),
+						new game.Platform({
+							name: 'platform 3',
+							x: 1323,
+							y: 750,
+							color: '#fff',
+							width: 600,
+							height: 10
+						}),
+						new game.Platform({
+							name: 'platform 3',
+							x: 2123,
+							y: 925,
+							color: '#fff',
+							width: 300,
+							height: 10
+						}),
+						new game.Platform({
+							name: 'platform 3',
+							x: 2723,
+							y: 850,
+							color: '#fff',
+							width: 200,
+							height: 10
+						}),
+						new game.Platform({
+							name: 'platform 3',
+							x: 3255,
+							y: 850,
+							color: '#fff',
+							width: 240,
+							height: 10
+						}),
+						new game.Platform({
+							name: 'platform 3',
+							x: 3415,
+							y: 850,
+							color: '#fff',
+							width: 200,
+							height: 10
+						}),
+						new game.Platform({
+							name: 'platform 3',
+							x: 3612,
+							y: 572,
+							color: '#fff',
+							width: 400,
+							height: 10
+						}),
+						new game.Platform({
+							name: 'platform 3',
+							x: 3945,
+							y: 680,
+							color: '#fff',
+							width: 260,
+							height: 10
+						}),
+						new game.Platform({
+							name: 'platform 3',
+							x: 4345,
+							y: 900,
+							color: '#fff',
+							width: 300,
+							height: 10
+						}),
+						new game.Platform({
+							name: 'platform 3',
+							x: 4845,
+							y: 780,
+							color: '#fff',
+							width: 500,
 							height: 10
 						})
 					];
@@ -421,6 +537,10 @@ var SAY = SAY || {};
 				if (game.current === 0){
 					
 					game.hero.startRunning();
+
+					for (var i = 0; i < game.doodads.length; i++) {
+						game.doodads[i].tick();
+					}
 
 				} else if (game.current === 1){
 					game.hero.tick();

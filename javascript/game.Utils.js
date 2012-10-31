@@ -101,7 +101,7 @@ var SAY = SAY || {};
 					a = (r.x + r.width - c.x);
 					b = (r.y + r.height - c.y);
 					spot = 4;
-				}
+				
 
 				t2 = (a*a) + (b*b);
 				t = Math.sqrt(t2);
@@ -110,16 +110,16 @@ var SAY = SAY || {};
 					return false;
 				}
 			}
-
-			return {
-				x: (c.x + a),
-				y: (c.y + b),
-				a: Math.abs(a),
-				b: Math.abs(b),
-				t: t,
-				spot: spot
-			};
 		}
-	};
 
+		return {
+			x: (c.x + a),
+			y: (c.y + b),
+			a: Math.abs(a),
+			b: Math.abs(b),
+			t: t,
+			spot: spot
+		};
+	}
+};
 })();
