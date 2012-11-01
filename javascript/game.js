@@ -27,6 +27,9 @@ var SAY = SAY || {};
 			// Array of Objects
 			game.texts = [];
 			
+			// Array of Objects
+			game.tickers = [];
+			
 			// Single Object
 			game.hero = Object;
 			
@@ -79,6 +82,24 @@ var SAY = SAY || {};
 					left: [ 37, 65 ],
 					right: [ 39, 68 ],
 					jump: [ 32, 38, 40, 83, 87 ]
+				},
+				x: 0,
+				y: 0,
+				direction: {
+					prev: null
+				},
+				facing: "right",
+				move: {
+					right: false,
+					left: false,
+					by: {
+						x: 0,
+						y: 0
+					}
+				},
+				velocity: {
+					x: 0,
+					y: 1
 				}
 			};
 
@@ -365,14 +386,13 @@ var SAY = SAY || {};
 						game.stage.addChild(player);
 					}
 
-
 					// Start off hero
 					game.createHero();
+
 					game.hero.position({
 						x: game.canvas.width/2,
 						y: game.canvas.height * 0.47 + 200
 					});
-
 
 				break;
 
@@ -392,97 +412,9 @@ var SAY = SAY || {};
 						new game.Platform({
 							name: 'platform 1',
 							x: 200,
-							y: 650,
-							color: '#fff',
-							width: 800,
-							height: 10
-						}),
-						new game.Platform({
-							name: 'platform 2',
-							x: 600,
 							y: 450,
 							color: '#fff',
-							width: 300,
-							height: 10
-						}),
-						new game.Platform({
-							name: 'platform 3',
-							x: 1000,
-							y: 850,
-							color: '#fff',
-							width: 200,
-							height: 10
-						}),
-						new game.Platform({
-							name: 'platform 3',
-							x: 1323,
-							y: 750,
-							color: '#fff',
-							width: 600,
-							height: 10
-						}),
-						new game.Platform({
-							name: 'platform 3',
-							x: 2123,
-							y: 925,
-							color: '#fff',
-							width: 300,
-							height: 10
-						}),
-						new game.Platform({
-							name: 'platform 3',
-							x: 2723,
-							y: 850,
-							color: '#fff',
-							width: 200,
-							height: 10
-						}),
-						new game.Platform({
-							name: 'platform 3',
-							x: 3255,
-							y: 850,
-							color: '#fff',
-							width: 240,
-							height: 10
-						}),
-						new game.Platform({
-							name: 'platform 3',
-							x: 3415,
-							y: 850,
-							color: '#fff',
-							width: 200,
-							height: 10
-						}),
-						new game.Platform({
-							name: 'platform 3',
-							x: 3612,
-							y: 572,
-							color: '#fff',
-							width: 400,
-							height: 10
-						}),
-						new game.Platform({
-							name: 'platform 3',
-							x: 3945,
-							y: 680,
-							color: '#fff',
-							width: 260,
-							height: 10
-						}),
-						new game.Platform({
-							name: 'platform 3',
-							x: 4345,
-							y: 900,
-							color: '#fff',
-							width: 300,
-							height: 10
-						}),
-						new game.Platform({
-							name: 'platform 3',
-							x: 4845,
-							y: 780,
-							color: '#fff',
-							width: 500,
+							width: 800,
 							height: 10
 						})
 					];
@@ -531,29 +463,41 @@ var SAY = SAY || {};
 		},
 
 		render: function(){
+			var i =0;
 			var tick = function(e){
 				game.stage.update();
 
-				if (game.current === 0){
-					
-					game.hero.startRunning();
+				// Cycle through Ticks
+				i = game.tickers.length;
 
-					for (var i = 0; i < game.doodads.length; i++) {
-						game.doodads[i].tick();
-					}
+				while (i--) {
+					game.tickers[i].tick();
+				}
 
-				} else if (game.current === 1){
-					game.hero.tick();
+				switch (game.current){
 
-					if (game.hero.x > game.canvas.width * 0.3){
-						game.stage.x = -game.hero.x + game.canvas.width * 0.3;
-						game.backgrounds[0].x = game.hero.x - game.canvas.width * 0.3;
-					}
+					case 0:
 
-					if (game.hero.y > game.canvas.height * 0.6){
-						game.stage.y = -game.hero.y + game.canvas.height * 0.6;
-						game.backgrounds[0].y = game.hero.y - game.canvas.height * 0.6;
-					}
+						game.hero.run();
+
+					break;
+
+					case 1:
+
+						if (game.hero.x > game.canvas.width * 0.3){
+							game.stage.x = -game.hero.x + game.canvas.width * 0.3;
+							game.backgrounds[0].x = game.hero.x - game.canvas.width * 0.3;
+						}
+
+						if (game.hero.y > game.canvas.height * 0.6){
+							game.stage.y = -game.hero.y + game.canvas.height * 0.6;
+							game.backgrounds[0].y = game.hero.y - game.canvas.height * 0.6;
+						}
+
+					break;
+
+					default:
+					break;
 				}
 			};
 

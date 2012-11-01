@@ -11,7 +11,7 @@ var SAY = SAY || {};
 			"idle": [0, 27, "idle", 3],
 			"run": [29, 47, "run", 2],
 			"stop": [59, 86, "idle", 2],
-			"jump": [87, 116, "idle", 2]
+			"jump": [87, 116, false, 2]
 		},
 			"images": ["./images/rat_sprite_full_small.png"],
 			"frames":
@@ -35,55 +35,25 @@ var SAY = SAY || {};
 		// Flip frames
 		SpriteSheetUtils.addFlippedFrames(ss, true, false, false);
 
-		// Location
-		this.x = data.x;
-		this.y = data.y;
-
-		// Size
-		this.radius = data.radius || 0;
-
-		// Controls
-		this.controls = {
-			right: data.controls.right,
-			left: data.controls.left,
-			jump: data.controls.jump
-		};
-
-		// Direction
-		this.direction = {
-			prev: null
-		};
-
-		// Facing
-		this.facing = "right";
-
-		// Moveing by
-		this.move = {
-			right: false,
-			left: false,
-			by: {
-				x: 0,
-				y: 0
-			}
-		};
-
-		// Velocity
-		this.velocity = {
-			x: 0,
-			y: 1
-		};
+		// Set default data
+		this.setData( data );
 
 		// Build the ball
-		this.ball();
+		this.createBall();
 
 		// Set default
 		this.gotoAndPlay("idle");
 
-		// Add child
-		game.stage.addChild(this);
+		game.tickers.push(this);
 	};
 
-	game.Hero.prototype.ball = function(){
+	game.Hero.prototype.setData = function( data ){
+		for(var key in data){
+			this[key] = data[key];
+		}
+	};
+
+	game.Hero.prototype.createBall = function(){
 		this.ball = new Shape();
 
 		// Build the ball
@@ -107,7 +77,6 @@ var SAY = SAY || {};
 		};
 
 		game.stage.addChild(this.ball);
-
 	};
 
 	game.Hero.prototype.binds = function(){
@@ -165,7 +134,6 @@ var SAY = SAY || {};
 			document.onkeydown = handleKeyDown;
 			document.onkeyup = handleKeyUp;
 		}
-		
 	};
 
 	game.Hero.prototype.position = function( data ){
@@ -176,7 +144,7 @@ var SAY = SAY || {};
 		this.ball.y = data.y + RADIUS;
 	};
 
-	game.Hero.prototype.startRunning = function( data ){
+	game.Hero.prototype.run = function(){
 		// Rotate ball clockwise
 		if (this.currentAnimation !== "run"){
 			this.gotoAndPlay('run');
@@ -197,7 +165,6 @@ var SAY = SAY || {};
 		} else if (this.facing === "left"){
 			this.gotoAndPlay("jump_h");
 		}
-		
 	};
 
 	game.Hero.prototype.tick = function(){
@@ -206,19 +173,23 @@ var SAY = SAY || {};
 
 			if (this.move.right){
 
-				if (this.move.by.x < 10)
-				{
-					this.move.by.x += 0.1;
-				}
-
-				// Move both the rat and the ball
-				this.ball.x = this.x += this.move.by.x;
-
 				// Rotate ball clockwise
-				if (this.ball.rotating.speed < 8){
+				if (this.ball.rotating.speed < 0){
+					this.ball.rotating.speed += 0.16;
+					if (this.move.by.x < 10)
+					{
+						this.move.by.x += 0.2;
+					}
+				} else if (this.ball.rotating.speed < 8){
 					this.ball.rotating.speed += 0.08;
+					if (this.move.by.x < 10)
+					{
+						this.move.by.x += 0.1;
+					}
 				}
 
+				// Move both the rat and the ball, and rotate ball
+				this.ball.x = this.x += this.move.by.x;
 				this.ball.rotation = this.ball.rotating.deg += this.ball.rotating.speed;
 
 				// If previous direction (or currently clicked)
@@ -234,21 +205,25 @@ var SAY = SAY || {};
 
 			} else if (this.move.left){
 
-				if (this.move.by.x > -10)
-				{
-					this.move.by.x -= 0.1;
+				// Rotate ball counter-clockwise
+
+				// Rotate ball clockwise
+				if (this.ball.rotating.speed > 0){
+					this.ball.rotating.speed -= 0.16;
+					if (this.move.by.x > -10)
+					{
+						this.move.by.x -= 0.2;
+					}
+				} else if (this.ball.rotating.speed > -8){
+					this.ball.rotating.speed -= 0.08;
+					if (this.move.by.x > -10)
+					{
+						this.move.by.x -= 0.1;
+					}
 				}
 
 				// Move both the rat and the ball
 				this.ball.x = this.x += this.move.by.x;
-
-				// Rotate ball counter-clockwise
-
-				// Rotate ball clockwise
-				if (this.ball.rotating.speed > -8){
-					this.ball.rotating.speed -= 0.08;
-				}
-
 				this.ball.rotation = this.ball.rotating.deg += this.ball.rotating.speed;
 
 				// If previous direction (or currently clicked)
@@ -266,7 +241,9 @@ var SAY = SAY || {};
 
 		} else {
 
-			if (this.ball.rotating.speed > 0){
+			if (Math.abs(this.ball.rotating.speed) < 0.8 && Math.abs(this.ball.rotating.speed) > 0.001) {
+				this.ball.rotating.speed = this.move.by.x *= 0.95;
+			} else if (this.ball.rotating.speed > 0){
 
 				this.ball.rotating.deg += this.ball.rotating.speed -= 0.08;
 
@@ -274,8 +251,7 @@ var SAY = SAY || {};
 				this.ball.rotation = this.ball.rotating.deg;
 
 				// Gradually slow down movement
-				if (this.move.by.x > 0)
-				{
+				if (this.move.by.x > 0){
 					this.move.by.x -= 0.1;
 				}
 
@@ -291,15 +267,17 @@ var SAY = SAY || {};
 				this.ball.rotation = this.ball.rotating.deg;
 
 				// Gradually slow down movement
-				if (this.move.by.x < 0)
-				{
+				if (this.move.by.x < 0){
 					this.move.by.x += 0.1;
 				}
+
 
 				// Move both the rat and the ball
 				this.x += this.move.by.x;
 				this.ball.x += this.move.by.x;
 
+			} else {
+				this.ball.rotating.speed = this.move.by.x = 0;
 			}
 		}
 
@@ -323,7 +301,6 @@ var SAY = SAY || {};
 			// take into account 2 collisions, X and Y of all
 			// collidable objects.
 			if ( collision !== false ){
-
 				// Colliding on angle
 				// Fix this later
 				if (collision.b !== 0){
@@ -352,7 +329,6 @@ var SAY = SAY || {};
 
 			this.x = this.ball.x += this.velocity.x;
 		}
-
 	};
 
 })();
