@@ -44,6 +44,7 @@ var SAY = SAY || {};
 		// Set default
 		this.gotoAndPlay("idle");
 
+		// Push to tickers
 		game.tickers.push(this);
 	};
 
@@ -86,13 +87,17 @@ var SAY = SAY || {};
 				if (self.ball.rotating.speed > 3){
 					self.gotoAndPlay("stop");
 				} else {
-					self.gotoAndPlay("idle");
+					if (self.currentAnimation !== "jump"){
+						self.gotoAndPlay("idle");
+					}
 				}
 			} else if (self.direction.prev === "left"){
 				if (Math.abs(self.ball.rotating.speed) > 3){
 					self.gotoAndPlay("stop_h");
 				} else {
-					self.gotoAndPlay("idle_h");
+					if (self.currentAnimation !== "jump_h"){
+						self.gotoAndPlay("idle_h");
+					}
 				}
 			}
 		};
