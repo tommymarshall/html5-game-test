@@ -2,11 +2,11 @@
 <html lang="en-US">
 <head>
 	<meta charset="UTF-8">
-	<title>HTML5 Game Development</title>
+	<title>Say Viget</title>
 	<link rel="stylesheet" type="text/css" href="styles.css" media="all">
 </head>
 <body>
-	
+
 	<div class="wrapper">
 		<canvas id="stage"></canvas>
 	</div>
@@ -15,21 +15,21 @@
 		var createjs = window;
 	</script>
 
+
 	<!-- Include CreateJS -->
-	<script src="javascript/easel.js"></script>
-	<script src="javascript/tween.js"></script>
+	<script src="/javascript/vendor/easel.js"></script>
+	<script src="/javascript/vendor/tween.js"></script>
+
+	<!-- Include Other Vendor stuff -->
+	<script src="/javascript/vendor/Box2dWeb-2.1.a.3.min.js"></script>
+	<script src="/javascript/vendor/helpers.js"></script>
+
+	<!-- Include Set global vars -->
+	<script src="/javascript/global.js"></script>
 
 	<!-- Include the Game -->
-	<script src="javascript/helpers.js"></script>
-	<script src="javascript/game.js"></script>
-	<script src="javascript/game.Coins.js"></script>
-	<script src="javascript/game.Doodads.js"></script>
-	<script src="javascript/game.Birds.js"></script>
-	<script src="javascript/game.Backgrounds.js"></script>
-	<script src="javascript/game.Hero.js"></script>
-	<script src="javascript/game.Platforms.js"></script>
-	<script src="javascript/game.Buttons.js"></script>
-	<script src="javascript/game.Utils.js"></script>
+	<script src="/javascript/game.js"></script>
+	<script src="/javascript/game.Ball.js"></script>
 
 </body>
 </html>

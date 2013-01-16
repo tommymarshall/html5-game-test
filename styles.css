@@ -13,6 +13,7 @@ body {
 }
 
 canvas {
+	background: #fff;
 	display: block;
 	height: 100%;
 	height: auto;
