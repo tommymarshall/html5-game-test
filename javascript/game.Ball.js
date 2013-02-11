@@ -9,8 +9,8 @@ var SAY = SAY || {};
 		this.view.regX = this.view.regY = 50;
 
 		var fixDef = new box2d.b2FixtureDef();
-		fixDef.density = 5.0;
-		fixDef.friction = 0.5;
+		fixDef.density = 2.0;
+		fixDef.friction = 1.0;
 		fixDef.restitution = 0.25;
 
 		var bodyDef = new box2d.b2BodyDef();
@@ -18,7 +18,7 @@ var SAY = SAY || {};
 		bodyDef.position.x = ( Math.random()*800 ) / game.SCALE;
 		bodyDef.position.y = 0;
 
-		fixDef.shape = new box2d.b2CircleShape( 50 / game.SCALE );
+		fixDef.shape = new box2d.b2CircleShape( 48 / game.SCALE );
 		this.view.body = game.world.CreateBody( bodyDef );
 		this.view.body.CreateFixture( fixDef );
 		this.view.onTick = tick;
