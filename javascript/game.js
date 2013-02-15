@@ -14,6 +14,7 @@ var SAY = SAY || {};
 			game.SCALE = 30;
 			game.WIDTH = 1600;
 			game.HEIGHT = 1200;
+			game.character = {};
 		},
 
 		reality: {
@@ -31,7 +32,7 @@ var SAY = SAY || {};
 
 			createStage: function() {
 				game.stage = new Stage( game.canvas );
-				game.stage.onMouseDown = game.createBall;
+				game.stage.onMouseDown = game.createHero;
 			},
 
 			createPhysics: function() {
@@ -63,9 +64,12 @@ var SAY = SAY || {};
 			}
 		},
 
-		createBall: function(e) {
-			var b = new game.Ball();
-			game.stage.addChild(b.view);
+		createHero: function() {
+			console.log('clicking');
+			game.character.hero = new game.Hero();
+			game.stage.addChild(game.character.hero.view);
+
+			game.character.hero.view.gotoAndPlay("idle");
 		},
 
 		render: function() {

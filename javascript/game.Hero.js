@@ -4,9 +4,30 @@ var SAY = SAY || {};
 
 	var game = SAY.game;
 
-	game.Ball = function(){
-		this.view = new Bitmap( "../images/soccer.png" );
-		this.view.regX = this.view.regY = 50;
+	var ss = new SpriteSheet({
+		"animations":
+		{
+			"idle": [0, 27, "idle", 3],
+			"run": [29, 47, "run", 2],
+			"stop": [59, 86, "idle", 2],
+			"jump": [87, 116, false, 2]
+		},
+			"images": ["../images/rat_sprite_full_small.png"],
+			"frames":
+				{
+					"height": 94.5,
+					"width": 95,
+					"regX": 47.5,
+					"regY": 0,
+					"count": 116
+				}
+		});
+
+	game.Hero = function(){
+		this.view = new BitmapAnimation( ss );
+
+		// Flip frames
+		SpriteSheetUtils.addFlippedFrames(ss, true, false, false);
 
 		var fixDef = new box2d.b2FixtureDef();
 		fixDef.density = 2.0;
@@ -15,10 +36,10 @@ var SAY = SAY || {};
 
 		var bodyDef = new box2d.b2BodyDef();
 		bodyDef.type = box2d.b2Body.b2_dynamicBody;
-		bodyDef.position.x = ( Math.random()*800 ) / game.SCALE;
+		bodyDef.position.x = ( 800 ) / game.SCALE;
 		bodyDef.position.y = 0;
 
-		fixDef.shape = new box2d.b2CircleShape( 48 / game.SCALE );
+		fixDef.shape = new box2d.b2CircleShape( 95 / game.SCALE );
 		this.view.body = game.world.CreateBody( bodyDef );
 		this.view.body.CreateFixture( fixDef );
 		this.view.onTick = tick;
