@@ -18,7 +18,7 @@ var SAY = SAY || {};
 					"height": 94.5,
 					"width": 95,
 					"regX": 47.5,
-					"regY": 0,
+					"regY": 47.5,
 					"count": 116
 				}
 		});
@@ -36,10 +36,10 @@ var SAY = SAY || {};
 
 		var bodyDef = new box2d.b2BodyDef();
 		bodyDef.type = box2d.b2Body.b2_dynamicBody;
-		bodyDef.position.x = ( 800 ) / game.SCALE;
+		bodyDef.position.x = (game.WIDTH / game.SCALE) / 2;
 		bodyDef.position.y = 0;
 
-		fixDef.shape = new box2d.b2CircleShape( 95 / game.SCALE );
+		fixDef.shape = new box2d.b2CircleShape( 47.5 / game.SCALE );
 		this.view.body = game.world.CreateBody( bodyDef );
 		this.view.body.CreateFixture( fixDef );
 		this.view.onTick = tick;
