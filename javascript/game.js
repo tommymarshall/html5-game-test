@@ -7,17 +7,28 @@ var SAY = SAY || {};
 		init: function() {
 			game.setVars();
 			game.reality.init();
+			game.createGround();
+			game.createPlatform();
 			game.createHero();
 			game.render();
 		},
 
 		setVars: function() {
+			// Game specifics
 			game.SCALE = 30;
-			game.HEIGHT = 1000;
+			game.HEIGHT = 800;
 			game.WIDTH = 1200;
+
+			// Holds object of characters
 			game.character = {};
-			game.debug = {};
+
+			// Array containing colliding platforms
+			game.platforms = [];
+
+			// Debug?
 			game.DEVELOPMENT = true;
+			// Debug canvas
+			game.debug = {};
 		},
 
 		reality: {
@@ -49,23 +60,7 @@ var SAY = SAY || {};
 			},
 
 			createPhysics: function() {
-				var ground = {};
 				game.world = new box2d.b2World( new box2d.b2Vec2( 0, 50 ), true );
-
-				// Create ground.properties
-				ground.properties = new box2d.b2FixtureDef();
-				ground.properties.density = 1;
-				ground.properties.friction = 1;
-
-				// Create ground.body
-				ground.body = new box2d.b2BodyDef();
-				ground.body.type = box2d.b2Body.b2_staticBody;
-				ground.body.position.x = game.WIDTH / game.SCALE;
-				ground.body.position.y = game.HEIGHT / game.SCALE;
-
-				ground.properties.shape = new box2d.b2PolygonShape();
-				ground.properties.shape.SetAsBox( game.WIDTH / game.SCALE , 10 / game.SCALE );
-				game.world.CreateBody(ground.body).CreateFixture(ground.properties);
 
 				if ( game.DEVELOPMENT ){
 					var debugDraw = new box2d.b2DebugDraw();
@@ -78,21 +73,51 @@ var SAY = SAY || {};
 			}
 		},
 
+		createGround: function() {
+			game.ground = {};
+
+			// Create game.ground.base
+			game.ground.base = new box2d.b2FixtureDef();
+			game.ground.base.density = 1;
+			game.ground.base.friction = 1;
+
+			// Create game.ground.body
+			game.ground.base.body = new box2d.b2BodyDef();
+			game.ground.base.body.type = box2d.b2Body.b2_staticBody;
+			game.ground.base.body.position.x = game.WIDTH / game.SCALE;
+			game.ground.base.body.position.y = game.HEIGHT / game.SCALE;
+
+			game.ground.base.shape = new box2d.b2PolygonShape();
+			game.ground.base.shape.SetAsBox( game.WIDTH / game.SCALE , 10 / game.SCALE );
+
+			game.world.CreateBody(game.ground.base.body).CreateFixture(game.ground.base);
+
+		},
+
+		createPlatform: function() {
+			var data = {
+				density: 1,
+				friction: 1,
+				x: 605,
+				y: 300,
+				coords: [[-1,0],[0,-1],[1,0]]
+			};
+			var platform = new game.Platform( data );
+		},
+
 		createHero: function() {
 			game.character.hero = new game.Hero();
-			game.stage.addChild(game.character.hero.view);
-			game.character.hero.view.gotoAndPlay("idle");
 		},
 
 		render: function() {
 			var tick = function(e){
-				game.stage.update();
+				game.stage.update(e);
 
 				if ( game.DEVELOPMENT ){
 					game.world.DrawDebugData();
 				}
 				game.world.Step( 1/60, 10, 10);
-				game.world.ClearForces();
+				game.world.ClearForces(e);
 			};
 
 			Ticker.setFPS( 60 );
