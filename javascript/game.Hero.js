@@ -24,11 +24,47 @@ var SAY = SAY || {};
 		});
 
 	game.Hero = function(){
+		self = this;
+
 		this.create();
 		this.binds();
 	};
 
-	game.Hero.prototype.binds = function( data ) {
+	game.Hero.prototype.binds = function() {
+		var controls = {
+			left: [ 37, 65 ],
+			right: [ 39, 68 ],
+			jump: [ 32, 38, 40, 83, 87 ]
+		};
+		var handleKeyDown = function(e)
+		{
+			if (controls.right.contains(e.which)){
+				console.log('KEYDOWN right');
+				self.is.movingRight = true;
+			} else if (controls.left.contains(e.which)){
+				console.log('KEYDOWN left');
+				self.is.movingLeft = true;
+			} else if (controls.jump.contains(e.which)) {
+				console.log('KEYDOWN jump');
+				self.is.jumping = true;
+			}
+		};
+		var handleKeyUp = function(e)
+		{
+			if (controls.right.contains(e.which)){
+				console.log('KEYUP right');
+				self.is.movingRight = false;
+			} else if (controls.left.contains(e.which)){
+				console.log('KEYUP left');
+				self.is.movingLeft = false;
+			} else if (controls.jump.contains(e.which)) {
+				console.log('KEYUP jump');
+				self.is.jumping = false;
+			}
+		};
+
+		document.onkeydown = handleKeyDown;
+		document.onkeyup = handleKeyUp;
 	};
 
 	game.Hero.prototype.setData = function( data ){
@@ -38,26 +74,42 @@ var SAY = SAY || {};
 	};
 
 	game.Hero.prototype.create = function() {
+		// Add spritesheet
 		this.view = new BitmapAnimation( ss );
+
+		// Set some states
+		this.is = {
+			jumping: false,
+			movingLeft: false,
+			movingRight: false,
+			prevDirection: 'right',
+			facing: 'right'
+		};
+
+		this.maxSpeed = {
+			x: 100,
+			y: 100
+		};
 
 		// Flip frames
 		SpriteSheetUtils.addFlippedFrames(ss, true, false, false);
 
 		// Create the shapes definition values
-		var fixDef = new box2d.b2FixtureDef();
-		fixDef.density = 2;
-		fixDef.friction = 1;
-		fixDef.restitution = 0.25;
+		this.fixDef = new box2d.b2FixtureDef();
+		this.fixDef.density = 1;
+		this.fixDef.friction = 1;
+		this.fixDef.restitution = 0.25;
 
 		// Define body position
-		var bodyDef = new box2d.b2BodyDef();
-		bodyDef.type = box2d.b2Body.b2_dynamicBody;
-		bodyDef.position.x = (game.WIDTH / game.SCALE) / 2;
-		bodyDef.position.y = 0;
+		this.bodyDef = new box2d.b2BodyDef();
+		this.bodyDef.type = box2d.b2Body.b2_dynamicBody;
+		this.bodyDef.position.x = (game.WIDTH / game.SCALE) / 2;
+		this.bodyDef.position.y = 0;
+		this.bodyDef.isSensor = true;
 
-		fixDef.shape = new box2d.b2CircleShape( 47.5 / game.SCALE );
-		this.view.body = game.world.CreateBody( bodyDef );
-		this.view.body.CreateFixture( fixDef );
+		this.fixDef.shape = new box2d.b2CircleShape( 47.5 / game.SCALE );
+		this.view.body = game.world.CreateBody( this.bodyDef );
+		this.view.body.CreateFixture( this.fixDef );
 		this.view.gotoAndPlay("idle");
 
 		// Set the Tick
@@ -69,8 +121,25 @@ var SAY = SAY || {};
 
 	game.Hero.prototype.tick = function( event ) {
 		// Update X and Y position
-		this.x = (this.body.GetPosition().x * game.SCALE) + (event / 100000);
-		this.y = (this.body.GetPosition().y * game.SCALE) + (event / 100000);
+		this.x = (this.body.GetPosition().x * game.SCALE) + (event) / 1000 * 100;
+		this.y = (this.body.GetPosition().y * game.SCALE) + (event) / 1000 * 100;
+
+		// Jump
+		if (self.is.jumping) {
+			this.body.ApplyImpulse(new box2d.b2Vec2(0,-225), this.body.GetPosition());
+		}
+
+		var Vo = this.body.GetLinearVelocity();
+
+		// Moving Right
+		if (self.is.movingRight && Vo.x < 20) {
+			this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x + 1, Vo.y));
+		}
+
+		// Moving Left
+		if (self.is.movingLeft && Vo.x > -20) {
+			this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x - 1, Vo.y));
+		}
 
 		// Slow Down
 		this.body.SetLinearDamping(1);

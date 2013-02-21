@@ -20,7 +20,7 @@ var SAY = SAY || {};
 		vecs = [];
 		for(i=0;i<v.length;i++){
 			cc = new box2d.b2Vec2();
-			cc.Set(v[i][0],v[i][1]);
+			cc.Set( v[i][0] / game.SCALE, v[i][1] / game.SCALE );
 			vecs[i] = cc;
 		}
 

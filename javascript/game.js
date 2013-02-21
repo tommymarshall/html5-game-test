@@ -100,7 +100,7 @@ var SAY = SAY || {};
 				friction: 1,
 				x: 605,
 				y: 300,
-				coords: [[-1,0],[0,-1],[1,0]]
+				coords: [[-1,0],[10,-1],[-10,10]]
 			};
 			var platform = new game.Platform( data );
 		},
