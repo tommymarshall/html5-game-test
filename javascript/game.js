@@ -95,14 +95,7 @@ var SAY = SAY || {};
 		},
 
 		createPlatform: function() {
-			var data = {
-				density: 1,
-				friction: 1,
-				x: 605,
-				y: 300,
-				coords: [[-1,0],[10,-1],[-10,10]]
-			};
-			var platform = new game.Platform( data );
+			var platform = new game.Platform( game.resources.large_platform );
 		},
 
 		createHero: function() {

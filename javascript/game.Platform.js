@@ -5,10 +5,22 @@ var SAY = SAY || {};
 	var game = SAY.game;
 
 	game.Platform = function( data ){
-		// Create fixDef
-		var fixDef = new box2d.b2FixtureDef();
-		fixDef.density = data.density || 1;
-		fixDef.friction = data.friction || 1;
+		self = this;
+
+		if ( data.src !== undefined ){
+			var image    = new Image();
+			image.src    = data.src;
+			image.onload = this.addPlatformToStage;
+		}
+
+		var v = data.coords;
+		var vecs = [];
+
+		for ( i=0; i < v.length; i++) {
+			var cc = new box2d.b2Vec2();
+			cc.Set( v[i][0] / game.SCALE, v[i][1] / game.SCALE );
+			vecs[i] = cc;
+		}
 
 		// Create bodyDef Shape
 		var bodyDef = new box2d.b2BodyDef();
@@ -16,23 +28,38 @@ var SAY = SAY || {};
 		bodyDef.position.x = data.x / game.SCALE;
 		bodyDef.position.y = data.y / game.SCALE;
 
-		v = data.coords;
-		vecs = [];
-		for(i=0;i<v.length;i++){
-			cc = new box2d.b2Vec2();
-			cc.Set( v[i][0] / game.SCALE, v[i][1] / game.SCALE );
-			vecs[i] = cc;
-		}
-
+		// Create fixDef
+		var fixDef = new box2d.b2FixtureDef();
+		fixDef.density = data.density;
+		fixDef.friction = data.friction;
 		fixDef.shape = new box2d.b2PolygonShape();
 		fixDef.shape.SetAsArray( vecs, vecs.length );
+
 		game.world.CreateBody(bodyDef).CreateFixture(fixDef);
 
-		game.stage.addChild(this.view);
-		game.platforms.push(this);
+		// var v = data.coords2;
+		// var vecs = [];
+
+		// for ( i=0; i < v.length; i++) {
+		// 	var cc = new box2d.b2Vec2();
+		// 	cc.Set( v[i][0] / game.SCALE, v[i][1] / game.SCALE );
+		// 	vecs[i] = cc;
+		// }
+
+		// // Create fixDef2
+		// var fixDef2 = new box2d.b2FixtureDef();
+		// fixDef2.density = data.density;
+		// fixDef2.friction = data.friction;
+		// fixDef2.shape = new box2d.b2PolygonShape();
+		// fixDef2.shape.SetAsArray( vecs, vecs.length );
+
+		// game.world.CreateBody(bodyDef).CreateFixture(fixDef2);
+
 	};
 
-	var tick = function(e) {
+	game.Platform.prototype.addPlatformToStage = function() {
+		game.stage.addChild(this.view);
+		game.platforms.push(this);
 	};
 
 })();

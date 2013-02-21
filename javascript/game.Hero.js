@@ -86,10 +86,7 @@ var SAY = SAY || {};
 			facing: 'right'
 		};
 
-		this.maxSpeed = {
-			x: 100,
-			y: 100
-		};
+		this.maxSpeed = 16;
 
 		// Flip frames
 		SpriteSheetUtils.addFlippedFrames(ss, true, false, false);
@@ -121,36 +118,36 @@ var SAY = SAY || {};
 
 	game.Hero.prototype.tick = function( event ) {
 
-
 			/*
 				TODO:
 				- Check if user is jumping or on the ground
 				- On the ground means previous Y == current Y
 			*/
 
-		// Update X and Y position
-		this.x = (this.body.GetPosition().x * game.SCALE) + (event / 100000);
-		this.y = (this.body.GetPosition().y * game.SCALE) + (event / 100000);
+		var position = this.body.GetPosition();
+		this.x = (position.x * game.SCALE) + (event / 100000);
+		this.y = (position.y * game.SCALE) + (event / 100000);
 
 		// Jump
 		if (self.is.jumping) {
-			this.body.ApplyImpulse(new box2d.b2Vec2(0,-225), this.body.GetPosition());
+			this.body.ApplyImpulse(new box2d.b2Vec2(0,-225), position);
+			self.is.jumping = false;
 		}
 
 		var Vo = this.body.GetLinearVelocity();
 
 		// Moving Right
-		if (self.is.movingRight && Vo.x < 20) {
+		if (self.is.movingRight && Vo.x < self.maxSpeed) {
 			this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x + 1, Vo.y));
 		}
 
 		// Moving Left
-		if (self.is.movingLeft && Vo.x > -20) {
+		if (self.is.movingLeft && Vo.x > -self.maxSpeed) {
 			this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x - 1, Vo.y));
 		}
 
 		// Slow Down
-		this.body.SetLinearDamping(1);
+		this.body.SetLinearDamping(1.5);
 		//this.rotation = this.body.GetAngle() * ( 180/Math.PI );
 	};
 
