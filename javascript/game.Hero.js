@@ -120,12 +120,20 @@ var SAY = SAY || {};
 	};
 
 	game.Hero.prototype.tick = function( event ) {
+
+
+			/*
+				TODO:
+				- Check if user is jumping or on the ground
+				- On the ground means previous Y == current Y
+			*/
+
 		// Update X and Y position
 		this.x = (this.body.GetPosition().x * game.SCALE) + (event / 100000);
 		this.y = (this.body.GetPosition().y * game.SCALE) + (event / 100000);
 
 		// Jump
-		if (self.is.jumping && this.body.GetFixtureList() < 1) {
+		if (self.is.jumping) {
 			this.body.ApplyImpulse(new box2d.b2Vec2(0,-225), this.body.GetPosition());
 		}
 
