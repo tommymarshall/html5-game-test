@@ -121,11 +121,11 @@ var SAY = SAY || {};
 
 	game.Hero.prototype.tick = function( event ) {
 		// Update X and Y position
-		this.x = (this.body.GetPosition().x * game.SCALE) + (event) / 1000 * 100;
-		this.y = (this.body.GetPosition().y * game.SCALE) + (event) / 1000 * 100;
+		this.x = (this.body.GetPosition().x * game.SCALE) + (event / 100000);
+		this.y = (this.body.GetPosition().y * game.SCALE) + (event / 100000);
 
 		// Jump
-		if (self.is.jumping) {
+		if (self.is.jumping && this.body.GetFixtureList() < 1) {
 			this.body.ApplyImpulse(new box2d.b2Vec2(0,-225), this.body.GetPosition());
 		}
 
