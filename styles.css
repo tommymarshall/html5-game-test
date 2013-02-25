@@ -1,3 +1,7 @@
+* {
+	box-sizing: border-box;
+}
+
 body {
 	background: #222;
 	margin: 0;
@@ -7,14 +11,19 @@ body {
 .wrapper {
 	background: #353535;
 	margin: 10% auto 0;
-	height: 800px;
-	width: 1200px;
+	max-width: 1200px;
+	width: 100%;
 	position: relative;
 	border: 3px solid #fff;
 }
 
 canvas {
-	position: absolute;
+	width: 100%;
+}
+
+#debug {
 	top: 0;
 	left: 0;
+	position: absolute;
+	height: 100%;
 }

@@ -39,26 +39,20 @@ var SAY = SAY || {};
 		var handleKeyDown = function(e)
 		{
 			if (controls.right.contains(e.which)){
-				console.log('KEYDOWN right');
 				self.is.movingRight = true;
 			} else if (controls.left.contains(e.which)){
-				console.log('KEYDOWN left');
 				self.is.movingLeft = true;
 			} else if (controls.jump.contains(e.which)) {
-				console.log('KEYDOWN jump');
 				self.is.jumping = true;
 			}
 		};
 		var handleKeyUp = function(e)
 		{
 			if (controls.right.contains(e.which)){
-				console.log('KEYUP right');
 				self.is.movingRight = false;
 			} else if (controls.left.contains(e.which)){
-				console.log('KEYUP left');
 				self.is.movingLeft = false;
 			} else if (controls.jump.contains(e.which)) {
-				console.log('KEYUP jump');
 				self.is.jumping = false;
 			}
 		};
@@ -100,7 +94,7 @@ var SAY = SAY || {};
 		// Define body position
 		this.bodyDef = new box2d.b2BodyDef();
 		this.bodyDef.type = box2d.b2Body.b2_dynamicBody;
-		this.bodyDef.position.x = (game.WIDTH / game.SCALE) / 2;
+		this.bodyDef.position.x = (game.WIDTH / game.SCALE) / 4;
 		this.bodyDef.position.y = 0;
 		this.bodyDef.isSensor = true;
 
@@ -113,16 +107,15 @@ var SAY = SAY || {};
 		this.view.onTick = this.tick;
 
 		// Add to stage
-		game.stage.addChild(this.view);
+		game.characters.push(this.view);
 	};
 
 	game.Hero.prototype.tick = function( event ) {
-
-			/*
-				TODO:
-				- Check if user is jumping or on the ground
-				- On the ground means previous Y == current Y
-			*/
+		/*
+			TODO:
+			- Check if user is jumping or on the ground
+			- On the ground means previous Y == current Y
+		*/
 
 		var position = this.body.GetPosition();
 		this.x = (position.x * game.SCALE) + (event / 100000);
@@ -139,15 +132,13 @@ var SAY = SAY || {};
 		// Moving Right
 		if (self.is.movingRight && Vo.x < self.maxSpeed) {
 			this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x + 1, Vo.y));
-		}
-
-		// Moving Left
-		if (self.is.movingLeft && Vo.x > -self.maxSpeed) {
+		} // Moving Left
+		else if (self.is.movingLeft && Vo.x > -self.maxSpeed) {
 			this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x - 1, Vo.y));
 		}
 
 		// Slow Down
-		this.body.SetLinearDamping(1.5);
+		this.body.SetLinearDamping(0.75);
 		//this.rotation = this.body.GetAngle() * ( 180/Math.PI );
 	};
 
