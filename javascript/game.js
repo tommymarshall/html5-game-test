@@ -14,6 +14,7 @@ var SAY = SAY || {};
 			game.draw.backgrounds();
 			game.draw.platforms();
 			game.draw.hero();
+			game.draw.foregrounds();
 
 			// Container stuff
 			game.build();
@@ -35,11 +36,14 @@ var SAY = SAY || {};
 			// Array of colliding platforms
 			game.platforms = [];
 
-			// Array of non-colliding bakgrounds
+			// Array of non-colliding backgrounds
 			game.backgrounds = [];
 
+			// Array of non-colliding foregrounds
+			game.foregrounds = [];
+
 			// Debug?
-			game.DEVELOPMENT = true;
+			game.DEVELOPMENT = false;
 
 			// Debug canvas
 			game.debug = {};
@@ -111,6 +115,11 @@ var SAY = SAY || {};
 				console.log('...characters');
 				game.container.addChild(game.characters[q]);
 			}
+
+			for (var p = 0; p < game.foregrounds.length; p++) {
+				console.log('...foregrounds.');
+				game.container.addChild(game.foregrounds[p]);
+			}
 			console.log('Done loading');
 		},
 
@@ -132,6 +141,11 @@ var SAY = SAY || {};
 			hero: function() {
 				var hero = new game.Hero();
 				game.characters['hero'] = hero;
+			},
+
+			foregrounds: function() {
+				var cage = new game.Foreground( game.resources.cage);
+				game.characters['cage'] = cage;
 			}
 		},
 
@@ -148,7 +162,7 @@ var SAY = SAY || {};
 
 				if (game.characters.hero.view.x > game.canvas.width * 0.3){
 					game.stage.x = -game.characters.hero.view.x + game.canvas.width * 0.3;
-					game.debug.x = -game.characters.hero.view.x + game.canvas.width * 0.3;
+					//game.debug.x = -game.characters.hero.view.x + game.canvas.width * 0.3;
 				}
 			};
 

@@ -60,10 +60,10 @@ var SAY = SAY || {};
 	};
 
 	game.Platform.prototype.addToStage = function(){
-		var platformImage = new Bitmap(this);
-		platformImage.x = properties.position.x;
-		platformImage.y = properties.position.y;
-		game.platforms.push(platformImage);
+		var asset = new Bitmap(this);
+		asset.x = properties.position.x;
+		asset.y = properties.position.y;
+		game.platforms.push(asset);
 	};
 
 })();

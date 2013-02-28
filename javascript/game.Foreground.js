@@ -6,7 +6,7 @@ var SAY = SAY || {};
 	var self;
 	var properties;
 
-	game.Background = function( data ){
+	game.Foreground = function( data ){
 		self = this;
 		properties = data;
 
@@ -17,11 +17,11 @@ var SAY = SAY || {};
 		}
 	};
 
-	game.Background.prototype.addToStage = function(){
+	game.Foreground.prototype.addToStage = function(){
 		var asset = new Bitmap(this);
 		asset.x = properties.position.x;
 		asset.y = properties.position.y;
-		game.backgrounds.push(asset);
+		game.foregrounds.push(asset);
 	};
 
 })();
