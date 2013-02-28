@@ -17,8 +17,6 @@ var SAY = SAY || {};
 		}
 	};
 
-	game.Foreground.prototype = new game.Body();
-
 	game.Foreground.prototype.addToStage = function(){
 		var asset = new Bitmap(this);
 		asset.x = properties.position.x;
