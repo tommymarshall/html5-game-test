@@ -30,6 +30,12 @@ var SAY = SAY || {};
 			game.HEIGHT = 800;
 			game.WIDTH = 1200;
 
+			// Debug?
+			game.DEVELOPMENT = true;
+
+			// Debug canvas
+			game.debug = {};
+
 			// Holds object of characters
 			game.characters = [];
 
@@ -41,12 +47,6 @@ var SAY = SAY || {};
 
 			// Array of non-colliding foregrounds
 			game.foregrounds = [];
-
-			// Debug?
-			game.DEVELOPMENT = false;
-
-			// Debug canvas
-			game.debug = {};
 		},
 
 		reality: {
