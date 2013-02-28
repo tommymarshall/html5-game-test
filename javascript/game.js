@@ -17,7 +17,6 @@ var SAY = SAY || {};
 			game.draw.foregrounds();
 
 			// Container stuff
-			game.build();
 			game.addToStage();
 
 			// Run it!
@@ -129,13 +128,11 @@ var SAY = SAY || {};
 
 		draw: {
 			backgrounds: function() {
-				var background = new game.Background( game.resources.starting_bg );
-				game.backgrounds['large_platform'] = background;
+				var background = new game.Body( game.resources.starting_bg );
 			},
 
 			platforms: function() {
-				var platform = new game.Platform( game.resources.large_platform );
-				game.platforms['large_platform'] = platform;
+				var platform = new game.Body( game.resources.large_platform );
 			},
 
 			hero: function() {
@@ -144,8 +141,7 @@ var SAY = SAY || {};
 			},
 
 			foregrounds: function() {
-				var cage = new game.Foreground( game.resources.cage);
-				game.characters['cage'] = cage;
+				var cage = new game.Body( game.resources.cage );
 			}
 		},
 

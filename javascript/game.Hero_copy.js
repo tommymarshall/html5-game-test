@@ -48,12 +48,6 @@ var SAY = SAY || {};
 		game.tickers.push(this);
 	};
 
-	game.Hero.prototype.setData = function( data ){
-		for(var key in data){
-			this[key] = data[key];
-		}
-	};
-
 	game.Hero.prototype.createBall = function(){
 		this.ball = new Shape();
 

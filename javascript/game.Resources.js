@@ -5,14 +5,20 @@ var SAY = SAY || {};
 	var game = SAY.game;
 
 	game.resources = {
+		starting_bg: {
+			layer: 'backgrounds',
+			source: './images/bg-big-chunk.png',
+			position: {
+				x: 0,
+				y: 0
+			}
+		},
 		large_platform: {
-			coords: [[0,0],[730,0],[794,64],[647,86],[15,86],[0,12]],
-			coords2: [[794,64],[3342,64],[3330,150],[712,150],[647,86]],
-			// coords: [[
-			// [[0,0],[730,0],[794,64],[647,86],[15,86],[0,12]]
-			// ], [
-			// [[794,64],[3342,64],[3330,150],[712,150],[647,86]]
-			// ]],
+			layer: 'platforms',
+			coords: [
+				[[0,0],[730,0],[794,64],[647,86],[15,86],[0,12]],
+				[[794,64],[3342,64],[3330,150],[712,150],[647,86]]
+			],
 			density: 1,
 			friction: 1,
 			source: './images/main-platform.png',
@@ -21,14 +27,8 @@ var SAY = SAY || {};
 				y: 700
 			}
 		},
-		starting_bg: {
-			source: './images/bg-big-chunk.png',
-			position: {
-				x: 0,
-				y: 0
-			}
-		},
 		cage: {
+			layer: 'foregrounds',
 			source: './images/cage.png',
 			position: {
 				x: 130,
