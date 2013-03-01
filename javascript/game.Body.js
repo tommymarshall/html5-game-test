@@ -10,10 +10,10 @@ var SAY = SAY || {};
 
 	var p = game.Body.prototype;
 
-	p.Body_initialize = p.initialize;
+	//p.Body_initialize = p.initialize;
 
 	p.initialize = function( data ) {
-		p.Body_initialize();
+		//p.Body_initialize();
 		p.setData( data );
 		p.build();
 	};
