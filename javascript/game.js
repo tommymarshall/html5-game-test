@@ -17,7 +17,7 @@ var SAY = SAY || {};
 			game.draw.foregrounds();
 
 			// Container stuff
-			game.build();
+			// game.build();
 			game.addToStage();
 
 			// Run it!
