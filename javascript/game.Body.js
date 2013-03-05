@@ -17,9 +17,9 @@ var SAY = SAY || {};
 
 	p.build = function() {
 		if ( p.data.source !== undefined ){
-			var image    = new Image();
-			image.src    = p.data.source;
-			image.onload = p.addToLayer;
+			p.image    = new Image();
+			p.image.src    = p.data.source;
+			p.addToLayer();
 		}
 
 		if ( p.data.coords !== undefined ){
@@ -60,7 +60,7 @@ var SAY = SAY || {};
 	};
 
 	p.addToLayer = function(){
-		var asset = new Bitmap(this);
+		var asset = new Bitmap(p.image);
 		asset.x = p.data.position.x || 0;
 		asset.y = p.data.position.y || 0;
 

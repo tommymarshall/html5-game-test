@@ -30,7 +30,9 @@ var SAY = SAY || {};
 		this.binds();
 	};
 
-	game.Hero.prototype.binds = function() {
+	var p = game.Hero.prototype;
+
+	p.binds = function() {
 		var controls = {
 			left: [ 37, 65 ],
 			right: [ 39, 68 ],
@@ -61,13 +63,7 @@ var SAY = SAY || {};
 		document.onkeyup = handleKeyUp;
 	};
 
-	game.Hero.prototype.setData = function( data ){
-		for(var key in data){
-			this[key] = data[key];
-		}
-	};
-
-	game.Hero.prototype.create = function() {
+	p.create = function() {
 		// Add spritesheet
 		this.view = new BitmapAnimation( ss );
 
@@ -110,7 +106,7 @@ var SAY = SAY || {};
 		game.characters.push(this.view);
 	};
 
-	game.Hero.prototype.tick = function( event ) {
+	p.tick = function( event ) {
 		/*
 			TODO:
 			- Check if user is jumping or on the ground
