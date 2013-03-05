@@ -10,23 +10,16 @@ var SAY = SAY || {};
 
 	var p = game.Body.prototype;
 
-	//p.Body_initialize = p.initialize;
-
 	p.initialize = function( data ) {
-		//p.Body_initialize();
 		p.setData( data );
 		p.build();
-	};
-
-	p.clone = function( data ) {
-		return new game.Body( data );
 	};
 
 	p.build = function() {
 		if ( p.data.source !== undefined ){
 			var image    = new Image();
 			image.src    = p.data.source;
-			image.onload = p.addToStage;
+			image.onload = p.addToLayer;
 		}
 
 		if ( p.data.coords !== undefined ){
@@ -64,14 +57,12 @@ var SAY = SAY || {};
 		for(var key in data){
 			p.data[key] = data[key];
 		}
-
-		console.log(JSON.stringify(p.data, null, 4));
 	};
 
-	p.addToStage = function(){
+	p.addToLayer = function(){
 		var asset = new Bitmap(this);
-		asset.x = p.data.position.x;
-		asset.y = p.data.position.y;
+		asset.x = p.data.position.x || 0;
+		asset.y = p.data.position.y || 0;
 
 		switch (p.data.layer) {
 			case 'foregrounds':

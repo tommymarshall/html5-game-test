@@ -6,6 +6,7 @@ var SAY = SAY || {};
 
 	game.resources = {
 		starting_bg: {
+			name: 'Starting Background',
 			layer: 'backgrounds',
 			source: './images/bg-big-chunk.png',
 			position: {
@@ -14,6 +15,7 @@ var SAY = SAY || {};
 			}
 		},
 		large_platform: {
+			name: 'Large Platform',
 			layer: 'platforms',
 			coords: [
 				[[0,0],[730,0],[794,64],[647,86],[15,86],[0,12]],
@@ -28,6 +30,7 @@ var SAY = SAY || {};
 			}
 		},
 		cage: {
+			name: 'Cage',
 			layer: 'foregrounds',
 			source: './images/cage.png',
 			position: {

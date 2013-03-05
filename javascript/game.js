@@ -103,22 +103,22 @@ var SAY = SAY || {};
 			console.log('Loading');
 			for (var i = 0; i < game.backgrounds.length; i++) {
 				console.log('...backgrounds.');
-				game.container.addChild(game.backgrounds[i]);
+				game.container.addChild(game.backgrounds[i].view);
 			}
 
 			for (var j = 0; j < game.platforms.length; j++) {
 				console.log('...platforms');
-				game.container.addChild(game.platforms[j]);
+				game.container.addChild(game.platforms[j].view);
 			}
 
 			for (var q = 0; q < game.characters.length; q++) {
 				console.log('...characters');
-				game.container.addChild(game.characters[q]);
+				game.container.addChild(game.characters[q].view);
 			}
 
 			for (var p = 0; p < game.foregrounds.length; p++) {
 				console.log('...foregrounds.');
-				game.container.addChild(game.foregrounds[p]);
+				game.container.addChild(game.foregrounds[p].view);
 			}
 			console.log('Done loading');
 		},
