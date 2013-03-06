@@ -10,8 +10,8 @@ body {
 
 .wrapper {
 	background: #353535;
-	margin: 2.5% auto 0;
-	max-width: 1400px;
+	margin: 0 auto;
+	max-width: 1200px;
 	width: 100%;
 	position: relative;
 	border: 3px solid #fff;

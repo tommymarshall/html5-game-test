@@ -6,6 +6,7 @@ var SAY = SAY || {};
 
 		init: function() {
 			game.vars();
+			game.binds();
 
 			// Some world stuff
 			game.reality.init();
@@ -29,8 +30,8 @@ var SAY = SAY || {};
 		vars: function() {
 			// Game specifics
 			game.SCALE = 30;
-			game.HEIGHT = 1000;
-			game.WIDTH = 1400;
+			game.HEIGHT = 1004;
+			game.WIDTH = 1200;
 
 			// Debug?
 			game.DEVELOPMENT = false;
@@ -55,6 +56,20 @@ var SAY = SAY || {};
 
 			// Array of non-colliding foregrounds
 			game.foregrounds = [];
+		},
+
+		binds: function() {
+			window.addEventListener('blur', game.state.pause, false);
+			window.addEventListener('focus', game.state.play, false);
+		},
+
+		state: {
+			pause: function() {
+				Ticker.setPaused(true);
+			},
+			play: function() {
+				Ticker.setPaused(false);
+			}
 		},
 
 		reality: {
@@ -173,19 +188,21 @@ var SAY = SAY || {};
 
 		render: function() {
 			var tick = function(e){
-				game.stage.update(e);
+				if (!createjs.Ticker.getPaused()) {
+					game.stage.update(e);
 
-				if ( game.DEVELOPMENT ){
-					game.world.SetDebugDraw( game.drawer );
-					game.world.DrawDebugData();
-				}
+					if ( game.DEVELOPMENT ){
+						game.world.SetDebugDraw( game.drawer );
+						game.world.DrawDebugData();
+					}
 
-				game.world.Step( 1/60, 10, 10 );
-				game.world.ClearForces(e);
+					game.world.Step( 1/60, 10, 10 );
+					game.world.ClearForces(e);
 
-				if (game.characters.hero.view.x > game.canvas.width * 0.3){
-					game.stage.x = -game.characters.hero.view.x + game.canvas.width * 0.3;
-					//game.debug.x = -game.characters.hero.view.x + game.canvas.width * 0.3;
+					if (game.characters.hero.view.x > game.canvas.width * 0.3){
+						game.stage.x = -game.characters.hero.view.x + game.canvas.width * 0.3;
+						//game.debug.x = -game.characters.hero.view.x + game.canvas.width * 0.3;
+					}
 				}
 			};
 

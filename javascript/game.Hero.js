@@ -97,6 +97,7 @@ var SAY = SAY || {};
 		this.fixDef.shape = new box2d.b2CircleShape( 47.5 / game.SCALE );
 		this.view.body = game.world.CreateBody( this.bodyDef );
 		this.view.body.CreateFixture( this.fixDef );
+		this.view.body.SetSleepingAllowed( false );
 		this.view.gotoAndPlay("idle");
 
 		// Set the Tick
@@ -111,7 +112,7 @@ var SAY = SAY || {};
 			.setStrokeStyle(3)
 			.beginFill('rgba(255,255,255,0.75)')
 			.arc(0, 0, 47.5, 180, Math.PI)
-			.beginFill('rgba(255,255,255,255,0.65)')
+			.beginFill('rgba(255,255,255,0.65)')
 			.arc(0, 0, 47.5, 0, Math.PI)
 			.endStroke();
 
@@ -145,20 +146,24 @@ var SAY = SAY || {};
 
 		var Vo = this.body.GetLinearVelocity();
 
+
 		// Moving Right
 		if (self.is.movingRight && Vo.x < self.maxSpeed) {
 			this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x + 1, Vo.y));
 		} // Moving Left
 		else if (self.is.movingLeft && Vo.x > -self.maxSpeed) {
 			this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x - 1, Vo.y));
-		} else if (Math.abs(Vo.x) > 0.015 && Math.abs(Vo.x)) {
+		} // Slow down
+		else if (Math.abs(Vo.x) > 0.015 && Math.abs(Vo.x)) {
 			this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x * 0.98, Vo.y));
-		} else {
+		} // Stop
+		else {
 			this.body.SetLinearVelocity(new box2d.b2Vec2(0, Vo.y));
 		}
 
 		// Slow Down
-		this.ball.rotation = this.body.GetAngle() * ( 180/Math.PI );
+		var angle = this.body.GetAngle() * ( 180/Math.PI );
+		this.ball.rotation = angle;
 	};
 
 })();
