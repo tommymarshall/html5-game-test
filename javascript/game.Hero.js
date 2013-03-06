@@ -91,7 +91,7 @@ var SAY = SAY || {};
 		this.bodyDef = new box2d.b2BodyDef();
 		this.bodyDef.type = box2d.b2Body.b2_dynamicBody;
 		this.bodyDef.position.x = (game.WIDTH / game.SCALE) / 4;
-		this.bodyDef.position.y = 0;
+		this.bodyDef.position.y = (game.HEIGHT / game.SCALE) / 1.5;
 		this.bodyDef.isSensor = true;
 
 		this.fixDef.shape = new box2d.b2CircleShape( 47.5 / game.SCALE );
@@ -101,6 +101,26 @@ var SAY = SAY || {};
 
 		// Set the Tick
 		this.view.onTick = this.tick;
+
+		// Build ball
+		this.view.ball = new Shape();
+
+		// Build the ball
+		this.view.ball.graphics
+			.beginStroke('#fff')
+			.setStrokeStyle(3)
+			.beginFill('rgba(255,255,255,0.75)')
+			.arc(0, 0, 47.5, 180, Math.PI)
+			.beginFill('rgba(255,255,255,255,0.65)')
+			.arc(0, 0, 47.5, 0, Math.PI)
+			.endStroke();
+
+		// Starting location
+		this.view.ball.x = this.view.x;
+		this.view.ball.y = this.view.y;
+
+		// Add ball to stage
+		game.characters.push(this.view.ball);
 
 		// Add to stage
 		game.characters.push(this.view);
@@ -114,8 +134,8 @@ var SAY = SAY || {};
 		*/
 
 		var position = this.body.GetPosition();
-		this.x = (position.x * game.SCALE) + (event / 100000);
-		this.y = (position.y * game.SCALE) + (event / 100000);
+		this.x = this.ball.x = (position.x * game.SCALE) + (event / 100000);
+		this.y = this.ball.y = (position.y * game.SCALE) + (event / 100000);
 
 		// Jump
 		if (self.is.jumping) {
@@ -131,11 +151,14 @@ var SAY = SAY || {};
 		} // Moving Left
 		else if (self.is.movingLeft && Vo.x > -self.maxSpeed) {
 			this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x - 1, Vo.y));
+		} else if (Math.abs(Vo.x) > 0.015 && Math.abs(Vo.x)) {
+			this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x * 0.98, Vo.y));
+		} else {
+			this.body.SetLinearVelocity(new box2d.b2Vec2(0, Vo.y));
 		}
 
 		// Slow Down
-		this.body.SetLinearDamping(0.75);
-		//this.rotation = this.body.GetAngle() * ( 180/Math.PI );
+		this.ball.rotation = this.body.GetAngle() * ( 180/Math.PI );
 	};
 
 })();

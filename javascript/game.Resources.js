@@ -29,8 +29,32 @@ var SAY = SAY || {};
 				y: 700
 			}
 		},
+		trampoline: {
+			name: 'trampoline',
+			layer: 'special',
+			coords: [
+				[[0,0],[150,0],[150,20],[0,20]]
+			],
+			density: 1,
+			friction: 1,
+			restitution: 1.5,
+			source: './images/trampoline.png',
+			position: {
+				x: 1800,
+				y: 720
+			}
+		},
 		cage: {
 			name: 'Cage',
+			coords: [
+				[[74,0],[86,0],[86,377],[74,377]],
+				[[86,0],[660,0],[660,12],[86,12]],
+				[[660,0],[672,0],[672,260],[660,260]],
+				[[672,232],[802,304],[796,312],[778,309],[746,292],[672,247]],
+				[[56,377],[686,377],[686,415],[56,415]]
+			],
+			density: 1,
+			friction: 1,
 			layer: 'foregrounds',
 			source: './images/cage.png',
 			position: {

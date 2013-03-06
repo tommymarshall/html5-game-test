@@ -17,8 +17,8 @@ var SAY = SAY || {};
 
 	p.build = function() {
 		if ( p.data.source !== undefined ){
-			p.image    = new Image();
-			p.image.src    = p.data.source;
+			p.image = new Image();
+			p.image.src = p.data.source;
 			p.addToLayer();
 		}
 
@@ -41,8 +41,9 @@ var SAY = SAY || {};
 
 				// Create fixDef
 				var fixDef = new box2d.b2FixtureDef();
-				fixDef.density = p.data.density;
-				fixDef.friction = p.data.friction;
+				fixDef.density = p.data.density || 1;
+				fixDef.friction = p.data.friction || 1;
+				fixDef.restitution = p.data.restitution || 0;
 				fixDef.shape = new box2d.b2PolygonShape();
 				fixDef.shape.SetAsArray( vecs, vecs.length );
 
@@ -75,6 +76,14 @@ var SAY = SAY || {};
 
 			case 'platforms':
 				game.platforms.push(asset);
+			break;
+
+			case 'special':
+				game.special.push(asset);
+			break;
+
+			case 'enemies':
+				game.enemies.push(asset);
 			break;
 
 			default:

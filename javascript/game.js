@@ -13,11 +13,13 @@ var SAY = SAY || {};
 			// Action methods, do stuff
 			game.draw.backgrounds();
 			game.draw.platforms();
+			game.draw.special();
+			game.draw.enemies();
 			game.draw.hero();
 			game.draw.foregrounds();
 
 			// Container stuff
-			// game.build();
+			game.build();
 			game.addToStage();
 
 			// Run it!
@@ -27,11 +29,11 @@ var SAY = SAY || {};
 		vars: function() {
 			// Game specifics
 			game.SCALE = 30;
-			game.HEIGHT = 800;
-			game.WIDTH = 1200;
+			game.HEIGHT = 1000;
+			game.WIDTH = 1400;
 
 			// Debug?
-			game.DEVELOPMENT = true;
+			game.DEVELOPMENT = false;
 
 			// Debug canvas
 			game.debug = {};
@@ -41,6 +43,12 @@ var SAY = SAY || {};
 
 			// Array of colliding platforms
 			game.platforms = [];
+
+			// Array of special objects
+			game.special = [];
+
+			// Array of enemies
+			game.enemies = [];
 
 			// Array of non-colliding backgrounds
 			game.backgrounds = [];
@@ -88,12 +96,12 @@ var SAY = SAY || {};
 					game.world = new box2d.b2World( new box2d.b2Vec2( 0, 50 ), true );
 
 					if ( game.DEVELOPMENT ){
-						var debugDraw = new box2d.b2DebugDraw();
-						debugDraw.SetSprite(game.debug.canvas.getContext( '2d' ));
-						debugDraw.SetDrawScale(30);
-						debugDraw.SetFillAlpha(0.25);
-						debugDraw.SetFlags(box2d.b2DebugDraw.e_shapeBit | box2d.b2DebugDraw.e_jointBit);
-						game.world.SetDebugDraw(debugDraw);
+						game.drawer = new box2d.b2DebugDraw();
+						game.drawer.SetSprite(game.debug.canvas.getContext( '2d' ));
+						game.drawer.SetDrawScale(30);
+						game.drawer.SetFillAlpha(0.2);
+						game.drawer.SetLineThickness();
+						game.drawer.SetFlags(box2d.b2DebugDraw.e_shapeBit | box2d.b2DebugDraw.e_jointBit);
 					}
 				}
 			}
@@ -108,6 +116,13 @@ var SAY = SAY || {};
 				var platform = new game.Body( game.resources.large_platform );
 			},
 
+			special: function() {
+				var trampoline = new game.Body( game.resources.trampoline );
+			},
+
+			enemies: function() {
+			},
+
 			hero: function() {
 				var hero = new game.Hero();
 				game.characters['hero'] = hero;
@@ -120,24 +135,34 @@ var SAY = SAY || {};
 
 		build: function() {
 			console.log('Loading');
-			for (var i = 0; i < game.backgrounds.length; i++) {
+			for (var b = 0; b < game.backgrounds.length; b++) {
 				console.log('...backgrounds.');
-				game.container.addChild(game.backgrounds[i]);
+				game.container.addChild(game.backgrounds[b]);
 			}
 
-			for (var j = 0; j < game.platforms.length; j++) {
+			for (var p = 0; p < game.platforms.length; p++) {
 				console.log('...platforms');
-				game.container.addChild(game.platforms[j]);
+				game.container.addChild(game.platforms[p]);
 			}
 
-			for (var q = 0; q < game.characters.length; q++) {
+			for (var s = 0; s < game.special.length; s++) {
+				console.log('...special');
+				game.container.addChild(game.special[s]);
+			}
+
+			for (var e = 0; e < game.enemies.length; e++) {
+				console.log('...enemies');
+				game.container.addChild(game.enemies[e]);
+			}
+
+			for (var c = 0; c < game.characters.length; c++) {
 				console.log('...characters');
-				game.container.addChild(game.characters[q]);
+				game.container.addChild(game.characters[c]);
 			}
 
-			for (var p = 0; p < game.foregrounds.length; p++) {
+			for (var f = 0; f < game.foregrounds.length; f++) {
 				console.log('...foregrounds.');
-				game.container.addChild(game.foregrounds[p]);
+				game.container.addChild(game.foregrounds[f]);
 			}
 			console.log('Done loading');
 		},
@@ -151,10 +176,11 @@ var SAY = SAY || {};
 				game.stage.update(e);
 
 				if ( game.DEVELOPMENT ){
+					game.world.SetDebugDraw( game.drawer );
 					game.world.DrawDebugData();
 				}
 
-				game.world.Step( 1/60, 10, 10);
+				game.world.Step( 1/60, 10, 10 );
 				game.world.ClearForces(e);
 
 				if (game.characters.hero.view.x > game.canvas.width * 0.3){
@@ -165,7 +191,7 @@ var SAY = SAY || {};
 
 			Ticker.setFPS( 60 );
 			Ticker.useRAF = true;
-			Ticker.addListener(tick);
+			Ticker.addListener( tick );
 		}
 
 	};
