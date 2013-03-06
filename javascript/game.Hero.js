@@ -138,27 +138,30 @@ var SAY = SAY || {};
 		this.x = this.ball.x = (position.x * game.SCALE) + (event / 100000);
 		this.y = this.ball.y = (position.y * game.SCALE) + (event / 100000);
 
-		// Jump
-		if (self.is.jumping) {
-			this.body.ApplyImpulse(new box2d.b2Vec2(0,-225), position);
-			self.is.jumping = false;
-		}
-
 		var Vo = this.body.GetLinearVelocity();
 
+		if ( this.body.GetContactList() ) {
+			// Only allow
+			if ( self.is.jumping) {
+				this.body.ApplyImpulse(new box2d.b2Vec2(0,-225), position);
+				self.is.jumping = false;
+			}
 
-		// Moving Right
-		if (self.is.movingRight && Vo.x < self.maxSpeed) {
-			this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x + 1, Vo.y));
-		} // Moving Left
-		else if (self.is.movingLeft && Vo.x > -self.maxSpeed) {
-			this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x - 1, Vo.y));
-		} // Slow down
-		else if (Math.abs(Vo.x) > 0.015 && Math.abs(Vo.x)) {
-			this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x * 0.98, Vo.y));
-		} // Stop
-		else {
-			this.body.SetLinearVelocity(new box2d.b2Vec2(0, Vo.y));
+			// Moving Right
+			if (self.is.movingRight && Vo.x < self.maxSpeed) {
+				this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x + 1, Vo.y));
+			} // Moving Left
+			else if (self.is.movingLeft && Vo.x > -self.maxSpeed) {
+				this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x - 1, Vo.y));
+			} // Slow down
+			else if (Math.abs(Vo.x) > 0.015 && Math.abs(Vo.x)) {
+				this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x * 0.98, Vo.y));
+			} // Stop
+			else {
+				this.body.SetLinearVelocity(new box2d.b2Vec2(0, Vo.y));
+			}
+		} else {
+			this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x * 0.995, Vo.y));
 		}
 
 		// Slow Down

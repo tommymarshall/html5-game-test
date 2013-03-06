@@ -30,7 +30,7 @@ var SAY = SAY || {};
 			}
 		},
 		trampoline: {
-			name: 'trampoline',
+			name: 'Trampoline',
 			layer: 'special',
 			coords: [
 				[[0,0],[150,0],[150,20],[0,20]]
