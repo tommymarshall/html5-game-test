@@ -34,7 +34,7 @@ var SAY = SAY || {};
 			game.WIDTH = 1200;
 
 			// Debug?
-			game.DEVELOPMENT = false;
+			game.DEVELOPMENT = true;
 
 			// Debug canvas
 			game.debug = {};
