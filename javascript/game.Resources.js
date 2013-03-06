@@ -61,6 +61,15 @@ var SAY = SAY || {};
 				x: 130,
 				y: 285
 			}
+		},
+		pipe: {
+			name: 'Cage',
+			layer: 'other',
+			source: './images/pipe-top.png',
+			position: {
+				x: 500,
+				y: -20
+			}
 		}
 	};
 

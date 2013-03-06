@@ -145,6 +145,7 @@ var SAY = SAY || {};
 
 			foregrounds: function() {
 				var cage = new game.Body( game.resources.cage );
+				var pipe = new game.Body( game.resources.pipe );
 			}
 		},
 
