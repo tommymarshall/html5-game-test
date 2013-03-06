@@ -10,7 +10,7 @@ var SAY = SAY || {};
 			"idle": [0, 27, "idle", 3],
 			"run":  [29, 47, "run", 2],
 			"stop": [59, 86, "idle", 2],
-			"jump": [87, 116, false, 2]
+			"jump": [87, 116, "idle", 2]
 		},
 			"images": ["../images/rat_sprite_full_small.png"],
 			"frames":
@@ -38,12 +38,31 @@ var SAY = SAY || {};
 			right: [ 39, 68 ],
 			jump: [ 32, 38, 40, 83, 87 ]
 		};
+		var stoppingAnimation = function(e){
+			if (self.view.currentAnimation !== 'jump_h' && self.view.currentAnimation !== 'jump') {
+				if (self.is.facing === 'right'){
+					if (self.view.body.GetAngularVelocity() > 3){
+						self.view.gotoAndPlay('stop');
+					} else {
+						self.view.gotoAndPlay('idle');
+					}
+				} else if (self.is.facing === 'left'){
+					if (self.view.body.GetAngularVelocity() < -3){
+						self.view.gotoAndPlay('stop_h');
+					} else {
+						self.view.gotoAndPlay('idle_h');
+					}
+				}
+			}
+		};
 		var handleKeyDown = function(e)
 		{
 			if (controls.right.contains(e.which)){
 				self.is.movingRight = true;
+				self.is.facing = 'right';
 			} else if (controls.left.contains(e.which)){
 				self.is.movingLeft = true;
+				self.is.facing = 'left';
 			} else if (controls.jump.contains(e.which)) {
 				self.is.jumping = true;
 			}
@@ -52,11 +71,15 @@ var SAY = SAY || {};
 		{
 			if (controls.right.contains(e.which)){
 				self.is.movingRight = false;
+				self.is.prevDirection = self.is.facing = 'right';
 			} else if (controls.left.contains(e.which)){
 				self.is.movingLeft = false;
+				self.is.prevDirection = self.is.facing = 'left';
 			} else if (controls.jump.contains(e.which)) {
 				self.is.jumping = false;
 			}
+
+			stoppingAnimation();
 		};
 
 		document.onkeydown = handleKeyDown;
@@ -145,17 +168,39 @@ var SAY = SAY || {};
 			if ( self.is.jumping) {
 				this.body.ApplyImpulse(new box2d.b2Vec2(0,-225), position);
 				self.is.jumping = false;
+
+				if (self.is.facing === 'right'){
+					this.gotoAndPlay('jump');
+				} else if (self.is.facing === 'left'){
+					this.gotoAndPlay('jump_h');
+				}
 			}
 
 			// Moving Right
 			if (self.is.movingRight && Vo.x < self.maxSpeed) {
 				this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x + 1, Vo.y));
+
+				if (self.is.prevDirection !== 'right' || this.currentAnimation === 'stop' || this.currentAnimation === 'idle'){
+					if (this.currentAnimation !== 'jump') {
+						this.gotoAndPlay('run');
+					}
+				}
+
+				self.is.prevDirection = 'right';
 			} // Moving Left
 			else if (self.is.movingLeft && Vo.x > -self.maxSpeed) {
 				this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x - 1, Vo.y));
+
+				if (self.is.prevDirection !== 'left' || this.currentAnimation === 'stop_h' || this.currentAnimation === 'idle_h'){
+					if (this.currentAnimation !== 'jump_h') {
+						this.gotoAndPlay('run_h');
+					}
+				}
+
+				self.is.prevDirection = 'left';
 			} // Slow down
 			else if (Math.abs(Vo.x) > 0.015 && Math.abs(Vo.x)) {
-				this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x * 0.98, Vo.y));
+				this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x * 0.97, Vo.y));
 			} // Stop
 			else {
 				this.body.SetLinearVelocity(new box2d.b2Vec2(0, Vo.y));
