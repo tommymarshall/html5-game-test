@@ -10,7 +10,7 @@ var SAY = SAY || {};
 			"idle": [0, 27, "idle", 3],
 			"run":  [29, 47, "run", 2],
 			"stop": [59, 86, "idle", 2],
-			"jump": [87, 116, "idle", 2]
+			"jump": [87, 115, "idle", 2]
 		},
 			"images": ["../images/rat_sprite_full_small.png"],
 			"frames":
@@ -199,7 +199,7 @@ var SAY = SAY || {};
 			self.is.prevDirection = 'left';
 		} // Slow down
 		else if (Math.abs(Vo.x) > 0.015 && Math.abs(Vo.x)) {
-			this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x * 0.99, Vo.y));
+			this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x * 0.98, Vo.y));
 		} // Stop
 		else {
 			this.body.SetLinearVelocity(new box2d.b2Vec2(0, Vo.y));

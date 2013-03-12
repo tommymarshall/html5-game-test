@@ -5,6 +5,17 @@ var SAY = SAY || {};
 	var game = SAY.game;
 
 	game.resources = {
+		start_screen: {
+			background: {
+				id: 'Starting Background',
+				layer: 1,
+				src: './images/bg-big-chunk.png',
+				position: {
+					x: 0,
+					y: 0
+				}
+			}
+		},
 		level_one: {
 			starting_bg: {
 				id: 'Starting Background',

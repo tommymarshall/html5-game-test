@@ -216,6 +216,7 @@ var SAY = SAY || {};
 
 					if (game.characters.hero.view.x > game.canvas.width * 0.3){
 						game.stage.x = -game.characters.hero.view.x + game.canvas.width * 0.3;
+						game.containers[12].x = game.stage.x * 0.5;
 					}
 				}
 			};
