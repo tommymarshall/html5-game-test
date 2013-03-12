@@ -11,6 +11,9 @@ var SAY = SAY || {};
 			// Some world stuff
 			game.reality.init();
 
+			// Preload all assets
+			game.preload();
+
 			// Action methods, do stuff
 			game.draw.level_one();
 			game.draw.hero();
@@ -32,6 +35,9 @@ var SAY = SAY || {};
 			// Debug?
 			game.DEVELOPMENT = false;
 
+			// Is game ready?
+			game.ready = false;
+
 			// Debug canvas
 			game.debug = {};
 
@@ -49,6 +55,44 @@ var SAY = SAY || {};
 		binds: function() {
 			window.addEventListener('blur', game.state.pause, false);
 			window.addEventListener('focus', game.state.play, false);
+		},
+
+		preload: function() {
+			var handleProgress = function( e ) {
+				console.log('handleProgress: ');
+				console.log( e );
+			};
+			var handleComplete = function( e ) {
+				console.log('handleComplete: ');
+				console.log( e );
+			};
+			var handleFileLoad = function( e ) {
+				console.log('handleFileLoad: ');
+				console.log( e );
+			};
+			preload = new LoadQueue(false);
+
+			// Use this instead to use tag loading
+			//preload = new createjs.PreloadJS(false);
+			var manifest = game.getResources('level_one');
+
+			preload.addEventListener("progress", handleProgress);
+			preload.addEventListener("complete", handleComplete);
+			preload.addEventListener("fileload", handleFileLoad);
+			preload.loadManifest(manifest);
+		},
+
+		getResources: function( scene ) {
+			var resources = game.resources[scene];
+			var manifest = [];
+
+			for (var key in resources) {
+				var obj = resources[key];
+				var image = {src: obj['src'], id: obj['id']};
+				manifest.push(image);
+			}
+
+			return manifest;
 		},
 
 		state: {

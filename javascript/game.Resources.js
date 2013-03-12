@@ -7,16 +7,16 @@ var SAY = SAY || {};
 	game.resources = {
 		level_one: {
 			starting_bg: {
-				name: 'Starting Background',
+				id: 'Starting Background',
 				layer: 1,
-				source: './images/bg-big-chunk.png',
+				src: './images/bg-big-chunk.png',
 				position: {
 					x: 0,
 					y: 0
 				}
 			},
 			large_platform: {
-				name: 'Large Platform',
+				id: 'Large Platform',
 				layer: 2,
 				coords: [
 					[[0,0],[730,0],[794,64],[647,86],[15,86],[0,12]],
@@ -24,14 +24,14 @@ var SAY = SAY || {};
 				],
 				density: 1,
 				friction: 1,
-				source: './images/main-platform.png',
+				src: './images/main-platform.png',
 				position: {
 					x: 140,
 					y: 700
 				}
 			},
 			trampoline: {
-				name: 'Trampoline',
+				id: 'Trampoline',
 				layer: 3,
 				coords: [
 					[[0,0],[150,0],[150,20],[0,20]]
@@ -39,14 +39,14 @@ var SAY = SAY || {};
 				density: 1,
 				friction: 1,
 				restitution: 1.5,
-				source: './images/trampoline.png',
+				src: './images/trampoline.png',
 				position: {
 					x: 1800,
 					y: 720
 				}
 			},
 			cage: {
-				name: 'Cage',
+				id: 'Cage',
 				layer: 10,
 				coords: [
 					[[74,0],[86,0],[86,377],[74,377]],
@@ -57,16 +57,16 @@ var SAY = SAY || {};
 				],
 				density: 1,
 				friction: 1,
-				source: './images/cage.png',
+				src: './images/cage.png',
 				position: {
 					x: 130,
 					y: 285
 				}
 			},
 			pipe: {
-				name: 'Pipe',
+				id: 'Pipe',
 				layer: 12,
-				source: './images/pipe-top.png',
+				src: './images/pipe-top.png',
 				position: {
 					x: 500,
 					y: -20

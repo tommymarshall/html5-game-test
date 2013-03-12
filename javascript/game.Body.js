@@ -16,9 +16,9 @@ var SAY = SAY || {};
 	};
 
 	p.build = function() {
-		if ( p.data.source !== undefined ){
+		if ( p.data.src !== undefined ){
 			p.image = new Image();
-			p.image.src = p.data.source;
+			p.image.src = p.data.src;
 			p.addToLayer();
 		}
 
