@@ -65,31 +65,10 @@ var SAY = SAY || {};
 		asset.x = p.data.position.x || 0;
 		asset.y = p.data.position.y || 0;
 
-		switch (p.data.layer) {
-			case 'foregrounds':
-				game.foregrounds.push(asset);
-			break;
-
-			case 'backgrounds':
-				game.backgrounds.push(asset);
-			break;
-
-			case 'platforms':
-				game.platforms.push(asset);
-			break;
-
-			case 'special':
-				game.special.push(asset);
-			break;
-
-			case 'enemies':
-				game.enemies.push(asset);
-			break;
-
-			default:
-				game.backgrounds.push(asset);
-			break;
+		if (game.bodies[p.data.layer] === undefined) {
+			game.bodies[p.data.layer] = [];
 		}
+		game.bodies[p.data.layer].push(asset);
 	};
 
 })();

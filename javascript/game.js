@@ -12,16 +12,12 @@ var SAY = SAY || {};
 			game.reality.init();
 
 			// Action methods, do stuff
-			game.draw.backgrounds();
-			game.draw.platforms();
-			game.draw.special();
-			game.draw.enemies();
+			game.draw.level_one();
 			game.draw.hero();
-			game.draw.foregrounds();
 
 			// Container stuff
-			game.build();
-			game.addToStage();
+			game.buildScene();
+			game.addContainersToStage();
 
 			// Run it!
 			game.render();
@@ -34,28 +30,20 @@ var SAY = SAY || {};
 			game.WIDTH = 1200;
 
 			// Debug?
-			game.DEVELOPMENT = true;
+			game.DEVELOPMENT = false;
 
 			// Debug canvas
 			game.debug = {};
 
+			// Containers object
+			game.containers = {};
+
 			// Holds object of characters
 			game.characters = [];
 
-			// Array of colliding platforms
-			game.platforms = [];
+			// Object containing array of bodies
+			game.bodies = {};
 
-			// Array of special objects
-			game.special = [];
-
-			// Array of enemies
-			game.enemies = [];
-
-			// Array of non-colliding backgrounds
-			game.backgrounds = [];
-
-			// Array of non-colliding foregrounds
-			game.foregrounds = [];
 		},
 
 		binds: function() {
@@ -75,7 +63,6 @@ var SAY = SAY || {};
 		reality: {
 			init: function() {
 				game.reality.create.canvas();
-				game.reality.create.container();
 				game.reality.create.stage();
 
 				if ( game.DEVELOPMENT ){
@@ -103,10 +90,6 @@ var SAY = SAY || {};
 					game.stage.enableMouseOver();
 				},
 
-				container: function() {
-					game.container = new Container();
-				},
-
 				physics: function() {
 					game.world = new box2d.b2World( new box2d.b2Vec2( 0, 50 ), true );
 
@@ -123,68 +106,55 @@ var SAY = SAY || {};
 		},
 
 		draw: {
-			backgrounds: function() {
-				var background = new game.Body( game.resources.starting_bg );
-			},
+			level_one: function() {
+				for (var key in game.resources.level_one) {
+					var obj = game.resources.level_one[key];
 
-			platforms: function() {
-				var platform = new game.Body( game.resources.large_platform );
-			},
-
-			special: function() {
-				var trampoline = new game.Body( game.resources.trampoline );
-			},
-
-			enemies: function() {
+					new game.Body( obj );
+				}
 			},
 
 			hero: function() {
-				var hero = new game.Hero();
-				game.characters['hero'] = hero;
-			},
-
-			foregrounds: function() {
-				var cage = new game.Body( game.resources.cage );
-				var pipe = new game.Body( game.resources.pipe );
+				game.characters['hero'] = new game.Hero();
 			}
 		},
 
-		build: function() {
+		buildScene: function() {
 			console.log('Loading');
-			for (var b = 0; b < game.backgrounds.length; b++) {
-				console.log('...backgrounds.');
-				game.container.addChild(game.backgrounds[b]);
+
+			for (var key in game.bodies) {
+				var obj = game.bodies[key];
+				console.log('...layer ' + key);
+
+				if (game.containers[key] === undefined) {
+					game.containers[key] = new Container();
+				}
+
+				for (var i = 0; i < obj.length; i++) {
+					game.containers[key].addChild(obj[i]);
+				}
 			}
 
-			for (var p = 0; p < game.platforms.length; p++) {
-				console.log('...platforms');
-				game.container.addChild(game.platforms[p]);
-			}
-
-			for (var s = 0; s < game.special.length; s++) {
-				console.log('...special');
-				game.container.addChild(game.special[s]);
-			}
-
-			for (var e = 0; e < game.enemies.length; e++) {
-				console.log('...enemies');
-				game.container.addChild(game.enemies[e]);
-			}
 
 			for (var c = 0; c < game.characters.length; c++) {
 				console.log('...characters');
-				game.container.addChild(game.characters[c]);
+
+				if (game.containers[5] === undefined) {
+					game.containers[5] = new Container();
+				}
+
+				game.containers[5].addChild(game.characters[c]);
 			}
 
-			for (var f = 0; f < game.foregrounds.length; f++) {
-				console.log('...foregrounds.');
-				game.container.addChild(game.foregrounds[f]);
-			}
 			console.log('Done loading');
 		},
 
-		addToStage: function() {
-			game.stage.addChild(game.container);
+		addContainersToStage: function() {
+			for (var key in game.containers) {
+				var obj = game.containers[key];
+
+				game.stage.addChild(obj);
+			}
 		},
 
 		render: function() {
@@ -202,7 +172,6 @@ var SAY = SAY || {};
 
 					if (game.characters.hero.view.x > game.canvas.width * 0.3){
 						game.stage.x = -game.characters.hero.view.x + game.canvas.width * 0.3;
-						//game.debug.x = -game.characters.hero.view.x + game.canvas.width * 0.3;
 					}
 				}
 			};
