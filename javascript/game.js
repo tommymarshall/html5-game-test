@@ -27,6 +27,9 @@ var SAY = SAY || {};
 		},
 
 		vars: function() {
+			// FPS counter
+			game.fps = document.getElementById('fps-counter');
+
 			// Game specifics
 			game.SCALE = 30;
 			game.HEIGHT = 1004;
@@ -80,9 +83,9 @@ var SAY = SAY || {};
 			//preload = new createjs.PreloadJS(false);
 			var manifest = game.getResources('level_one');
 
-			preload.addEventListener("progress", handleProgress);
-			preload.addEventListener("complete", handleComplete);
-			preload.addEventListener("fileload", handleFileLoad);
+			// preload.addEventListener("progress", handleProgress);
+			// preload.addEventListener("complete", handleComplete);
+			// preload.addEventListener("fileload", handleFileLoad);
 			preload.loadManifest(manifest);
 		},
 
@@ -208,6 +211,7 @@ var SAY = SAY || {};
 		render: function() {
 			var tick = function(e){
 				if (!createjs.Ticker.getPaused()) {
+					//game.fps.innerHTML = Ticker.getFPS();
 					game.stage.update(e);
 
 					if ( game.DEVELOPMENT ){
@@ -217,6 +221,8 @@ var SAY = SAY || {};
 
 					game.world.Step( 1/60, 10, 10 );
 					game.world.ClearForces(e);
+
+					game.stage.y = -game.characters.hero.view.y * 0.1;
 
 					if (game.characters.hero.view.x > game.canvas.width * 0.3){
 						game.stage.x = -game.characters.hero.view.x + game.canvas.width * 0.3;

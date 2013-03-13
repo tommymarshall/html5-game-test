@@ -44,6 +44,22 @@ var SAY = SAY || {};
 					y: 700
 				}
 			},
+			large_platform_2: {
+				id: 'Large Platform 2',
+				layer: 2,
+				shape: 'polygon',
+				coords: [
+					[[0,0],[730,0],[794,64],[647,86],[15,86],[0,12]],
+					[[794,64],[3342,64],[3330,150],[712,150],[647,86]]
+				],
+				density: 1,
+				friction: 1,
+				src: './images/main-platform.png',
+				position: {
+					x: 3390,
+					y: 650
+				}
+			},
 			trampoline: {
 				id: 'Trampoline',
 				layer: 3,
@@ -90,14 +106,28 @@ var SAY = SAY || {};
 				}
 			},
 			coin: {
-				id: 'Coin',
+				id: 'Coin 1',
+				type: 'coin',
 				radius: 50,
 				layer: 4,
 				shape: 'circle',
 				src: './images/coin.png',
 				position: {
 					x: 1000,
-					y: 400
+					y: 670
+				},
+				isSensor: true
+			},
+			coin_2: {
+				id: 'Coin 2',
+				type: 'coin',
+				radius: 50,
+				layer: 4,
+				shape: 'circle',
+				src: './images/coin.png',
+				position: {
+					x: 1200,
+					y: 670
 				},
 				isSensor: true
 			}

@@ -39,6 +39,7 @@ var SAY = SAY || {};
 		bodyDef.type = box2d.b2Body.b2_staticBody;
 		bodyDef.position.x = p.data.position.x / game.SCALE;
 		bodyDef.position.y = p.data.position.y / game.SCALE;
+		bodyDef.userData = p.data;
 
 		// Create fixDef
 		var fixDef = new box2d.b2FixtureDef();
@@ -65,8 +66,8 @@ var SAY = SAY || {};
 			// Create bodyDef Shape
 			var bodyDef = new box2d.b2BodyDef();
 			bodyDef.type = box2d.b2Body.b2_staticBody;
-			bodyDef.position.x = p.data.position.x / game.SCALE;
-			bodyDef.position.y = p.data.position.y / game.SCALE;
+			bodyDef.position.Set(p.data.position.x / game.SCALE, p.data.position.y / game.SCALE);
+			bodyDef.userData = p.data.type;
 
 			// Create fixDef
 			var fixDef = new box2d.b2FixtureDef();

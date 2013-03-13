@@ -116,12 +116,13 @@ var SAY = SAY || {};
 		this.bodyDef.position.x = (game.WIDTH / game.SCALE) / 4;
 		this.bodyDef.position.y = (game.HEIGHT / game.SCALE) / 1.5;
 		this.bodyDef.isSensor = true;
+		this.bodyDef.userData = 'hero';
 
 		this.fixDef.shape = new box2d.b2CircleShape( 47.5 / game.SCALE );
 		this.view.body = game.world.CreateBody( this.bodyDef );
 		this.view.body.CreateFixture( this.fixDef );
 		this.view.body.SetSleepingAllowed( false );
-		this.view.gotoAndPlay("idle");
+		this.view.gotoAndPlay('idle');
 
 		// Set the Tick
 		this.view.onTick = this.tick;
@@ -150,21 +151,23 @@ var SAY = SAY || {};
 		game.characters.push(this.view);
 	};
 
+	p.doSomething = function(e) {
+		console.log('here');
+		console.log(e);
+	};
+
 	p.tick = function( event ) {
-		/*
-			TODO:
-			- Check if user is jumping or on the ground
-			- On the ground means previous Y == current Y
-		*/
+		var contactList = this.body.GetContactList();
 
 		var position = this.body.GetPosition();
+
 		this.x = this.ball.x = (position.x * game.SCALE);
 		this.y = this.ball.y = (position.y * game.SCALE);
 
 		var Vo = this.body.GetLinearVelocity();
 
 		// Only allowd
-		if (self.is.jumping && this.body.GetContactList()) {
+		if (self.is.jumping) {
 			this.body.ApplyImpulse(new box2d.b2Vec2(0,-225), position);
 			self.is.jumping = false;
 
