@@ -39,7 +39,7 @@ var SAY = SAY || {};
 		bodyDef.type = box2d.b2Body.b2_staticBody;
 		bodyDef.position.x = p.data.position.x / game.SCALE;
 		bodyDef.position.y = p.data.position.y / game.SCALE;
-		bodyDef.userData = p.data;
+		bodyDef.userData = p.data.type;
 
 		// Create fixDef
 		var fixDef = new box2d.b2FixtureDef();
@@ -94,6 +94,11 @@ var SAY = SAY || {};
 		var asset = new Bitmap(p.image);
 		asset.x = p.data.position.x || 0;
 		asset.y = p.data.position.y || 0;
+
+		if ( p.data.reg !== undefined ) {
+			asset.regX = p.data.reg.x || 0;
+			asset.regY = p.data.reg.y || 0;
+		}
 
 		if (game.scene.images[p.data.layer] === undefined) {
 			game.scene.images[p.data.layer] = [];

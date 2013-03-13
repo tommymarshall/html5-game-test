@@ -36,7 +36,7 @@ var SAY = SAY || {};
 			game.WIDTH = 1200;
 
 			// Debug?
-			game.DEVELOPMENT = false;
+			game.DEVELOPMENT = true;
 
 			// Is game ready?
 			game.ready = false;
@@ -222,7 +222,7 @@ var SAY = SAY || {};
 					game.world.Step( 1/60, 10, 10 );
 					game.world.ClearForces(e);
 
-					game.stage.y = -game.characters.hero.view.y * 0.1;
+					//game.stage.y = -game.characters.hero.view.y * 0.1;
 
 					if (game.characters.hero.view.x > game.canvas.width * 0.3){
 						game.stage.x = -game.characters.hero.view.x + game.canvas.width * 0.3;

@@ -108,7 +108,7 @@ var SAY = SAY || {};
 			coin: {
 				id: 'Coin 1',
 				type: 'coin',
-				radius: 50,
+				radius: 28,
 				layer: 4,
 				shape: 'circle',
 				src: './images/coin.png',
@@ -116,18 +116,26 @@ var SAY = SAY || {};
 					x: 1000,
 					y: 670
 				},
+				reg: {
+					x: 28,
+					y: 28
+				},
 				isSensor: true
 			},
 			coin_2: {
 				id: 'Coin 2',
 				type: 'coin',
-				radius: 50,
+				radius: 28,
 				layer: 4,
 				shape: 'circle',
 				src: './images/coin.png',
 				position: {
 					x: 1200,
 					y: 670
+				},
+				reg: {
+					x: 28,
+					y: 28
 				},
 				isSensor: true
 			}

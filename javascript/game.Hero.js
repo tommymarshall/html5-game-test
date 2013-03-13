@@ -156,9 +156,16 @@ var SAY = SAY || {};
 		console.log(e);
 	};
 
-	p.tick = function( event ) {
+	p.tick = function(e) {
 		var contactList = this.body.GetContactList();
 
+		if ( contactList !== null ) {
+			if ( contactList.contact.GetFixtureB().m_body.m_userData === 'coin') {
+				console.log('Remove Coin');
+			}
+		}
+
+		//if ( contactList.GetFixtureA() )
 		var position = this.body.GetPosition();
 
 		this.x = this.ball.x = (position.x * game.SCALE);
