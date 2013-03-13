@@ -47,8 +47,12 @@ var SAY = SAY || {};
 			// Holds object of characters
 			game.characters = [];
 
-			// Object containing array of bodies
-			game.bodies = {};
+			// Keeps track of current sceneObject containing images drawn tos creen
+			game.scene = {
+				current: 0,
+				bodies: {},
+				images: {}
+			};
 
 		},
 
@@ -166,8 +170,8 @@ var SAY = SAY || {};
 		buildScene: function() {
 			console.log('Loading');
 
-			for (var key in game.bodies) {
-				var obj = game.bodies[key];
+			for (var key in game.scene.images) {
+				var obj = game.scene.images[key];
 				console.log('...layer ' + key);
 
 				if (game.containers[key] === undefined) {

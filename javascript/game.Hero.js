@@ -158,12 +158,12 @@ var SAY = SAY || {};
 		*/
 
 		var position = this.body.GetPosition();
-		this.x = this.ball.x = (position.x * game.SCALE) + (event / 100000);
-		this.y = this.ball.y = (position.y * game.SCALE) + (event / 100000);
+		this.x = this.ball.x = (position.x * game.SCALE);
+		this.y = this.ball.y = (position.y * game.SCALE);
 
 		var Vo = this.body.GetLinearVelocity();
 
-		// Only allow
+		// Only allowd
 		if (self.is.jumping && this.body.GetContactList()) {
 			this.body.ApplyImpulse(new box2d.b2Vec2(0,-225), position);
 			self.is.jumping = false;
@@ -198,7 +198,7 @@ var SAY = SAY || {};
 
 			self.is.prevDirection = 'left';
 		} // Slow down
-		else if (Math.abs(Vo.x) > 0.015 && Math.abs(Vo.x)) {
+		else if (Math.abs(Vo.x) > 0.015) {
 			this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x * 0.98, Vo.y));
 		} // Stop
 		else {

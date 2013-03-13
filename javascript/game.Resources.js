@@ -9,6 +9,7 @@ var SAY = SAY || {};
 			background: {
 				id: 'Starting Background',
 				layer: 1,
+				shape: 'polygon',
 				src: './images/bg-big-chunk.png',
 				position: {
 					x: 0,
@@ -20,6 +21,7 @@ var SAY = SAY || {};
 			starting_bg: {
 				id: 'Starting Background',
 				layer: 1,
+				shape: 'polygon',
 				src: './images/bg-big-chunk.png',
 				position: {
 					x: 0,
@@ -29,6 +31,7 @@ var SAY = SAY || {};
 			large_platform: {
 				id: 'Large Platform',
 				layer: 2,
+				shape: 'polygon',
 				coords: [
 					[[0,0],[730,0],[794,64],[647,86],[15,86],[0,12]],
 					[[794,64],[3342,64],[3330,150],[712,150],[647,86]]
@@ -44,6 +47,7 @@ var SAY = SAY || {};
 			trampoline: {
 				id: 'Trampoline',
 				layer: 3,
+				shape: 'polygon',
 				coords: [
 					[[0,0],[150,0],[150,20],[0,20]]
 				],
@@ -59,6 +63,7 @@ var SAY = SAY || {};
 			cage: {
 				id: 'Cage',
 				layer: 10,
+				shape: 'polygon',
 				coords: [
 					[[74,0],[86,0],[86,377],[74,377]],
 					[[86,0],[660,0],[660,12],[86,12]],
@@ -77,11 +82,24 @@ var SAY = SAY || {};
 			pipe: {
 				id: 'Pipe',
 				layer: 12,
+				shape: 'polygon',
 				src: './images/pipe-top.png',
 				position: {
 					x: 500,
 					y: -20
 				}
+			},
+			coin: {
+				id: 'Coin',
+				radius: 50,
+				layer: 4,
+				shape: 'circle',
+				src: './images/coin.png',
+				position: {
+					x: 1000,
+					y: 400
+				},
+				isSensor: true
 			}
 		}
 	};
