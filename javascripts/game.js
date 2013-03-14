@@ -27,9 +27,6 @@ var SAY = SAY || {};
 		},
 
 		vars: function() {
-			// FPS counter
-			game.fps = document.getElementById('fps-counter');
-
 			// Game specifics
 			game.SCALE = 30;
 			game.HEIGHT = 1004;
@@ -212,7 +209,6 @@ var SAY = SAY || {};
 		render: function() {
 			var tick = function(e){
 				if (!createjs.Ticker.getPaused()) {
-					//game.fps.innerHTML = Ticker.getFPS();
 					game.stage.update(e);
 
 					game.world.Step( 1/60, 10, 10 );
