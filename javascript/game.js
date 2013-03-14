@@ -214,11 +214,6 @@ var SAY = SAY || {};
 					//game.fps.innerHTML = Ticker.getFPS();
 					game.stage.update(e);
 
-					if ( game.DEVELOPMENT ){
-						game.world.SetDebugDraw( game.drawer );
-						game.world.DrawDebugData();
-					}
-
 					game.world.Step( 1/60, 10, 10 );
 					game.world.ClearForces(e);
 
@@ -227,6 +222,11 @@ var SAY = SAY || {};
 					if (game.characters.hero.view.x > game.canvas.width * 0.3){
 						game.stage.x = -game.characters.hero.view.x + game.canvas.width * 0.3;
 						game.containers[12].x = game.stage.x * 0.5;
+					}
+
+					if ( game.DEVELOPMENT ){
+						game.world.SetDebugDraw( game.drawer );
+						game.world.DrawDebugData();
 					}
 				}
 			};
