@@ -13,8 +13,6 @@ var SAY = SAY || {};
 	p.init = function( data ) {
 		p.setData( data );
 		p.create();
-
-		return this;
 	};
 
 	p.create = function() {
@@ -91,19 +89,14 @@ var SAY = SAY || {};
 	};
 
 	p.addToLayer = function(){
-		var asset = new Bitmap(p.image);
-		asset.x = p.data.position.x || 0;
-		asset.y = p.data.position.y || 0;
+		p.asset = new Bitmap(p.image);
+		p.asset.x = p.data.position.x || 0;
+		p.asset.y = p.data.position.y || 0;
 
 		if ( p.data.reg !== undefined ) {
-			asset.regX = p.data.reg.x || 0;
-			asset.regY = p.data.reg.y || 0;
+			p.asset.regX = p.data.reg.x || 0;
+			p.asset.regY = p.data.reg.y || 0;
 		}
-
-		if (game.current.images[p.data.layer] === undefined) {
-			game.current.images[p.data.layer] = [];
-		}
-		game.current.images[p.data.layer].push(asset);
 	};
 
 })();

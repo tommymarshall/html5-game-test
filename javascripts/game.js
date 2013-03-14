@@ -54,8 +54,7 @@ var SAY = SAY || {};
 			// Keeps track of current scene state and objects
 			game.current = {
 				scene: 'level_one',
-				bodies: {},
-				images: {}
+				bodies: {}
 			};
 
 		},
@@ -179,20 +178,20 @@ var SAY = SAY || {};
 
 		draw: function() {
 			console.log('%cBeing Adding Objects to Container', game.debug.colors.head);
-			for (var key in game.current.images) {
-				var obj = game.current.images[key];
-				console.log('%cBuilding Layer ' + key, game.debug.colors.main);
+			for (var key in game.current.bodies) {
+				console.log(game.current.bodies[key]);
+				var obj = game.current.bodies[key].asset;
 
 				if (game.containers[key] === undefined) {
 					game.containers[key] = new Container();
 				}
 
-				for (var i = 0; i < obj.length; i++) {
-					game.containers[key].addChild(obj[i]);
-				}
+				console.log('%cAdding ' + key, game.debug.colors.main);
+				game.containers[key].addChild(obj);
+
 			}
 
-			console.log('%cBuilding Hero ' + key, game.debug.colors.main);
+			console.log('%cAdding Hero', game.debug.colors.main);
 			for (var c = 0; c < game.characters.length; c++) {
 				if (game.containers[5] === undefined) {
 					game.containers[5] = new Container();
@@ -200,7 +199,7 @@ var SAY = SAY || {};
 
 				game.containers[5].addChild(game.characters[c]);
 			}
-			console.log('%cCompleted Loading Images', game.debug.colors.head);
+			console.log('%cCompleted Adding Objects to Container', game.debug.colors.head);
 
 			for (var key in game.containers) {
 				var obj = game.containers[key];
