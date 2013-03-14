@@ -14,18 +14,17 @@ body * {
 /* line 14, ../sass/application.scss */
 .wrapper {
   background: #353535;
-  border: 3px solid white;
   margin: 0 auto;
-  max-width: 1200px;
+  max-width: 1600px;
   position: relative;
   width: 100%;
 }
 
-/* line 23, ../sass/application.scss */
+/* line 22, ../sass/application.scss */
 canvas {
   width: 100%;
 }
-/* line 26, ../sass/application.scss */
+/* line 25, ../sass/application.scss */
 canvas#debug {
   height: 100%;
   left: 0;
@@ -35,11 +34,12 @@ canvas#debug {
 
 /* @end */
 /* @group Level Builde */
-/* line 38, ../sass/application.scss */
+/* line 37, ../sass/application.scss */
 #level-builder {
   background: rgba(0, 0, 0, 0.75);
-  height: 500px;
   color: #fff;
+  display: none;
+  height: 500px;
   position: absolute;
   right: 0;
   top: 0;

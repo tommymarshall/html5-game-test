@@ -4,14 +4,14 @@ var SAY = SAY || {};
 
 	var game = SAY.game;
 
-	game.resources = {
-		// Start Screen
-		start_screen: { },
+	game.scenes = {
+		// Start
+		start: { },
 
 		// Level One
 		level_one: {
 			starting_bg: {
-				id: 'Starting Background',
+
 				layer: 1,
 				shape: 'polygon',
 				src: 'backgrounds/level-one_start.png',
@@ -21,7 +21,6 @@ var SAY = SAY || {};
 				}
 			},
 			large_platform: {
-				id: 'Large Platform',
 				layer: 2,
 				shape: 'polygon',
 				coords: [
@@ -36,8 +35,70 @@ var SAY = SAY || {};
 					y: 700
 				}
 			},
+			large_platform_2: {
+				layer: 2,
+				shape: 'polygon',
+				coords: [
+					[[0,0],[730,0],[794,64],[647,86],[15,86],[0,12]],
+					[[794,64],[3342,64],[3330,150],[712,150],[647,86]]
+				],
+				density: 1,
+				friction: 1,
+				src: 'platforms/large.png',
+				position: {
+					x: 3620,
+					y: 600
+				}
+			},
+
+			// Extra examples
+			large_platform_3: {
+				layer: 2,
+				shape: 'polygon',
+				coords: [
+					[[0,0],[730,0],[794,64],[647,86],[15,86],[0,12]],
+					[[794,64],[3342,64],[3330,150],[712,150],[647,86]]
+				],
+				density: 1,
+				friction: 1,
+				src: 'platforms/large.png',
+				position: {
+					x: 7540,
+					y: 590
+				}
+			},
+			large_platform_4: {
+				layer: 2,
+				shape: 'polygon',
+				coords: [
+					[[0,0],[730,0],[794,64],[647,86],[15,86],[0,12]],
+					[[794,64],[3342,64],[3330,150],[712,150],[647,86]]
+				],
+				density: 1,
+				friction: 1,
+				src: 'platforms/large.png',
+				position: {
+					x: 10540,
+					y: 590
+				}
+			},
+			large_platform_5: {
+				layer: 2,
+				shape: 'polygon',
+				coords: [
+					[[0,0],[730,0],[794,64],[647,86],[15,86],[0,12]],
+					[[794,64],[3342,64],[3330,150],[712,150],[647,86]]
+				],
+				density: 1,
+				friction: 1,
+				src: 'platforms/large.png',
+				position: {
+					x: 13540,
+					y: 890
+				}
+			},
+
 			trampoline: {
-				id: 'Trampoline',
 				layer: 3,
 				shape: 'polygon',
 				coords: [
@@ -53,7 +114,6 @@ var SAY = SAY || {};
 				}
 			},
 			cage: {
-				id: 'Cage',
 				layer: 10,
 				shape: 'polygon',
 				coords: [
@@ -72,7 +132,6 @@ var SAY = SAY || {};
 				}
 			},
 			pipe: {
-				id: 'Pipe',
 				layer: 12,
 				shape: 'polygon',
 				src: 'foregrounds/pipe-large-top.png',
@@ -81,8 +140,16 @@ var SAY = SAY || {};
 					y: -20
 				}
 			},
+			pipe_2: {
+				layer: 12,
+				shape: 'polygon',
+				src: 'foregrounds/pipe-large-top.png',
+				position: {
+					x: 3600,
+					y: 0
+				}
+			},
 			coin: {
-				id: 'Coin 1',
 				type: 'coin',
 				radius: 28,
 				layer: 4,
@@ -99,7 +166,6 @@ var SAY = SAY || {};
 				isSensor: true
 			},
 			coin_2: {
-				id: 'Coin 2',
 				type: 'coin',
 				radius: 28,
 				layer: 4,
@@ -117,8 +183,8 @@ var SAY = SAY || {};
 			}
 		},
 
-		// End Screen
-		end_screen: { }
+		// End
+		end: { }
 
 	};
 

@@ -13,6 +13,8 @@ var SAY = SAY || {};
 	p.init = function( data ) {
 		p.setData( data );
 		p.create();
+
+		return this;
 	};
 
 	p.create = function() {
@@ -29,8 +31,6 @@ var SAY = SAY || {};
 		if ( p.data.shape === 'circle' && p.data.radius !== undefined ) {
 			p.createCircle();
 		}
-
-		game.scene.bodies[p.data.id] = this;
 	};
 
 	p.createCircle = function() {
@@ -100,10 +100,10 @@ var SAY = SAY || {};
 			asset.regY = p.data.reg.y || 0;
 		}
 
-		if (game.scene.images[p.data.layer] === undefined) {
-			game.scene.images[p.data.layer] = [];
+		if (game.current.images[p.data.layer] === undefined) {
+			game.current.images[p.data.layer] = [];
 		}
-		game.scene.images[p.data.layer].push(asset);
+		game.current.images[p.data.layer].push(asset);
 	};
 
 })();

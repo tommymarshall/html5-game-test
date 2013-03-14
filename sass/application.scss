@@ -13,9 +13,8 @@ body {
 
 .wrapper {
 	background: #353535;
-	border: 3px solid #fff;
 	margin: 0 auto;
-	max-width: 1200px;
+	max-width: 1600px;
 	position: relative;
 	width: 100%;
 }
@@ -37,8 +36,9 @@ canvas {
 
 #level-builder {
 	background: rgba(0,0,0,0.75);
-	height: 500px;
 	color: #fff;
+	display: none;
+	height: 500px;
 	position: absolute;
 	right: 0;
 	top: 0;

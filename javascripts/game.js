@@ -33,10 +33,10 @@ var SAY = SAY || {};
 			// Game specifics
 			game.SCALE = 30;
 			game.HEIGHT = 1004;
-			game.WIDTH = 1200;
+			game.WIDTH = 1400;
 
 			// Debug?
-			game.DEVELOPMENT = true;
+			game.DEVELOPMENT = false;
 
 			// Is game ready?
 			game.ready = false;
@@ -50,9 +50,9 @@ var SAY = SAY || {};
 			// Holds object of characters
 			game.characters = [];
 
-			// Keeps track of current sceneObject containing images drawn tos creen
-			game.scene = {
-				current: 0,
+			// Keeps track of current scene
+			game.current = {
+				scene: 'level_one',
 				bodies: {},
 				images: {}
 			};
@@ -77,11 +77,12 @@ var SAY = SAY || {};
 				console.log('handleFileLoad: ');
 				console.log( e );
 			};
+
 			preload = new LoadQueue(false);
 
 			// Use this instead to use tag loading
 			//preload = new createjs.PreloadJS(false);
-			var manifest = game.getResources('level_one');
+			var manifest = game.getSceneResources('level_one');
 
 			// preload.addEventListener("progress", handleProgress);
 			// preload.addEventListener("complete", handleComplete);
@@ -89,12 +90,12 @@ var SAY = SAY || {};
 			preload.loadManifest(manifest);
 		},
 
-		getResources: function( scene ) {
-			var resources = game.resources[scene];
+		getSceneResources: function( scene ) {
+			var scenes = game.scenes[scene];
 			var manifest = [];
 
-			for (var key in resources) {
-				var obj = resources[key];
+			for (var key in scenes) {
+				var obj = scenes[key];
 				var image = {src: './images/' + obj['src'], id: obj['id']};
 				manifest.push(image);
 			}
@@ -158,10 +159,10 @@ var SAY = SAY || {};
 
 		draw: {
 			level_one: function() {
-				for (var key in game.resources.level_one) {
-					var obj = game.resources.level_one[key];
+				for (var key in game.scenes.level_one) {
+					var obj = game.scenes.level_one[key];
 
-					new game.Body( obj );
+					game.current.bodies[key] = new game.Body( obj );
 				}
 			},
 
@@ -173,8 +174,8 @@ var SAY = SAY || {};
 		buildScene: function() {
 			console.log('Loading');
 
-			for (var key in game.scene.images) {
-				var obj = game.scene.images[key];
+			for (var key in game.current.images) {
+				var obj = game.current.images[key];
 				console.log('...layer ' + key);
 
 				if (game.containers[key] === undefined) {

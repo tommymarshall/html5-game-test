@@ -12,7 +12,7 @@ var SAY = SAY || {};
 			"stop": [59, 86, "idle", 2],
 			"jump": [87, 115, "idle", 2]
 		},
-			"images": ["./images/hero/rat_sprite_full_small.png"],
+			"images": ["./images/hero/sprite.png"],
 			"frames":
 				{
 					"height": 94.5,
@@ -99,7 +99,7 @@ var SAY = SAY || {};
 			facing: 'right'
 		};
 
-		this.maxSpeed = 16;
+		this.maxSpeed = 20;
 
 		// Flip frames
 		SpriteSheetUtils.addFlippedFrames(ss, true, false, false);
@@ -209,7 +209,7 @@ var SAY = SAY || {};
 			self.is.prevDirection = 'left';
 		} // Slow down
 		else if (Math.abs(Vo.x) > 0.015) {
-			this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x * 0.98, Vo.y));
+			this.body.SetLinearVelocity(new box2d.b2Vec2(Vo.x * 0.96, Vo.y));
 		} // Stop
 		else {
 			this.body.SetLinearVelocity(new box2d.b2Vec2(0, Vo.y));
