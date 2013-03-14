@@ -14,13 +14,11 @@ var SAY = SAY || {};
 			// Preload all assets
 			game.preload();
 
-			// Action methods, do stuff
-			game.draw.level_one();
-			game.draw.hero();
+			game.build.scene();
+			game.build.hero();
 
-			// Container stuff
-			game.buildScene();
-			game.addContainersToStage();
+			// Draw scene to the Canvas
+			game.draw();
 
 			// Run it!
 			game.render();
@@ -39,7 +37,13 @@ var SAY = SAY || {};
 			game.ready = false;
 
 			// Debug canvas
-			game.debug = {};
+			game.debug = {
+				colors: {
+					head: 'color: #1d7549; font-weight: bold;',
+					main: 'color: #2eb672;',
+					error: 'color: #db4e4f;'
+				}
+			};
 
 			// Containers object
 			game.containers = {};
@@ -47,7 +51,7 @@ var SAY = SAY || {};
 			// Holds object of characters
 			game.characters = [];
 
-			// Keeps track of current scene
+			// Keeps track of current scene state and objects
 			game.current = {
 				scene: 'level_one',
 				bodies: {},
@@ -88,11 +92,11 @@ var SAY = SAY || {};
 		},
 
 		getSceneResources: function( scene ) {
-			var scenes = game.scenes[scene];
+			var resource = game.scenes[scene];
 			var manifest = [];
 
-			for (var key in scenes) {
-				var obj = scenes[key];
+			for (var key in resource) {
+				var obj = resource[key];
 				var image = {src: './images/' + obj['src'], id: obj['id']};
 				manifest.push(image);
 			}
@@ -101,11 +105,16 @@ var SAY = SAY || {};
 		},
 
 		state: {
+			paused: false,
+
 			pause: function() {
 				Ticker.setPaused(true);
+				game.state.paused = true;
 			},
+
 			play: function() {
 				Ticker.setPaused(false);
+				game.state.paused = true;
 			}
 		},
 
@@ -154,26 +163,25 @@ var SAY = SAY || {};
 			}
 		},
 
-		draw: {
-			level_one: function() {
-				for (var key in game.scenes.level_one) {
-					var obj = game.scenes.level_one[key];
+		build: {
+			scene: function() {
+				for (var key in game.scenes[game.current.scene]) {
+					var obj = game.scenes[game.current.scene][key];
 
 					game.current.bodies[key] = new game.Body( obj );
 				}
 			},
 
 			hero: function() {
-				game.characters['hero'] = new game.Hero();
+				game.characters.hero = new game.Hero();
 			}
 		},
 
-		buildScene: function() {
-			console.log('Loading');
-
+		draw: function() {
+			console.log('%cBeing Adding Objects to Container', game.debug.colors.head);
 			for (var key in game.current.images) {
 				var obj = game.current.images[key];
-				console.log('...layer ' + key);
+				console.log('%cBuilding Layer ' + key, game.debug.colors.main);
 
 				if (game.containers[key] === undefined) {
 					game.containers[key] = new Container();
@@ -184,21 +192,16 @@ var SAY = SAY || {};
 				}
 			}
 
-
+			console.log('%cBuilding Hero ' + key, game.debug.colors.main);
 			for (var c = 0; c < game.characters.length; c++) {
-				console.log('...characters');
-
 				if (game.containers[5] === undefined) {
 					game.containers[5] = new Container();
 				}
 
 				game.containers[5].addChild(game.characters[c]);
 			}
+			console.log('%cCompleted Loading Images', game.debug.colors.head);
 
-			console.log('Done loading');
-		},
-
-		addContainersToStage: function() {
 			for (var key in game.containers) {
 				var obj = game.containers[key];
 
