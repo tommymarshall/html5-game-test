@@ -12,7 +12,7 @@ var SAY = SAY || {};
 			"stop": [59, 86, "idle", 2],
 			"jump": [87, 115, "idle", 2]
 		},
-			"images": ["../images/rat_sprite_full_small.png"],
+			"images": ["./images/hero/rat_sprite_full_small.png"],
 			"frames":
 				{
 					"height": 94.5,

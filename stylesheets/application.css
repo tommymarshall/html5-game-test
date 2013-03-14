@@ -1,0 +1,60 @@
+/* @group Level General Styles */
+/* line 3, ../sass/application.scss */
+body {
+  background: #222;
+  margin: 0;
+  padding: 0;
+  font-family: 'Lato';
+}
+/* line 9, ../sass/application.scss */
+body * {
+  box-sizing: border-box;
+}
+
+/* line 14, ../sass/application.scss */
+.wrapper {
+  background: #353535;
+  border: 3px solid white;
+  margin: 0 auto;
+  max-width: 1200px;
+  position: relative;
+  width: 100%;
+}
+
+/* line 23, ../sass/application.scss */
+canvas {
+  width: 100%;
+}
+/* line 26, ../sass/application.scss */
+canvas#debug {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+
+/* @end */
+/* @group Level Builde */
+/* line 38, ../sass/application.scss */
+#level-builder {
+  background: rgba(0, 0, 0, 0.75);
+  height: 500px;
+  color: #fff;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 300px;
+}
+/* line 47, ../sass/application.scss */
+#level-builder .list {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+}
+/* line 52, ../sass/application.scss */
+#level-builder .list .item {
+  float: left;
+  width: 30%;
+}
+
+/* @end */

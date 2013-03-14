@@ -18,7 +18,7 @@ var SAY = SAY || {};
 	p.create = function() {
 		if ( p.data.src !== undefined ){
 			p.image = new Image();
-			p.image.src = p.data.src;
+			p.image.src = './images/' + p.data.src;
 			p.addToLayer();
 		}
 
@@ -30,7 +30,7 @@ var SAY = SAY || {};
 			p.createCircle();
 		}
 
-		game.scene.bodies[p.data.id] = p.data;
+		game.scene.bodies[p.data.id] = this;
 	};
 
 	p.createCircle = function() {

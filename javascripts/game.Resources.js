@@ -5,24 +5,16 @@ var SAY = SAY || {};
 	var game = SAY.game;
 
 	game.resources = {
-		start_screen: {
-			background: {
-				id: 'Starting Background',
-				layer: 1,
-				shape: 'polygon',
-				src: './images/bg-big-chunk.png',
-				position: {
-					x: 0,
-					y: 0
-				}
-			}
-		},
+		// Start Screen
+		start_screen: { },
+
+		// Level One
 		level_one: {
 			starting_bg: {
 				id: 'Starting Background',
 				layer: 1,
 				shape: 'polygon',
-				src: './images/bg-big-chunk.png',
+				src: 'backgrounds/level-one_start.png',
 				position: {
 					x: 0,
 					y: 0
@@ -38,26 +30,10 @@ var SAY = SAY || {};
 				],
 				density: 1,
 				friction: 1,
-				src: './images/main-platform.png',
+				src: 'platforms/large.png',
 				position: {
 					x: 140,
 					y: 700
-				}
-			},
-			large_platform_2: {
-				id: 'Large Platform 2',
-				layer: 2,
-				shape: 'polygon',
-				coords: [
-					[[0,0],[730,0],[794,64],[647,86],[15,86],[0,12]],
-					[[794,64],[3342,64],[3330,150],[712,150],[647,86]]
-				],
-				density: 1,
-				friction: 1,
-				src: './images/main-platform.png',
-				position: {
-					x: 3390,
-					y: 650
 				}
 			},
 			trampoline: {
@@ -70,7 +46,7 @@ var SAY = SAY || {};
 				density: 1,
 				friction: 1,
 				restitution: 1.5,
-				src: './images/trampoline.png',
+				src: 'special/trampoline.png',
 				position: {
 					x: 1800,
 					y: 720
@@ -89,7 +65,7 @@ var SAY = SAY || {};
 				],
 				density: 1,
 				friction: 1,
-				src: './images/cage.png',
+				src: 'special/cage.png',
 				position: {
 					x: 130,
 					y: 285
@@ -99,7 +75,7 @@ var SAY = SAY || {};
 				id: 'Pipe',
 				layer: 12,
 				shape: 'polygon',
-				src: './images/pipe-top.png',
+				src: 'foregrounds/pipe-large-top.png',
 				position: {
 					x: 500,
 					y: -20
@@ -111,7 +87,7 @@ var SAY = SAY || {};
 				radius: 28,
 				layer: 4,
 				shape: 'circle',
-				src: './images/coin.png',
+				src: 'special/coin.png',
 				position: {
 					x: 1000,
 					y: 670
@@ -128,7 +104,7 @@ var SAY = SAY || {};
 				radius: 28,
 				layer: 4,
 				shape: 'circle',
-				src: './images/coin.png',
+				src: 'special/coin.png',
 				position: {
 					x: 1200,
 					y: 670
@@ -139,7 +115,11 @@ var SAY = SAY || {};
 				},
 				isSensor: true
 			}
-		}
+		},
+
+		// End Screen
+		end_screen: { }
+
 	};
 
 })();

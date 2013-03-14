@@ -95,7 +95,7 @@ var SAY = SAY || {};
 
 			for (var key in resources) {
 				var obj = resources[key];
-				var image = {src: obj['src'], id: obj['id']};
+				var image = {src: './images/' + obj['src'], id: obj['id']};
 				manifest.push(image);
 			}
 
