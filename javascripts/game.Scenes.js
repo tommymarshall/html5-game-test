@@ -147,6 +147,38 @@ var SAY = SAY || {};
 					x: 3600,
 					y: 0
 				}
+			},
+			coin: {
+				type: 'coin',
+				radius: 28,
+				layer: 4,
+				shape: 'circle',
+				src: 'special/coin.png',
+				position: {
+					x: 1000,
+					y: 670
+				},
+				reg: {
+					x: 28,
+					y: 28
+				},
+				isSensor: true
+			},
+			coin_2: {
+				type: 'coin',
+				radius: 28,
+				layer: 4,
+				shape: 'circle',
+				src: 'special/coin.png',
+				position: {
+					x: 1200,
+					y: 670
+				},
+				reg: {
+					x: 28,
+					y: 28
+				},
+				isSensor: true
 			}
 		},
 
