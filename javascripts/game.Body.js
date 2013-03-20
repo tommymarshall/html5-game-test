@@ -1,11 +1,15 @@
 var SAY = SAY || {};
 
-(function(){
+(function($){
 
 	var game = SAY.game;
 
 	game.Body = function( data ){
 		this.init( data );
+
+		$.extend(this, data);
+
+		return this;
 	};
 
 	var p = game.Body.prototype;
@@ -99,4 +103,4 @@ var SAY = SAY || {};
 		}
 	};
 
-})();
+})(jQuery);

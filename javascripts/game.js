@@ -180,14 +180,14 @@ var SAY = SAY || {};
 			console.log('%cBeing Adding Objects to Container', game.debug.colors.head);
 			for (var key in game.current.bodies) {
 				console.log(game.current.bodies[key]);
-				var obj = game.current.bodies[key].asset;
+				var obj = game.current.bodies[key];
 
-				if (game.containers[key] === undefined) {
-					game.containers[key] = new Container();
+				if (game.containers[obj.layer] === undefined) {
+					game.containers[obj.layer] = new Container();
 				}
 
 				console.log('%cAdding ' + key, game.debug.colors.main);
-				game.containers[key].addChild(obj);
+				game.containers[obj.layer].addChild(obj.asset);
 
 			}
 
