@@ -178,16 +178,16 @@ var SAY = SAY || {};
 
 		draw: function() {
 			log('%cBeing Adding Objects to Container', game.debug.colors.head);
-			for (var key in game.current.bodies) {
-				var obj = game.current.bodies[key];
+			for (var body_key in game.current.bodies) {
+				var body_obj = game.current.bodies[body_key];
 
-				if (game.containers[obj.data.layer] === undefined) {
-					game.containers[obj.data.layer] = new Container();
-					log('%cCreating Container ' + obj.data.layer, game.debug.colors.main);
+				if (game.containers[body_obj.data.layer] === undefined) {
+					game.containers[body_obj.data.layer] = new Container();
+					log('%cCreating Container ' + body_obj.data.layer, game.debug.colors.main);
 				}
 
-				log('%c  Adding ' + key, game.debug.colors.main);
-				game.containers[obj.data.layer].addChild(obj.asset);
+				log('%c  Adding ' + body_key, game.debug.colors.main);
+				game.containers[body_obj.data.layer].addChild(body_obj.asset);
 
 			}
 
@@ -201,10 +201,10 @@ var SAY = SAY || {};
 			}
 			log('%cCompleted Adding Objects to Container', game.debug.colors.head);
 
-			for (var key in game.containers) {
-				var obj = game.containers[key];
+			for (var container_key in game.containers) {
+				var container_obj = game.containers[container_key];
 
-				game.stage.addChild(obj);
+				game.stage.addChild(container_obj);
 			}
 		},
 
