@@ -151,17 +151,13 @@ var SAY = SAY || {};
 		game.characters.push(this.view);
 	};
 
-	p.doSomething = function(e) {
-		console.log('here');
-		console.log(e);
-	};
-
 	p.tick = function(e) {
 		var contactList = this.body.GetContactList();
 
 		if ( contactList !== null ) {
 			if ( contactList.contact.GetFixtureB().m_body.m_userData === 'coin') {
-				console.log('Remove Coin');
+				console.log('Remove this coin!');
+				game.world.DestroyBody(contactList.contact.GetFixtureB().m_body);
 			}
 		}
 

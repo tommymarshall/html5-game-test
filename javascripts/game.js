@@ -66,16 +66,16 @@ var SAY = SAY || {};
 
 		preload: function() {
 			var handleProgress = function( e ) {
-				console.log('handleProgress: ');
-				console.log( e );
+				log('handleProgress: ');
+				log( e );
 			};
 			var handleComplete = function( e ) {
-				console.log('handleComplete: ');
-				console.log( e );
+				log('handleComplete: ');
+				log( e );
 			};
 			var handleFileLoad = function( e ) {
-				console.log('handleFileLoad: ');
-				console.log( e );
+				log('handleFileLoad: ');
+				log( e );
 			};
 
 			preload = new LoadQueue(false);
@@ -177,21 +177,21 @@ var SAY = SAY || {};
 		},
 
 		draw: function() {
-			console.log('%cBeing Adding Objects to Container', game.debug.colors.head);
+			log('%cBeing Adding Objects to Container', game.debug.colors.head);
 			for (var key in game.current.bodies) {
-				console.log(game.current.bodies[key]);
 				var obj = game.current.bodies[key];
 
-				if (game.containers[obj.layer] === undefined) {
-					game.containers[obj.layer] = new Container();
+				if (game.containers[obj.data.layer] === undefined) {
+					game.containers[obj.data.layer] = new Container();
+					log('%cCreating Container ' + obj.data.layer, game.debug.colors.main);
 				}
 
-				console.log('%cAdding ' + key, game.debug.colors.main);
-				game.containers[obj.layer].addChild(obj.asset);
+				log('%c  Adding ' + key, game.debug.colors.main);
+				game.containers[obj.data.layer].addChild(obj.asset);
 
 			}
 
-			console.log('%cAdding Hero', game.debug.colors.main);
+			log('%cAdding Hero', game.debug.colors.main);
 			for (var c = 0; c < game.characters.length; c++) {
 				if (game.containers[5] === undefined) {
 					game.containers[5] = new Container();
@@ -199,7 +199,7 @@ var SAY = SAY || {};
 
 				game.containers[5].addChild(game.characters[c]);
 			}
-			console.log('%cCompleted Adding Objects to Container', game.debug.colors.head);
+			log('%cCompleted Adding Objects to Container', game.debug.colors.head);
 
 			for (var key in game.containers) {
 				var obj = game.containers[key];

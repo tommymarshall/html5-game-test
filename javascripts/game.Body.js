@@ -7,7 +7,7 @@ var SAY = SAY || {};
 	game.Body = function( data ){
 		this.init( data );
 
-		$.extend(this, data);
+		$.extend(this, p);
 
 		return this;
 	};
@@ -33,6 +33,11 @@ var SAY = SAY || {};
 		if ( p.data.shape === 'circle' && p.data.radius !== undefined ) {
 			p.createCircle();
 		}
+	};
+
+	p.destroy = function() {
+		console.log('Removing ' + p.asset);
+		game.containers[p.data.layer].removeChild(p.asset);
 	};
 
 	p.createCircle = function() {
