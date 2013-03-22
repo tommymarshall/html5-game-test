@@ -31,7 +31,7 @@ var SAY = SAY || {};
 			game.WIDTH = 1400;
 
 			// Debug?
-			game.DEVELOPMENT = false;
+			game.DEVELOPMENT = true;
 
 			// Is game ready?
 			game.ready = false;
