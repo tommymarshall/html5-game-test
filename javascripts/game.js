@@ -214,9 +214,8 @@ var SAY = SAY || {};
 					game.stage.update(e);
 
 					game.world.Step( 1/60, 10, 10 );
-					game.world.ClearForces(e);
 
-					//game.stage.y = -game.characters.hero.view.y * 0.1;
+					game.stage.y = -game.characters.hero.view.y * 0.1;
 
 					if (game.characters.hero.view.x > game.canvas.width * 0.3){
 						game.stage.x = -game.characters.hero.view.x + game.canvas.width * 0.3;
@@ -224,6 +223,8 @@ var SAY = SAY || {};
 					}
 
 					if ( game.DEVELOPMENT ){
+						game.world.ClearForces(e);
+						game.drawer.m_ctx.setTransform(-game.stage.x, -game.stage.y);
 						game.world.SetDebugDraw( game.drawer );
 						game.world.DrawDebugData();
 					}

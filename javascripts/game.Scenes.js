@@ -45,8 +45,8 @@ var SAY = SAY || {};
 				friction: 1,
 				src: 'platforms/large.png',
 				position: {
-					x: 3620,
-					y: 600
+					x: 2920,
+					y: 520
 				}
 			},
 
@@ -62,7 +62,7 @@ var SAY = SAY || {};
 				friction: 1,
 				src: 'platforms/large.png',
 				position: {
-					x: 7540,
+					x: 6840,
 					y: 590
 				}
 			},
@@ -78,7 +78,7 @@ var SAY = SAY || {};
 				src: 'platforms/large.png',
 				position: {
 					x: 10540,
-					y: 590
+					y: 610
 				}
 			},
 			large_platform_5: {
@@ -144,7 +144,16 @@ var SAY = SAY || {};
 				shape: 'polygon',
 				src: 'foregrounds/pipe-large-top.png',
 				position: {
-					x: 3600,
+					x: 3000,
+					y: 0
+				}
+			},
+			pipe_3: {
+				layer: 12,
+				shape: 'polygon',
+				src: 'foregrounds/pipe-large-top.png',
+				position: {
+					x: 5300,
 					y: 0
 				}
 			},
@@ -172,6 +181,70 @@ var SAY = SAY || {};
 				src: 'special/coin.png',
 				position: {
 					x: 1200,
+					y: 670
+				},
+				reg: {
+					x: 28,
+					y: 28
+				},
+				isSensor: true
+			},
+			coin_3: {
+				type: 'coin',
+				radius: 28,
+				layer: 4,
+				shape: 'circle',
+				src: 'special/coin.png',
+				position: {
+					x: 1400,
+					y: 670
+				},
+				reg: {
+					x: 28,
+					y: 28
+				},
+				isSensor: true
+			},
+			coin_4: {
+				type: 'coin',
+				radius: 28,
+				layer: 4,
+				shape: 'circle',
+				src: 'special/coin.png',
+				position: {
+					x: 2600,
+					y: 670
+				},
+				reg: {
+					x: 28,
+					y: 28
+				},
+				isSensor: true
+			},
+			coin_5: {
+				type: 'coin',
+				radius: 28,
+				layer: 4,
+				shape: 'circle',
+				src: 'special/coin.png',
+				position: {
+					x: 2800,
+					y: 670
+				},
+				reg: {
+					x: 28,
+					y: 28
+				},
+				isSensor: true
+			},
+			coin_6: {
+				type: 'coin',
+				radius: 28,
+				layer: 4,
+				shape: 'circle',
+				src: 'special/coin.png',
+				position: {
+					x: 3000,
 					y: 670
 				},
 				reg: {

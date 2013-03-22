@@ -8,8 +8,6 @@ var SAY = SAY || {};
 		this.init( data );
 
 		$.extend(this, p);
-
-		return this;
 	};
 
 	var p = game.Body.prototype;
