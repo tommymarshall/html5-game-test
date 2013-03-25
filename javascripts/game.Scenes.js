@@ -173,86 +173,88 @@ var SAY = SAY || {};
 				},
 				isSensor: true
 			}
-			// coin_2: {
-			// 	type: 'coin',
-			// 	radius: 28,
-			// 	layer: 4,
-			// 	shape: 'circle',
-			// 	src: 'special/coin.png',
-			// 	position: {
-			// 		x: 1200,
-			// 		y: 670
-			// 	},
-			// 	reg: {
-			// 		x: 28,
-			// 		y: 28
-			// 	},
-			// 	isSensor: true
-			// },
-			// coin_3: {
-			// 	type: 'coin',
-			// 	radius: 28,
-			// 	layer: 4,
-			// 	shape: 'circle',
-			// 	src: 'special/coin.png',
-			// 	position: {
-			// 		x: 1400,
-			// 		y: 670
-			// 	},
-			// 	reg: {
-			// 		x: 28,
-			// 		y: 28
-			// 	},
-			// 	isSensor: true
-			// },
-			// coin_4: {
-			// 	type: 'coin',
-			// 	radius: 28,
-			// 	layer: 4,
-			// 	shape: 'circle',
-			// 	src: 'special/coin.png',
-			// 	position: {
-			// 		x: 2600,
-			// 		y: 670
-			// 	},
-			// 	reg: {
-			// 		x: 28,
-			// 		y: 28
-			// 	},
-			// 	isSensor: true
-			// },
-			// coin_5: {
-			// 	type: 'coin',
-			// 	radius: 28,
-			// 	layer: 4,
-			// 	shape: 'circle',
-			// 	src: 'special/coin.png',
-			// 	position: {
-			// 		x: 2800,
-			// 		y: 670
-			// 	},
-			// 	reg: {
-			// 		x: 28,
-			// 		y: 28
-			// 	},
-			// 	isSensor: true
-			// },
-			// coin_6: {
-			// 	type: 'coin',
-			// 	radius: 28,
-			// 	layer: 4,
-			// 	shape: 'circle',
-			// 	src: 'special/coin.png',
-			// 	position: {
-			// 		x: 3000,
-			// 		y: 670
-			// 	},
-			// 	reg: {
-			// 		x: 28,
-			// 		y: 28
-			// 	},
-			// 	isSensor: true
-			// }
+			/*
+			coin_2: {
+				type: 'coin',
+				radius: 28,
+				layer: 4,
+				shape: 'circle',
+				src: 'special/coin.png',
+				position: {
+					x: 1200,
+					y: 670
+				},
+				reg: {
+					x: 28,
+					y: 28
+				},
+				isSensor: true
+			},
+			coin_3: {
+				type: 'coin',
+				radius: 28,
+				layer: 4,
+				shape: 'circle',
+				src: 'special/coin.png',
+				position: {
+					x: 1400,
+					y: 670
+				},
+				reg: {
+					x: 28,
+					y: 28
+				},
+				isSensor: true
+			},
+			coin_4: {
+				type: 'coin',
+				radius: 28,
+				layer: 4,
+				shape: 'circle',
+				src: 'special/coin.png',
+				position: {
+					x: 2600,
+					y: 670
+				},
+				reg: {
+					x: 28,
+					y: 28
+				},
+				isSensor: true
+			},
+			coin_5: {
+				type: 'coin',
+				radius: 28,
+				layer: 4,
+				shape: 'circle',
+				src: 'special/coin.png',
+				position: {
+					x: 2800,
+					y: 670
+				},
+				reg: {
+					x: 28,
+					y: 28
+				},
+				isSensor: true
+			},
+			coin_6: {
+				type: 'coin',
+				radius: 28,
+				layer: 4,
+				shape: 'circle',
+				src: 'special/coin.png',
+				position: {
+					x: 3000,
+					y: 670
+				},
+				reg: {
+					x: 28,
+					y: 28
+				},
+				isSensor: true
+			}
+			*/
 		},
 
 		// End

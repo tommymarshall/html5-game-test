@@ -27,7 +27,7 @@ var SAY = SAY || {};
 		vars: function() {
 			// Game specifics
 			game.SCALE = 30;
-			game.HEIGHT = 1004;
+			game.HEIGHT = 830;
 			game.WIDTH = 1400;
 
 			// Debug?
@@ -158,6 +158,7 @@ var SAY = SAY || {};
 						game.drawer.SetFillAlpha(0.2);
 						game.drawer.SetLineThickness();
 						game.drawer.SetFlags(box2d.b2DebugDraw.e_shapeBit | box2d.b2DebugDraw.e_jointBit);
+						game.world.SetDebugDraw( game.drawer );
 					}
 				}
 			}
@@ -213,10 +214,9 @@ var SAY = SAY || {};
 			var tick = function(e){
 				if (!createjs.Ticker.getPaused()) {
 					game.stage.update(e);
-
 					game.world.Step( 1/60, 10, 10 );
 
-					game.stage.y = -game.characters.hero.view.y * 0.1;
+					game.stage.y = -game.characters.hero.view.y + game.canvas.height * 0.6;
 
 					if (game.characters.hero.view.x > game.canvas.width * 0.3){
 						game.stage.x = -game.characters.hero.view.x + game.canvas.width * 0.3;
@@ -225,8 +225,6 @@ var SAY = SAY || {};
 
 					if ( game.DEVELOPMENT ){
 						game.world.ClearForces(e);
-						game.drawer.m_ctx.setTransform(-game.stage.x, -game.stage.y);
-						game.world.SetDebugDraw( game.drawer );
 						game.world.DrawDebugData();
 					}
 				}
