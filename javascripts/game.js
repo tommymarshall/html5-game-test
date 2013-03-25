@@ -31,18 +31,19 @@ var SAY = SAY || {};
 			game.WIDTH = 1400;
 
 			// Debug?
-			game.DEVELOPMENT = true;
+			game.DEVELOPMENT = false;
 
 			// Is game ready?
 			game.ready = false;
 
 			// Debug canvas
-			game.debug = {
-				colors: {
-					head: 'color: #1d7549; font-weight: bold;',
-					main: 'color: #2eb672;',
-					error: 'color: #db4e4f;'
-				}
+			game.debug = {};
+
+			// Colors for nice console logging
+			game.colors = {
+				head: 'color: #1d7549; font-weight: bold;',
+				main: 'color: #2eb672;',
+				error: 'color: #db4e4f;'
 			};
 
 			// Containers object
@@ -177,21 +178,21 @@ var SAY = SAY || {};
 		},
 
 		draw: function() {
-			log('%cBeing Adding Objects to Container', game.debug.colors.head);
+			log('%cBeing Adding Objects to Container', game.colors.head);
 			for (var body_key in game.current.bodies) {
 				var body_obj = game.current.bodies[body_key];
 
 				if (game.containers[body_obj.data.layer] === undefined) {
 					game.containers[body_obj.data.layer] = new Container();
-					log('%cCreating Container ' + body_obj.data.layer, game.debug.colors.main);
+					log('%cCreating Container ' + body_obj.data.layer, game.colors.main);
 				}
 
-				log('%c  Adding ' + body_key, game.debug.colors.main);
+				log('%c  Adding ' + body_key, game.colors.main);
 				game.containers[body_obj.data.layer].addChild(body_obj.asset);
 
 			}
 
-			log('%cAdding Hero', game.debug.colors.main);
+			log('%cAdding Hero', game.colors.main);
 			for (var c = 0; c < game.characters.length; c++) {
 				if (game.containers[5] === undefined) {
 					game.containers[5] = new Container();
@@ -199,7 +200,7 @@ var SAY = SAY || {};
 
 				game.containers[5].addChild(game.characters[c]);
 			}
-			log('%cCompleted Adding Objects to Container', game.debug.colors.head);
+			log('%cCompleted Adding Objects to Container', game.colors.head);
 
 			for (var container_key in game.containers) {
 				var container_obj = game.containers[container_key];

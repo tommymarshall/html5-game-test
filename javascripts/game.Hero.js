@@ -155,8 +155,9 @@ var SAY = SAY || {};
 		var contactList = this.body.GetContactList();
 
 		if ( contactList !== null ) {
-			if ( contactList.contact.GetFixtureB().m_body.m_userData === 'coin') {
-				console.log('Remove this coin!');
+			if ( contactList.contact.GetFixtureB().m_body.m_userData.type === 'coin') {
+				log('Remove this coin!');
+				contactList.contact.GetFixtureB().m_body.m_userData.destroy();
 				game.world.DestroyBody(contactList.contact.GetFixtureB().m_body);
 			}
 		}
@@ -214,6 +215,10 @@ var SAY = SAY || {};
 		// Slow Down
 		var angle = this.body.GetAngle() * ( 180/Math.PI );
 		this.ball.rotation = angle;
+
+		if (position.y > game.canvas.height / game.SCALE ) {
+			this.body.SetPosition({x: 11.6, y: 20.48});
+		}
 	};
 
 })();

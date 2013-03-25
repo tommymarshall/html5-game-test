@@ -34,7 +34,7 @@ var SAY = SAY || {};
 	};
 
 	p.destroy = function() {
-		console.log('Removing ' + p.asset);
+		log('Removing ' + p.asset);
 		game.containers[p.data.layer].removeChild(p.asset);
 	};
 
@@ -44,7 +44,9 @@ var SAY = SAY || {};
 		bodyDef.type = box2d.b2Body.b2_staticBody;
 		bodyDef.position.x = p.data.position.x / game.SCALE;
 		bodyDef.position.y = p.data.position.y / game.SCALE;
-		bodyDef.userData = p.data.type;
+		bodyDef.userData = {};
+		bodyDef.userData.type = p.data.type;
+		bodyDef.userData.destroy = p.destroy;
 
 		// Create fixDef
 		var fixDef = new box2d.b2FixtureDef();
@@ -72,7 +74,9 @@ var SAY = SAY || {};
 			var bodyDef = new box2d.b2BodyDef();
 			bodyDef.type = box2d.b2Body.b2_staticBody;
 			bodyDef.position.Set(p.data.position.x / game.SCALE, p.data.position.y / game.SCALE);
-			bodyDef.userData = p.data.type;
+			bodyDef.userData = {};
+			bodyDef.userData.type = p.data.type;
+			bodyDef.userData.destroy = p.destroy;
 
 			// Create fixDef
 			var fixDef = new box2d.b2FixtureDef();
