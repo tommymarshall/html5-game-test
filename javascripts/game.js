@@ -221,6 +221,7 @@ var SAY = SAY || {};
 					game.stage.x = -game.characters.hero.view.x + game.canvas.width * 0.3;
 
 					game.containers[12].x = game.stage.x * 0.5;
+					game.containers[12].y = game.stage.y * 0.15;
 
 					if ( game.DEVELOPMENT ){
 						game.world.ClearForces(e);

@@ -218,9 +218,9 @@ var SAY = SAY || {};
 		var angle = this.body.GetAngle() * ( 180/Math.PI );
 		this.ball.rotation = angle;
 
-		if (position.y > game.canvas.height / game.SCALE ) {
-			this.body.SetPosition({x: 11.6, y: 20.48});
-		}
+		// if (position.y > game.canvas.height / game.SCALE ) {
+		// 	this.body.SetPosition({x: 11.6, y: 20.48});
+		// }
 	};
 
 })();

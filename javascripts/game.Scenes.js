@@ -38,6 +38,71 @@ var SAY = SAY || {};
 					y: 428
 				}
 			},
+			platform_3: {
+				layer: 2,
+				shape: 'polygon',
+				coords: [
+					[[0,28],[386,28],[355,105],[0,105]],
+					[[386,28],[832,472],[802,550],[355,105]],
+					[[832,472],[1702,472],[1702,550],[802,550]]
+				],
+				density: 1,
+				friction: 1,
+				src: 'platforms/platform-complex-1.png',
+				position: {
+					x: 3850,
+					y: 480
+				}
+			},
+			platform_4: {
+				layer: 2,
+				shape: 'polygon',
+				coords: [
+					[[0,28],[343,28],[343,105],[0,105]]
+				],
+				density: 1,
+				friction: 1,
+				src: 'platforms/platform-medium-normal.png',
+				position: {
+					x: 5825,
+					y: 640
+				}
+			},
+			platform_5: {
+				layer: 2,
+				shape: 'polygon',
+				coords: [
+					[[0,1415],[1900,1415],[1900,1494],[0,1494]],
+					[[1007,1184],[1348,1184],[1348,1262],[1007,1262]]
+				],
+				density: 1,
+				friction: 1,
+				src: 'platforms/platform-complex-3.png',
+				position: {
+					x: 5300,
+					y: -1740
+				}
+			},
+			platform_6: {
+				layer: 2,
+				shape: 'polygon',
+				coords: [
+					[[0,850],[420,850],[420,925],[0,925]],
+					[[0,925],[78,925],[78,2419],[0,2419]],
+					[[78,1690],[206,1690],[206,1705],[78,1705]],
+					[[78,2125],[206,2125],[206,2140],[78,2140]],
+					[[78,2342],[638,2342],[628,2419],[78,2419]],
+					[[638,2342],[981,1998],[1012,2042],[670,2419]],
+					[[981,1998],[1260,1998],[1260,2073],[1013,2073]]
+				],
+				density: 1,
+				friction: 1,
+				src: 'platforms/platform-complex-2.png',
+				position: {
+					x: 4800,
+					y: -1800
+				}
+			},
 			cage_back: {
 				layer: 3,
 				shape: 'polygon',
@@ -78,7 +143,7 @@ var SAY = SAY || {};
 				src: 'foregrounds/pipe-top-medium.png',
 				position: {
 					x: 700,
-					y: -180
+					y: -580
 				}
 			},
 			pipe_2: {
@@ -96,7 +161,7 @@ var SAY = SAY || {};
 				src: 'foregrounds/pipe-front.png',
 				position: {
 					x: 2800,
-					y: -200
+					y: -400
 				}
 			},
 			pipe_4: {
@@ -104,8 +169,8 @@ var SAY = SAY || {};
 				shape: 'polygon',
 				src: 'foregrounds/pipe-front.png',
 				position: {
-					x: 4800,
-					y: -150
+					x: 7400,
+					y: -1650
 				}
 			},
 			light_1: {
