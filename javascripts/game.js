@@ -14,6 +14,7 @@ var SAY = SAY || {};
 			// Preload all assets
 			game.preload();
 
+			// Build game assets
 			game.build.scene();
 			game.build.hero();
 
@@ -28,9 +29,9 @@ var SAY = SAY || {};
 			// Game specifics
 			game.SCALE = 30;
 			game.HEIGHT = 830;
-			game.WIDTH = 1400;
+			game.WIDTH = 1440;
 
-			// Debug?
+			// Debug mode?
 			game.DEVELOPMENT = false;
 
 			// Is game ready?
@@ -217,11 +218,9 @@ var SAY = SAY || {};
 					game.world.Step( 1/60, 10, 10 );
 
 					game.stage.y = -game.characters.hero.view.y + game.canvas.height * 0.6;
+					game.stage.x = -game.characters.hero.view.x + game.canvas.width * 0.3;
 
-					if (game.characters.hero.view.x > game.canvas.width * 0.3){
-						game.stage.x = -game.characters.hero.view.x + game.canvas.width * 0.3;
-						game.containers[12].x = game.stage.x * 0.5;
-					}
+					game.containers[12].x = game.stage.x * 0.5;
 
 					if ( game.DEVELOPMENT ){
 						game.world.ClearForces(e);
