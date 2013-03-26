@@ -220,7 +220,7 @@ var SAY = SAY || {};
 					game.stage.y = -game.characters.hero.view.y + game.canvas.height * 0.6;
 					game.stage.x = -game.characters.hero.view.x + game.canvas.width * 0.3;
 
-					game.containers[12].x = game.stage.x * 0.5;
+					game.containers[12].x = game.stage.x * 0.4;
 					game.containers[12].y = game.stage.y * 0.15;
 
 					if ( game.DEVELOPMENT ){
