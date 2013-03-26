@@ -95,6 +95,7 @@ var SAY = SAY || {};
 			jumping: false,
 			movingLeft: false,
 			movingRight: false,
+			jumpTimeout: 0,
 			prevDirection: 'right',
 			facing: 'right'
 		};
@@ -171,8 +172,9 @@ var SAY = SAY || {};
 		var Vo = this.body.GetLinearVelocity();
 
 		// Only allowd
-		if (self.is.jumping) {
-			this.body.ApplyImpulse(new box2d.b2Vec2(0,-225), position);
+		if ( self.is.jumpTimeout-- < 1 && self.is.jumping && contactList ) {
+			self.is.jumpTimeout = 30;
+			this.body.ApplyImpulse(new box2d.b2Vec2(0,-250), position);
 			self.is.jumping = false;
 
 			if (self.is.facing === 'right') {

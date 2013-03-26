@@ -78,7 +78,7 @@ var SAY = SAY || {};
 				src: 'foregrounds/pipe-top-medium.png',
 				position: {
 					x: 700,
-					y: -280
+					y: -180
 				}
 			},
 			pipe_2: {
@@ -97,6 +97,15 @@ var SAY = SAY || {};
 				position: {
 					x: 2800,
 					y: -200
+				}
+			},
+			pipe_4: {
+				layer: 12,
+				shape: 'polygon',
+				src: 'foregrounds/pipe-front.png',
+				position: {
+					x: 4800,
+					y: -150
 				}
 			},
 			light_1: {
