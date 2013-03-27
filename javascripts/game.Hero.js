@@ -158,7 +158,8 @@ var SAY = SAY || {};
 		if ( contactList !== null ) {
 			if ( contactList.contact.GetFixtureB().m_body.m_userData.type === 'coin') {
 				log('Remove this coin!');
-				contactList.contact.GetFixtureB().m_body.m_userData.destroy();
+				log(contactList.contact.GetFixtureB());
+
 				game.world.DestroyBody(contactList.contact.GetFixtureB().m_body);
 			}
 		}

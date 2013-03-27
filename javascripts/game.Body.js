@@ -4,110 +4,105 @@ var SAY = SAY || {};
 
 	var game = SAY.game;
 
-	game.Body = function( data ){
-		this.init( data );
+	var p = game.Body = Class.extend({
 
-		$.extend(this, p);
-	};
+		init: function( data ) {
+			this.setData( data );
+			this.create();
+		},
 
-	var p = game.Body.prototype;
+		setData: function( data ){
+			this.data = {};
 
-	p.init = function( data ) {
-		p.setData( data );
-		p.create();
-	};
+			for(var key in data){
+				this.data[key] = data[key];
+			}
+		},
 
-	p.create = function() {
-		if ( p.data.src !== undefined ){
-			p.image = new Image();
-			p.image.src = './images/' + p.data.src;
-			p.addToLayer();
-		}
-
-		if ( p.data.shape === 'polygon' && p.data.coords !== undefined) {
-			p.createPolgygon();
-		}
-
-		if ( p.data.shape === 'circle' && p.data.radius !== undefined ) {
-			p.createCircle();
-		}
-	};
-
-	p.destroy = function() {
-		log('Removing ' + p.asset);
-		game.containers[p.data.layer].removeChild(p.asset);
-	};
-
-	p.createCircle = function() {
-		// Create bodyDef Shape
-		var bodyDef = new box2d.b2BodyDef();
-		bodyDef.type = box2d.b2Body.b2_staticBody;
-		bodyDef.position.x = p.data.position.x / game.SCALE;
-		bodyDef.position.y = p.data.position.y / game.SCALE;
-		bodyDef.userData = {};
-		bodyDef.userData.type = p.data.type;
-		bodyDef.userData.destroy = p.destroy;
-
-		// Create fixDef
-		var fixDef = new box2d.b2FixtureDef();
-		fixDef.density = p.data.density || 1;
-		fixDef.friction = p.data.friction || 1;
-		fixDef.restitution = p.data.restitution || 0;
-		fixDef.isSensor = p.data.isSensor || false;
-		fixDef.shape = new box2d.b2CircleShape( p.data.radius / game.SCALE );
-
-		game.world.CreateBody(bodyDef).CreateFixture(fixDef);
-	};
-
-	p.createPolgygon = function() {
-		for (var j=0; j < p.data.coords.length; j++ ) {
-			var v = p.data.coords[j];
-			var vecs = [];
-
-			for ( i=0; i < v.length; i++ ) {
-				var cc = new box2d.b2Vec2();
-				cc.Set( v[i][0] / game.SCALE, v[i][1] / game.SCALE );
-				vecs[i] = cc;
+		create: function() {
+			if ( this.data.src !== undefined ){
+				this.image = new Image();
+				this.image.src = './images/' + this.data.src;
+				this.addToLayer();
 			}
 
+			if ( this.data.shape === 'polygon' && this.data.coords !== undefined) {
+				this.createPolgygon();
+			}
+
+			if ( this.data.shape === 'circle' && this.data.radius !== undefined ) {
+				this.createCircle();
+			}
+		},
+
+		destroy: function() {
+			log(this);
+			game.containers[this.data.layer].removeChild(this.asset);
+		},
+
+		createCircle: function() {
 			// Create bodyDef Shape
 			var bodyDef = new box2d.b2BodyDef();
 			bodyDef.type = box2d.b2Body.b2_staticBody;
-			bodyDef.position.Set(p.data.position.x / game.SCALE, p.data.position.y / game.SCALE);
+			bodyDef.position.x = this.data.position.x / game.SCALE;
+			bodyDef.position.y = this.data.position.y / game.SCALE;
 			bodyDef.userData = {};
-			bodyDef.userData.type = p.data.type;
-			bodyDef.userData.destroy = p.destroy;
+			bodyDef.userData.type = this.data.type;
+			bodyDef.userData.destroy = this.destroy;
 
 			// Create fixDef
 			var fixDef = new box2d.b2FixtureDef();
-			fixDef.density = p.data.density || 1;
-			fixDef.friction = p.data.friction || 1;
-			fixDef.restitution = p.data.restitution || 0;
-			fixDef.isSensor = p.data.isSensor || false;
-			fixDef.shape = new box2d.b2PolygonShape();
-			fixDef.shape.SetAsArray( vecs, vecs.length );
+			fixDef.density = this.data.density || 1;
+			fixDef.friction = this.data.friction || 1;
+			fixDef.restitution = this.data.restitution || 0;
+			fixDef.isSensor = this.data.isSensor || false;
+			fixDef.shape = new box2d.b2CircleShape( this.data.radius / game.SCALE );
 
 			game.world.CreateBody(bodyDef).CreateFixture(fixDef);
+		},
+
+		createPolgygon: function() {
+			for (var j=0; j < this.data.coords.length; j++ ) {
+				var v = this.data.coords[j];
+				var vecs = [];
+
+				for ( i=0; i < v.length; i++ ) {
+					var cc = new box2d.b2Vec2();
+					cc.Set( v[i][0] / game.SCALE, v[i][1] / game.SCALE );
+					vecs[i] = cc;
+				}
+
+				// Create bodyDef Shape
+				var bodyDef = new box2d.b2BodyDef();
+				bodyDef.type = box2d.b2Body.b2_staticBody;
+				bodyDef.position.Set(this.data.position.x / game.SCALE, this.data.position.y / game.SCALE);
+				bodyDef.userData = {};
+				bodyDef.userData.type = this.data.type;
+				bodyDef.userData.destroy = this.destroy;
+
+				// Create fixDef
+				var fixDef = new box2d.b2FixtureDef();
+				fixDef.density = this.data.density || 1;
+				fixDef.friction = this.data.friction || 1;
+				fixDef.restitution = this.data.restitution || 0;
+				fixDef.isSensor = this.data.isSensor || false;
+				fixDef.shape = new box2d.b2PolygonShape();
+				fixDef.shape.SetAsArray( vecs, vecs.length );
+
+				game.world.CreateBody(bodyDef).CreateFixture(fixDef);
+			}
+		},
+
+		addToLayer: function(){
+			this.asset = new Bitmap(this.image);
+			this.asset.x = this.data.position.x || 0;
+			this.asset.y = this.data.position.y || 0;
+
+			if ( this.data.reg !== undefined ) {
+				this.asset.regX = this.data.reg.x || 0;
+				this.asset.regY = this.data.reg.y || 0;
+			}
 		}
-	};
-
-	p.setData = function( data ){
-		p.data = {};
-
-		for(var key in data){
-			p.data[key] = data[key];
-		}
-	};
-
-	p.addToLayer = function(){
-		p.asset = new Bitmap(p.image);
-		p.asset.x = p.data.position.x || 0;
-		p.asset.y = p.data.position.y || 0;
-
-		if ( p.data.reg !== undefined ) {
-			p.asset.regX = p.data.reg.x || 0;
-			p.asset.regY = p.data.reg.y || 0;
-		}
-	};
+	});
 
 })(jQuery);
