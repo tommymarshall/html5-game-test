@@ -190,7 +190,7 @@ var SAY = SAY || {};
 				}
 
 				log('%c  Adding ' + body_key, game.colors.main);
-				game.containers[body_obj.data.layer].addChild(body_obj.asset);
+				game.containers[body_obj.data.layer].addChild(body_obj.view);
 
 			}
 

@@ -36,8 +36,7 @@ var SAY = SAY || {};
 		},
 
 		destroy: function() {
-			log(this);
-			game.containers[this.data.layer].removeChild(this.asset);
+			game.containers[this.data.layer].removeChild(this.view);
 		},
 
 		createCircle: function() {
@@ -94,13 +93,13 @@ var SAY = SAY || {};
 		},
 
 		addToLayer: function(){
-			this.asset = new Bitmap(this.image);
-			this.asset.x = this.data.position.x || 0;
-			this.asset.y = this.data.position.y || 0;
+			this.view = new Bitmap(this.image);
+			this.view.x = this.data.position.x || 0;
+			this.view.y = this.data.position.y || 0;
 
 			if ( this.data.reg !== undefined ) {
-				this.asset.regX = this.data.reg.x || 0;
-				this.asset.regY = this.data.reg.y || 0;
+				this.view.regX = this.data.reg.x || 0;
+				this.view.regY = this.data.reg.y || 0;
 			}
 		}
 	});
