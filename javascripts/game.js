@@ -189,7 +189,7 @@ var SAY = SAY || {};
 					log('%cCreating Container ' + body_obj.data.layer, game.colors.main);
 				}
 
-				log('%c  Adding ' + body_key, game.colors.main);
+				log('%c	Adding ' + body_key, game.colors.main);
 				game.containers[body_obj.data.layer].addChild(body_obj.view);
 
 			}
@@ -223,16 +223,16 @@ var SAY = SAY || {};
 					game.containers[12].x = game.stage.x * 0.4;
 					game.containers[12].y = game.stage.y * 0.15;
 
-					for (var b = game.world.GetBodyList(); b; b = b.m_next) {
-						if (b.IsActive() && b.GetUserData() !== null && typeof b.GetUserData().key !== 'undefined' && b.GetUserData() != 'hero' ) {
-							var bodyKey = b.GetUserData().key;
-							var bodySpec = {
-                  x: ((-game.characters.hero.view.x + game.canvas.width * 0.3) / game.SCALE) + (game.current.bodies[bodyKey].data.position.x / game.SCALE),
-                  y: ((-game.characters.hero.view.y + game.canvas.height * 0.6) / game.SCALE) + (game.current.bodies[bodyKey].data.position.y / game.SCALE)
-              };
-							b.SetPosition(bodySpec);
-						}
-					}
+					// for (var b = game.world.GetBodyList(); b; b = b.m_next) {
+					// 	if (b.IsActive() && b.GetUserData() !== null && typeof b.GetUserData().key !== 'undefined' && b.GetUserData() != 'hero' ) {
+					// 		var bodyKey = b.GetUserData().key;
+					// 		var bodySpec = {
+					// 				x: ((-game.characters.hero.view.x + game.canvas.width * 0.3) / game.SCALE) + (game.current.bodies[bodyKey].data.position.x / game.SCALE),
+					// 				y: ((-game.characters.hero.view.y + game.canvas.height * 0.6) / game.SCALE) + (game.current.bodies[bodyKey].data.position.y / game.SCALE)
+					// 		};
+					// 		b.SetPosition(bodySpec);
+					// 	}
+					// }
 
 					if ( game.DEVELOPMENT ){
 						game.world.ClearForces(e);
