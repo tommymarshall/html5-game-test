@@ -143,7 +143,7 @@ var SAY = SAY || {};
 				src: 'foregrounds/pipe-top-medium.png',
 				position: {
 					x: 700,
-					y: -580
+					y: -680
 				}
 			},
 			pipe_2: {

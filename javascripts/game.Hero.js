@@ -166,7 +166,6 @@ var SAY = SAY || {};
 
 		//if ( contactList.GetFixtureA() )
 		var position = this.body.GetPosition();
-
 		this.x = this.ball.x = (position.x * game.SCALE);
 		this.y = this.ball.y = (position.y * game.SCALE);
 

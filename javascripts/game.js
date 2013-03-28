@@ -32,7 +32,7 @@ var SAY = SAY || {};
 			game.WIDTH = 1440;
 
 			// Debug mode?
-			game.DEVELOPMENT = false;
+			game.DEVELOPMENT = true;
 
 			// Is game ready?
 			game.ready = false;
@@ -170,7 +170,7 @@ var SAY = SAY || {};
 				for (var key in game.scenes[game.current.scene]) {
 					var obj = game.scenes[game.current.scene][key];
 
-					game.current.bodies[key] = new game.Body( obj );
+					game.current.bodies[key] = new game.Body( obj, key );
 				}
 			},
 
@@ -213,15 +213,26 @@ var SAY = SAY || {};
 
 		render: function() {
 			var tick = function(e){
-				if (!createjs.Ticker.getPaused()) {
+				if (!Ticker.getPaused()) {
 					game.stage.update(e);
 					game.world.Step( 1/60, 10, 10 );
 
-					game.stage.y = -game.characters.hero.view.y + game.canvas.height * 0.6;
 					game.stage.x = -game.characters.hero.view.x + game.canvas.width * 0.3;
+					game.stage.y = -game.characters.hero.view.y + game.canvas.height * 0.6;
 
 					game.containers[12].x = game.stage.x * 0.4;
 					game.containers[12].y = game.stage.y * 0.15;
+
+					for (var b = game.world.GetBodyList(); b; b = b.m_next) {
+						if (b.IsActive() && b.GetUserData() !== null && typeof b.GetUserData().key !== 'undefined' && b.GetUserData() != 'hero' ) {
+							var bodyKey = b.GetUserData().key;
+							var bodySpec = {
+                  x: ((-game.characters.hero.view.x + game.canvas.width * 0.3) / game.SCALE) + (game.current.bodies[bodyKey].data.position.x / game.SCALE),
+                  y: ((-game.characters.hero.view.y + game.canvas.height * 0.6) / game.SCALE) + (game.current.bodies[bodyKey].data.position.y / game.SCALE)
+              };
+							b.SetPosition(bodySpec);
+						}
+					}
 
 					if ( game.DEVELOPMENT ){
 						game.world.ClearForces(e);

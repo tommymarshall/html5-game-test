@@ -1,25 +1,26 @@
 var SAY = SAY || {};
 
-(function($){
+(function(){
 
 	var game = SAY.game;
 
 	var p = game.Body = Class.extend({
 
-		init: function( data ) {
+		init: function( data, key ) {
 			this.setData( data );
-			this.create();
+			this.create( key );
 		},
 
 		setData: function( data ){
 			this.data = {};
+			this.body = [];
 
 			for(var key in data){
 				this.data[key] = data[key];
 			}
 		},
 
-		create: function() {
+		create: function( key ) {
 			if ( this.data.src !== undefined ){
 				this.image = new Image();
 				this.image.src = './images/' + this.data.src;
@@ -27,11 +28,11 @@ var SAY = SAY || {};
 			}
 
 			if ( this.data.shape === 'polygon' && this.data.coords !== undefined) {
-				this.createPolgygon();
+				this.createPolgygon( key );
 			}
 
 			if ( this.data.shape === 'circle' && this.data.radius !== undefined ) {
-				this.createCircle();
+				this.createCircle( key );
 			}
 		},
 
@@ -39,7 +40,7 @@ var SAY = SAY || {};
 			game.containers[this.data.layer].removeChild(this.view);
 		},
 
-		createCircle: function() {
+		createCircle: function( key ) {
 			// Create bodyDef Shape
 			var bodyDef = new box2d.b2BodyDef();
 			bodyDef.type = box2d.b2Body.b2_staticBody;
@@ -47,6 +48,7 @@ var SAY = SAY || {};
 			bodyDef.position.y = this.data.position.y / game.SCALE;
 			bodyDef.userData = {};
 			bodyDef.userData.type = this.data.type;
+			bodyDef.userData.key = key;
 			bodyDef.userData.destroy = this.destroy;
 
 			// Create fixDef
@@ -57,10 +59,17 @@ var SAY = SAY || {};
 			fixDef.isSensor = this.data.isSensor || false;
 			fixDef.shape = new box2d.b2CircleShape( this.data.radius / game.SCALE );
 
-			game.world.CreateBody(bodyDef).CreateFixture(fixDef);
+			this.body.push(game.world.CreateBody(bodyDef).CreateFixture(fixDef));
 		},
 
-		createPolgygon: function() {
+		update: function(options) {
+			for (var i = this.body.length - 1; i >= 0; i--) {
+				this.body[i].x = options.x;
+				this.body[i].y = options.y;
+			}
+		},
+
+		createPolgygon: function( key ) {
 			for (var j=0; j < this.data.coords.length; j++ ) {
 				var v = this.data.coords[j];
 				var vecs = [];
@@ -77,6 +86,8 @@ var SAY = SAY || {};
 				bodyDef.position.Set(this.data.position.x / game.SCALE, this.data.position.y / game.SCALE);
 				bodyDef.userData = {};
 				bodyDef.userData.type = this.data.type;
+				bodyDef.userData.key = key;
+				bodyDef.isSensor = this.data.isSensor || false;
 				bodyDef.userData.destroy = this.destroy;
 
 				// Create fixDef
@@ -84,11 +95,10 @@ var SAY = SAY || {};
 				fixDef.density = this.data.density || 1;
 				fixDef.friction = this.data.friction || 1;
 				fixDef.restitution = this.data.restitution || 0;
-				fixDef.isSensor = this.data.isSensor || false;
 				fixDef.shape = new box2d.b2PolygonShape();
 				fixDef.shape.SetAsArray( vecs, vecs.length );
 
-				game.world.CreateBody(bodyDef).CreateFixture(fixDef);
+				this.body.push(game.world.CreateBody(bodyDef).CreateFixture(fixDef));
 			}
 		},
 
@@ -104,4 +114,4 @@ var SAY = SAY || {};
 		}
 	});
 
-})(jQuery);
+})();
